@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        />
+        <style>/* This is needed because the page cover bleed (100vw) will cause horizontal scrolling */
+            /* FIXME: use :has once it is ready for Firefox and lift these back to PageSheetView.module.css */
+            html,
+            body{
+                overflow-x: clip;
+            }
+
+            body.theme-overlay {
+                position: fixed;
+                width: 0;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: var(--theme-overlay-background);
+                z-index: 10000;
+            }
+
+            body.dragging * {
+                cursor: grabbing !important;
+            }
+            .gitbook-splashscreen {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                width: 100%;
+                height: 100%;
+            }
+            .slate-spacer {
+                height: 0;
+                color: transparent;
+                outline: none;
+                position: absolute;
+            }
+        </style>
+        <title>撤回消息 - WeChatDocs</title><style id="__style-root-primary-color" type="text/css">:root {
+                        --custom-theme-color-primary-xxlight: #cddaf6;
+--custom-theme-color-primary-xlight: #a9c0f0;
+--custom-theme-color-primary-light: #648fe4;
+--custom-theme-color-primary-base: #346DDB;
+--custom-theme-color-primary-dark: #395794;
+--custom-theme-color-primary-xdark: #263b66;
+--custom-theme-color-primary-xxdark: #1a202b;
+                  }
+            </style><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-Bold.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-BoldItalic.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-ExtraBold.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-ExtraBoldItalic.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-Medium.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-MediumItalic.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-Regular.woff2?v=3.19" crossorigin="anonymous"/><link rel="preload" as="font" type="font/woff2" href="https://app.gitbook.com/public/fonts/Inter/Inter-Italic.woff2?v=3.19" crossorigin="anonymous"/><style id="__font-Inter-gitbook-content-font">@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  normal;
+            font-weight: 700;
+            font-display: swap;
+            src: local("Inter Bold"), local("Inter-Bold"), url("https://app.gitbook.com/public/fonts/Inter/Inter-Bold.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-Bold.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  italic;
+            font-weight: 700;
+            font-display: swap;
+            src: local("Inter BoldItalic"), local("Inter-BoldItalic"), url("https://app.gitbook.com/public/fonts/Inter/Inter-BoldItalic.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-BoldItalic.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  normal;
+            font-weight: 800;
+            font-display: swap;
+            src: local("Inter ExtraBold"), local("Inter-ExtraBold"), url("https://app.gitbook.com/public/fonts/Inter/Inter-ExtraBold.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-ExtraBold.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  italic;
+            font-weight: 800;
+            font-display: swap;
+            src: local("Inter ExtraBoldItalic"), local("Inter-ExtraBoldItalic"), url("https://app.gitbook.com/public/fonts/Inter/Inter-ExtraBoldItalic.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-ExtraBoldItalic.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  normal;
+            font-weight: 500;
+            font-display: swap;
+            src: local("Inter Medium"), local("Inter-Medium"), url("https://app.gitbook.com/public/fonts/Inter/Inter-Medium.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-Medium.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  italic;
+            font-weight: 500;
+            font-display: swap;
+            src: local("Inter MediumItalic"), local("Inter-MediumItalic"), url("https://app.gitbook.com/public/fonts/Inter/Inter-MediumItalic.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-MediumItalic.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  normal;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Inter Regular"), local("Inter-Regular"), url("https://app.gitbook.com/public/fonts/Inter/Inter-Regular.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-Regular.woff?v=3.19") format("woff");
+        }
+@font-face {
+            font-family: 'gitbook-content-font';
+            font-style:  italic;
+            font-weight: 400;
+            font-display: swap;
+            src: local("Inter Italic"), local("Inter-Italic"), url("https://app.gitbook.com/public/fonts/Inter/Inter-Italic.woff2?v=3.19") format("woff2"),
+                    url("https://app.gitbook.com/public/fonts/Inter/Inter-Italic.woff?v=3.19") format("woff");
+        }</style><meta name="description" content="" id="__meta-description"/><meta name="og:description" content="" id="__meta-og:description"/><meta name="og:image" content="https://app.gitbook.com/share/space/thumbnail/nZ1SAT6QunZQ8DSOtzqN/page/ZHKhh3sbyUm9b2i0QcAT.png?color=%23346DDB&amp;logo=&amp;theme=default" id="__meta-og:image"/><meta name="twitter:card" content="summary_large_image" id="__meta-twitter:card"/><meta name="og:title" content="撤回消息" id="__meta-og:title"/><meta name="twitter:site" content="WeChatDocs" id="__meta-twitter:site"/><meta name="robots" content="index" id="__meta-robots"/><link rel="icon" href="https://app.gitbook.com/public/emojis/1f451.png?v=6.0.0" id="__link-icon"/><link rel="apple-touch-icon" href="https://app.gitbook.com/public/emojis/1f451.png?v=6.0.0"/><link rel="stylesheet" href="https://app.gitbook.com/public/emojis/emoji-assets-sprite.css?v=6.0.0" type="text/css" media="all"/>
+                
+                <script type="module" defer src="https://app.gitbook.com/public/app/public-3FGSQION.min.js?v=10.9.399-2fa4f4cf72a0997672914a265168d491eeab0b25-5868321133"></script>
+                <link as="style" rel="preload" href="https://app.gitbook.com/public/app/public-CDHN7W45.css?v=10.9.399-2fa4f4cf72a0997672914a265168d491eeab0b25-5868321133">
+                <link rel="stylesheet" href="https://app.gitbook.com/public/app/public-CDHN7W45.css?v=10.9.399-2fa4f4cf72a0997672914a265168d491eeab0b25-5868321133">
+                <style id="react-native-stylesheet">[stylesheet-group="0"]{}
+body{margin:0;}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}
+html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+input::-webkit-search-cancel-button,input::-webkit-search-decoration,input::-webkit-search-results-button,input::-webkit-search-results-decoration{display:none;}
+[stylesheet-group="1"]{}
+.css-11aywtz{-moz-appearance:textfield;-webkit-appearance:none;background-color:rgba(0,0,0,0.00);border-bottom-left-radius:0px;border-bottom-right-radius:0px;border-top-left-radius:0px;border-top-right-radius:0px;border:0 solid black;box-sizing:border-box;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0px;padding:0px;resize:none;}
+.css-175oi2r{align-items:stretch;background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;display:flex;flex-basis:auto;flex-direction:column;flex-shrink:0;list-style:none;margin:0px;min-height:0px;min-width:0px;padding:0px;position:relative;text-decoration:none;z-index:0;}
+.css-1qaijid{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:inherit;display:inline;font:inherit;list-style:none;margin:0px;padding:0px;text-align:inherit;text-decoration:none;white-space:inherit;word-wrap:break-word;}
+.css-1rynq56{background-color:rgba(0,0,0,0.00);border:0 solid black;box-sizing:border-box;color:rgba(0,0,0,1.00);display:inline;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;list-style:none;margin:0px;padding:0px;text-align:inherit;text-decoration:none;white-space:pre-wrap;word-wrap:break-word;}
+.css-9pa8cd{bottom:0px;height:100%;left:0px;opacity:0;position:absolute;right:0px;top:0px;width:100%;z-index:-1;}
+[stylesheet-group="2"]{}
+.r-1064s9p{margin:4px;}
+.r-11mg6pl{border-bottom-color:rgba(255,255,255,1.00);border-left-color:rgba(255,255,255,1.00);border-right-color:rgba(255,255,255,1.00);border-top-color:rgba(255,255,255,1.00);}
+.r-13awgt0{flex:1;}
+.r-13fxbef{border-bottom-color:rgba(211,61,61,1.00);border-left-color:rgba(211,61,61,1.00);border-right-color:rgba(211,61,61,1.00);border-top-color:rgba(211,61,61,1.00);}
+.r-1471scf{display:inline;}
+.r-156hn8l{border-bottom-color:rgba(211,220,228,1.00);border-left-color:rgba(211,220,228,1.00);border-right-color:rgba(211,220,228,1.00);border-top-color:rgba(211,220,228,1.00);}
+.r-17gur6a{border-bottom-left-radius:0px;border-bottom-right-radius:0px;border-top-left-radius:0px;border-top-right-radius:0px;}
+.r-18c69zk{border-bottom-left-radius:100px;border-bottom-right-radius:100px;border-top-left-radius:100px;border-top-right-radius:100px;}
+.r-190qawg{border-bottom-color:rgba(227,232,237,1.00);border-left-color:rgba(227,232,237,1.00);border-right-color:rgba(227,232,237,1.00);border-top-color:rgba(227,232,237,1.00);}
+.r-19dn8jc{border-bottom-color:rgba(104,60,17,1.00);border-left-color:rgba(104,60,17,1.00);border-right-color:rgba(104,60,17,1.00);border-top-color:rgba(104,60,17,1.00);}
+.r-19nkufj{border-bottom-color:rgba(40,49,67,1.00);border-left-color:rgba(40,49,67,1.00);border-right-color:rgba(40,49,67,1.00);border-top-color:rgba(40,49,67,1.00);}
+.r-1awa8pu{border-bottom-color:rgba(101,119,134,1.00);border-left-color:rgba(101,119,134,1.00);border-right-color:rgba(101,119,134,1.00);border-top-color:rgba(101,119,134,1.00);}
+.r-1c57tb8{border-bottom-left-radius:34px;border-bottom-right-radius:34px;border-top-left-radius:34px;border-top-right-radius:34px;}
+.r-1d4xg89{border-bottom-color:rgba(170,184,194,1.00);border-left-color:rgba(170,184,194,1.00);border-right-color:rgba(170,184,194,1.00);border-top-color:rgba(170,184,194,1.00);}
+.r-1dqxon3{overflow-x:auto;overflow-y:auto;}
+.r-1edjr5w{padding:80px;}
+.r-1f0042m{border-bottom-left-radius:5px;border-bottom-right-radius:5px;border-top-left-radius:5px;border-top-right-radius:5px;}
+.r-1fdo3w0{margin:16px;}
+.r-1fuqb1j{border-bottom-left-radius:24px;border-bottom-right-radius:24px;border-top-left-radius:24px;border-top-right-radius:24px;}
+.r-1j16mh1{border-bottom-left-radius:100%;border-bottom-right-radius:100%;border-top-left-radius:100%;border-top-right-radius:100%;}
+.r-1jkafct{border-bottom-left-radius:2px;border-bottom-right-radius:2px;border-top-left-radius:2px;border-top-right-radius:2px;}
+.r-1jyn79y{border-bottom-color:rgba(0,150,136,1.00);border-left-color:rgba(0,150,136,1.00);border-right-color:rgba(0,150,136,1.00);border-top-color:rgba(0,150,136,1.00);}
+.r-1p0fg95{border-bottom-color:rgba(245,247,249,1.00);border-left-color:rgba(245,247,249,1.00);border-right-color:rgba(245,247,249,1.00);border-top-color:rgba(245,247,249,1.00);}
+.r-1phboty{border-bottom-style:solid;border-left-style:solid;border-right-style:solid;border-top-style:solid;}
+.r-1rwzld0{border-bottom-color:rgba(11,79,47,1.00);border-left-color:rgba(11,79,47,1.00);border-right-color:rgba(11,79,47,1.00);border-top-color:rgba(11,79,47,1.00);}
+.r-1tgwseu{border-bottom-color:rgba(52,109,219,1.00);border-left-color:rgba(52,109,219,1.00);border-right-color:rgba(52,109,219,1.00);border-top-color:rgba(52,109,219,1.00);}
+.r-1tw7wh{border-bottom-left-radius:50px;border-bottom-right-radius:50px;border-top-left-radius:50px;border-top-right-radius:50px;}
+.r-1udh08x{overflow-x:hidden;overflow-y:hidden;}
+.r-1w1o3af{border-bottom-color:rgba(251,232,240,1.00);border-left-color:rgba(251,232,240,1.00);border-right-color:rgba(251,232,240,1.00);border-top-color:rgba(251,232,240,1.00);}
+.r-1wgstfn{border-bottom-style:none;border-left-style:none;border-right-style:none;border-top-style:none;}
+.r-1x6f3t4{border-bottom-color:rgba(236,243,255,1.00);border-left-color:rgba(236,243,255,1.00);border-right-color:rgba(236,243,255,1.00);border-top-color:rgba(236,243,255,1.00);}
+.r-1xc7w19{border-bottom-color:rgba(0,0,0,1.00);border-left-color:rgba(0,0,0,1.00);border-right-color:rgba(0,0,0,1.00);border-top-color:rgba(0,0,0,1.00);}
+.r-1xfd6ze{border-bottom-left-radius:8px;border-bottom-right-radius:8px;border-top-left-radius:8px;border-top-right-radius:8px;}
+.r-1xutcf9{padding:40px;}
+.r-1yadl64{border-bottom-width:0px;border-left-width:0px;border-right-width:0px;border-top-width:0px;}
+.r-42olwf{border-bottom-color:rgba(0,0,0,0.00);border-left-color:rgba(0,0,0,0.00);border-right-color:rgba(0,0,0,0.00);border-top-color:rgba(0,0,0,0.00);}
+.r-4a18lf{border-bottom-color:rgba(255,0,0,1.00);border-left-color:rgba(255,0,0,1.00);border-right-color:rgba(255,0,0,1.00);border-top-color:rgba(255,0,0,1.00);}
+.r-4qtqp9{display:inline-block;}
+.r-60ke3l{border-bottom-color:rgba(0,128,0,1.00);border-left-color:rgba(0,128,0,1.00);border-right-color:rgba(0,128,0,1.00);border-top-color:rgba(0,128,0,1.00);}
+.r-6578ry{margin:40px;}
+.r-6koalj{display:flex;}
+.r-6ncur5{border-bottom-left-radius:18px;border-bottom-right-radius:18px;border-top-left-radius:18px;border-top-right-radius:18px;}
+.r-6t2glc{border-bottom-left-radius:40px;border-bottom-right-radius:40px;border-top-left-radius:40px;border-top-right-radius:40px;}
+.r-9x6qib{border-bottom-color:rgba(204,214,221,1.00);border-left-color:rgba(204,214,221,1.00);border-right-color:rgba(204,214,221,1.00);border-top-color:rgba(204,214,221,1.00);}
+.r-ancj0c{border-bottom-color:rgba(218,212,255,1.00);border-left-color:rgba(218,212,255,1.00);border-right-color:rgba(218,212,255,1.00);border-top-color:rgba(218,212,255,1.00);}
+.r-by8dw1{margin:24px;}
+.r-bztko3{overflow-x:visible;overflow-y:visible;}
+.r-cdmcib{border-bottom-left-radius:3px;border-bottom-right-radius:3px;border-top-left-radius:3px;border-top-right-radius:3px;}
+.r-cpet4d{border-bottom-left-radius:999px;border-bottom-right-radius:999px;border-top-left-radius:999px;border-top-right-radius:999px;}
+.r-crgep1{margin:0px;}
+.r-d045u9{border-bottom-width:2px;border-left-width:2px;border-right-width:2px;border-top-width:2px;}
+.r-d23pfw{padding:24px;}
+.r-dta0w2{flex:2;}
+.r-edyy15{padding:8px;}
+.r-eg6o18{border-bottom-style:dashed;border-left-style:dashed;border-right-style:dashed;border-top-style:dashed;}
+.r-egco7n{border-bottom-color:rgba(253,195,137,1.00);border-left-color:rgba(253,195,137,1.00);border-right-color:rgba(253,195,137,1.00);border-top-color:rgba(253,195,137,1.00);}
+.r-fx7oqy{border-bottom-color:rgba(0,0,255,1.00);border-left-color:rgba(0,0,255,1.00);border-right-color:rgba(0,0,255,1.00);border-top-color:rgba(0,0,255,1.00);}
+.r-gav1f{border-bottom-color:rgba(24,28,31,1.00);border-left-color:rgba(24,28,31,1.00);border-right-color:rgba(24,28,31,1.00);border-top-color:rgba(24,28,31,1.00);}
+.r-hvic4v{display:none;}
+.r-hwh8t1{margin:8px;}
+.r-jqra5g{border-bottom-color:rgba(55,65,81,1.00);border-left-color:rgba(55,65,81,1.00);border-right-color:rgba(55,65,81,1.00);border-top-color:rgba(55,65,81,1.00);}
+.r-jxo161{border-bottom-color:rgba(255,204,203,1.00);border-left-color:rgba(255,204,203,1.00);border-right-color:rgba(255,204,203,1.00);border-top-color:rgba(255,204,203,1.00);}
+.r-kdyh1x{border-bottom-left-radius:6px;border-bottom-right-radius:6px;border-top-left-radius:6px;border-top-right-radius:6px;}
+.r-krxsd3{display:-webkit-box;}
+.r-m2nopt{border-bottom-color:rgba(43,46,57,1.00);border-left-color:rgba(43,46,57,1.00);border-right-color:rgba(43,46,57,1.00);border-top-color:rgba(43,46,57,1.00);}
+.r-m7id7e{flex:unset;}
+.r-m9k8lk{border-bottom-color:rgba(223,255,240,1.00);border-left-color:rgba(223,255,240,1.00);border-right-color:rgba(223,255,240,1.00);border-top-color:rgba(223,255,240,1.00);}
+.r-nsbfu8{padding:16px;}
+.r-p4pd8u{border-bottom-color:rgba(36,42,49,1.00);border-left-color:rgba(36,42,49,1.00);border-right-color:rgba(36,42,49,1.00);border-top-color:rgba(36,42,49,1.00);}
+.r-qwd59z{border-bottom-left-radius:1px;border-bottom-right-radius:1px;border-top-left-radius:1px;border-top-right-radius:1px;}
+.r-rs99b7{border-bottom-width:1px;border-left-width:1px;border-right-width:1px;border-top-width:1px;}
+.r-t60dpp{padding:0px;}
+.r-texgdz{margin:80px;}
+.r-tuq35u{padding:4px;}
+.r-tyhe3k{border-bottom-left-radius:64px;border-bottom-right-radius:64px;border-top-left-radius:64px;border-top-right-radius:64px;}
+.r-xoduu5{display:inline-flex;}
+.r-xyw6el{padding:12px;}
+.r-ywje51{margin:auto;}
+.r-z2wwpe{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-top-left-radius:4px;border-top-right-radius:4px;}
+.r-zhp00w{padding:2px;}
+[stylesheet-group="2.1"]{}
+.r-10x3wzx{padding-bottom:40px;padding-top:40px;}
+.r-11yq8vr{margin-left:40px;margin-right:40px;}
+.r-1e081e0{padding-left:12px;padding-right:12px;}
+.r-1guathk{padding-left:24px;padding-right:24px;}
+.r-1h4fu65{padding-bottom:24px;padding-top:24px;}
+.r-1hy1u7s{margin-left:24px;margin-right:24px;}
+.r-1isdzm1{padding-left:80px;padding-right:80px;}
+.r-1jgb5lz{margin-left:auto;margin-right:auto;}
+.r-1p02zvt{padding-left:48px;padding-right:48px;}
+.r-1p4rafz{padding-left:2px;padding-right:2px;}
+.r-1p6iasa{margin-bottom:4px;margin-top:4px;}
+.r-1pn2ns4{padding-left:8px;padding-right:8px;}
+.r-1r5su4o{margin-bottom:16px;margin-top:16px;}
+.r-1unineu{margin-bottom:40px;margin-top:40px;}
+.r-1vvnge1{padding-bottom:2px;padding-top:2px;}
+.r-1w3m5we{padding-bottom:80px;padding-top:80px;}
+.r-1ybube5{margin-left:8px;margin-right:8px;}
+.r-1ydw1k6{margin-left:16px;margin-right:16px;}
+.r-1yzf0co{padding-bottom:16px;padding-top:16px;}
+.r-4amgru{margin-left:4px;margin-right:4px;}
+.r-5njf8e{padding-bottom:8px;padding-top:8px;}
+.r-5wp0in{padding-left:40px;padding-right:40px;}
+.r-c8eef1{margin-bottom:8px;margin-top:8px;}
+.r-g4w12b{padding-left:94px;padding-right:94px;}
+.r-g8va3u{margin-left:80px;margin-right:80px;}
+.r-lz04qo{margin-left:-4px;margin-right:-4px;}
+.r-mgi0kt{margin-left:-24px;margin-right:-24px;}
+.r-mk0yit{padding-left:0px;padding-right:0px;}
+.r-mvpalk{margin-left:0px;margin-right:0px;}
+.r-oyd9sg{padding-bottom:4px;padding-top:4px;}
+.r-pw2am6{margin-bottom:24px;margin-top:24px;}
+.r-r0h9e2{margin-bottom:0px;margin-top:0px;}
+.r-r26ds4{margin-bottom:80px;margin-top:80px;}
+.r-rjfia{padding-bottom:0px;padding-top:0px;}
+.r-s1qlax{padding-left:4px;padding-right:4px;}
+.r-ymttw5{padding-left:16px;padding-right:16px;}
+[stylesheet-group="2.2"]{}
+.r-100vyta{margin-top:7px;}
+.r-1029d6i{top:-24px;}
+.r-105ug2t{pointer-events:auto!important;}
+.r-109y4c4{height:1px;}
+.r-10drpc{color:rgba(0,73,215,1.00);}
+.r-10kz8ia{color:rgba(228,79,137,1.00);}
+.r-10ptun7{height:16px;}
+.r-10pyoum{color:rgba(5,5,5,1.00);}
+.r-10sqg0u{margin-bottom:1px;}
+.r-10x49cs{font-size:10px;}
+.r-10xqauy{padding-top:env(safe-area-inset-top);}
+.r-111w7nw{box-shadow:0px 1px 2px rgba(0,0,0,0.69);}
+.r-113qch9{cursor:auto;}
+.r-116b19x{padding-left:40px;}
+.r-119vxgs{border-top-style:dashed;}
+.r-11c0sde{margin-top:24px;}
+.r-11f42r{height:314px;}
+.r-11g3r6m{padding-right:24px;}
+.r-11j9u27{visibility:hidden;}
+.r-11mo1y0{margin-bottom:7px;}
+.r-11mpjr4{background-color:rgba(223,223,223,1.00);}
+.r-11udlyb{background-color:rgba(0,150,136,1.00);}
+.r-11vxtcu{background-color:rgba(211,220,228,1.00);}
+.r-11wrixw{margin-left:0px;}
+.r-11yh6sk{overflow-x:hidden;}
+.r-11ys0m{-webkit-break-before:auto;break-before:auto;}
+.r-123mryc{color:rgba(185,94,4,1.00);}
+.r-127358a{animation-name:r-9p3sdl;}
+.r-127gp16{max-width:150px;}
+.r-12dqhl9{height:calc(100vh - 80px);}
+.r-12mrs02{object-fit:contain;}
+.r-12vffkv>*{pointer-events:auto;}
+.r-12vffkv{pointer-events:none!important;}
+.r-12ym1je{width:18px;}
+.r-12zb1j4{margin-right:7px;}
+.r-135wba7{line-height:24px;}
+.r-13gfk22{animation-delay:250ms;}
+.r-13hce6t{margin-left:4px;}
+.r-13i40vn{box-shadow:0px 12px 13px rgba(0,0,0,0.02);}
+.r-13i4ljo{width:172px;}
+.r-13l2t4g{border-right-width:1px;}
+.r-13ll0g2{color:rgba(10,48,105,1.00);}
+.r-13lvk87{margin-left:110px;}
+.r-13qz1uu{width:100%;}
+.r-13tjlyg{transition-duration:0.1s;}
+.r-13yce4e{border-top-width:0px;}
+.r-142tt33{-webkit-text-decoration-line:line-through;text-decoration-line:line-through;}
+.r-144uupt{left:2px;}
+.r-146iojx{max-width:300px;}
+.r-1472mwg{height:24px;}
+.r-14bkmb3{bottom:-3px;}
+.r-14eup4l{top:3px;}
+.r-14gqq1x{margin-top:4px;}
+.r-14lw9ot{background-color:rgba(255,255,255,1.00);}
+.r-14sbq61{background-color:rgba(33,150,243,1.00);}
+.r-14utu6a{line-height:8px;}
+.r-14vq63g{background-color:rgba(3,58,22,1.00);}
+.r-14yzgew{line-height:18px;}
+.r-150rngu{-webkit-overflow-scrolling:touch;}
+.r-157h22z{background-color:rgba(45,50,58,1.00);}
+.r-15czi30{background-image:linear-gradient(90deg, #e44f89, #c62c68);}
+.r-15d4u6f{background-color:rgba(145,176,240,1.00);}
+.r-15g7tld{margin-bottom:80px;}
+.r-15m1z73{margin-left:40px;}
+.r-15n4387{outline-color:#2662d7;}
+.r-15o5oer{bottom:auto;}
+.r-15ysp7h{min-height:32px;}
+.r-15zivkp{margin-bottom:4px;}
+.r-16dba41{font-weight:400;}
+.r-16l9doz{height:auto;}
+.r-16vg0q1{max-width:225px;}
+.r-16y2uox{flex-grow:1;}
+.r-173mn98{align-self:flex-end;}
+.r-1777fci{justify-content:center;}
+.r-17bb2tj{animation-duration:0.75s;}
+.r-17giqoz{box-shadow:0px 0px 7px rgba(0,0,0,0.52);}
+.r-17grq5a{margin-right:-8px;}
+.r-17leim2{background-repeat:repeat;}
+.r-17rnw9f{line-height:30px;}
+.r-17s6mgv{justify-content:flex-end;}
+.r-17tb59b{opacity:0.7;}
+.r-17tloay{opacity:0.6;}
+.r-17wrw06{color:rgba(180,26,26,1.00);}
+.r-184en5c{z-index:1;}
+.r-18ayb63{border-right-color:rgba(227,232,237,1.00);}
+.r-18kxxzh{flex-grow:0;}
+.r-18nhz7w{top:-3px;}
+.r-18p6if4{border-right-width:2px;}
+.r-18u37iz{flex-direction:row;}
+.r-18y5qoh{color:rgba(165,214,255,1.00);}
+.r-190thrv{color:rgba(145,75,5,1.00);}
+.r-19554kt{width:90px;}
+.r-19akecc{color:rgba(175,245,180,1.00);}
+.r-19byhck{flex-basis:32%;}
+.r-19lq7b1{top:16px;}
+.r-19r33im{letter-spacing:1.2px;}
+.r-19tq15n{margin-top:80px;}
+.r-19wmn03{width:20px;}
+.r-19z077z{touch-action:none;}
+.r-1a3cspq{background-color:rgba(40,49,67,1.00);}
+.r-1abnn5w{animation-play-state:paused;}
+.r-1acpoxo{width:36px;}
+.r-1aerykh{border-top-color:rgba(211,220,228,1.00);}
+.r-1aockid{width:40px;}
+.r-1armvtb{font-size:8px;}
+.r-1awozwy{align-items:center;}
+.r-1axcl7z{border:1px solid #d3dce4;}
+.r-1ay1djp{animation-duration:1s;}
+.r-1b00too{background-color:rgba(236,239,241,1.00);}
+.r-1b096ap{border-bottom-color:rgba(36,42,49,1.00);}
+.r-1b1g84l{bottom:-8px;}
+.r-1b43r93{font-size:14px;}
+.r-1bcbbo8{color:rgba(17,99,41,1.00);}
+.r-1bnj018{color:rgba(92,105,117,1.00);}
+.r-1bwbpp8{color:rgba(57,87,148,1.00);}
+.r-1bwgafa{-webkit-text-decoration-color:rgba(136,153,168,1.00);text-decoration-color:rgba(136,153,168,1.00);}
+.r-1c681wc{color:rgba(77,222,152,1.00);}
+.r-1c6unfx{forced-color-adjust:none;}
+.r-1ce3o0f{max-height:80vh;}
+.r-1ceczpf{min-height:24px;}
+.r-1clhhh9{-moz-transition-property:all;-webkit-transition-property:all;transition-property:all;}
+.r-1cmwbt1{gap:8px;}
+.r-1d09ksm{align-items:baseline;}
+.r-1d2f490{left:0px;}
+.r-1d4mawv{margin-right:4px;}
+.r-1d5kdc7{flex-direction:column-reverse;}
+.r-1d7fvdj{justify-content:space-evenly;}
+.r-1d9grui{border-bottom-color:rgba(211,220,228,1.00);}
+.r-1ddef8g{-webkit-text-decoration-line:underline;text-decoration-line:underline;}
+.r-1dernwh{height:70%;}
+.r-1dlgt49{max-height:30px;}
+.r-1dmvmgl{background-color:rgba(36,42,49,1.00);}
+.r-1dn12g7{line-height:48px;}
+.r-1dpl46z{border-bottom-right-radius:4px;}
+.r-1dqbpge{cursor:text;}
+.r-1dumtqg{background-color:rgba(253,195,137,1.00);}
+.r-1e1gmzv{color:rgba(38,59,102,1.00);}
+.r-1efo1hp{border-bottom-color:rgba(43,46,57,1.00);}
+.r-1ei5mc7{cursor:inherit;}
+.r-1eic64l{color:rgba(198,44,104,1.00);}
+.r-1enofrn{font-size:12px;}
+.r-1etz4cy{color:rgba(194,217,255,1.00);}
+.r-1euycsn{flex-direction:row-reverse;}
+.r-1ewcgjf{box-shadow:0px 1px 3px rgba(0,0,0,0.5);}
+.r-1f2v84d{color:rgba(204,207,212,1.00);}
+.r-1f529hi{line-height:14px;}
+.r-1fd96xs{padding-left:50px;}
+.r-1fdih9r{gap:24px;}
+.r-1fe0xdi{left:0%;}
+.r-1ff274t{text-align:right;}
+.r-1fi01yr{background-color:rgba(55,65,81,1.00);}
+.r-1fiaf3z{opacity:0.05;}
+.r-1fo40xd{top:80px;}
+.r-1fq43b1{flex-basis:100%;}
+.r-1g7fiml{height:30px;}
+.r-1g80fh1{margin-right:80px;}
+.r-1ghhsy9{color:rgba(52,109,219,1.00);}
+.r-1gigy5k{border-bottom-color:rgba(45,50,58,1.00);}
+.r-1glc72y{border-bottom-color:rgba(245,247,249,1.00);}
+.r-1glkqn6{width:80px;}
+.r-1h0z5md{justify-content:flex-start;}
+.r-1h2t8mc{width:0px;}
+.r-1h815vi{right:92%;}
+.r-1h8ys4a{padding-top:4px;}
+.r-1h9q8wt{color:rgba(69,69,69,1.00);}
+.r-1habvwh{align-items:flex-start;}
+.r-1hjwoze{height:18px;}
+.r-1hlnpa{height:3px;}
+.r-1hpgsb4{;}
+.r-1hqdnve{box-shadow:0px 0px 4px inset rgba(0,0,0, 0.08);}
+.r-1hrvmjx{border-top-color:rgba(55,65,81,1.00);}
+.r-1hvjb8t{padding-right:4px;}
+.r-1hy97zq{padding-top:80px;}
+.r-1hycxz{width:350px;}
+.r-1i6wzkk{-moz-transition-property:opacity;-webkit-transition-property:opacity;transition-property:opacity;}
+.r-1i7sdiz{box-shadow:0px 4px 10px rgba(0,0,0,0.05);}
+.r-1i93rbr{right:0%;}
+.r-1ielgck{animation-duration:300ms;}
+.r-1ifxtd0{margin-bottom:16px;}
+.r-1ik5qf4{max-width:500px;}
+.r-1iln25a{word-wrap:normal;}
+.r-1ioqa4e{border-top-right-radius:7px;}
+.r-1ipicw7{width:300px;}
+.r-1j7aebl{width:880px;}
+.r-1janqcz{width:16px;}
+.r-1jg9483{width:8px;}
+.r-1jj8364{margin-left:auto;}
+.r-1jkjb{margin-left:8px;}
+.r-1jnzvcq{padding-bottom:80px;}
+.r-1jocfgc{width:290px;}
+.r-1jpmnxg{word-wrap:anywhere;}
+.r-1jsra8{box-shadow:inset 0px 0px 0px 1px #e3e8ed;}
+.r-1jxfwug{border-top-width:2px;}
+.r-1k1q3bj{max-height:300px;}
+.r-1k25im9{height:26px;}
+.r-1kb76zh{margin-right:8px;}
+.r-1kf75xu{color:rgba(12,105,61,1.00);}
+.r-1kfrs79{font-weight:600;}
+.r-1kihuf0{align-self:center;}
+.r-1kjq87h{width:376px;}
+.r-1knl56f{animation-name:r-1hunrpy;}
+.r-1kvn7zp{max-height:150px;}
+.r-1kx0pzc{background-image:radial-gradient(rgba(0, 0, 0, 0.1), #181c1f);}
+.r-1l0m7dr{background-image:radial-gradient(rgba(0, 0, 0, 0.1), #ffffff);}
+.r-1l7z4oj{padding-bottom:16px;}
+.r-1l94q7l{box-shadow:inset 0px 0px 1px rgb(0 0 0 / 30%);}
+.r-1ld3bg{top:-4px;}
+.r-1ldzwu0{animation-timing-function:linear;}
+.r-1ljd8xs{border-left-width:1px;}
+.r-1lky6n1{background-color:rgba(227,232,237,1.00);}
+.r-1lnfjr6{-webkit-background-clip:text;}
+.r-1lnt56z{color:rgba(211,220,228,1.00);}
+.r-1loqt21{cursor:pointer;}
+.r-1m04atk{padding-left:8px;}
+.r-1m4drjs{top:-6px;}
+.r-1maqer6{max-width:860px;}
+.r-1mdbw0j{padding-bottom:0px;}
+.r-1mdsxwj{color:rgba(237,159,81,1.00);}
+.r-1mgmw1x{background-image:linear-gradient(90deg, #5f45ff, #442fc8);}
+.r-1mhb1uw{width:42px;}
+.r-1mhtwjo{left:-3px;}
+.r-1mlwlqe{flex-basis:auto;}
+.r-1mnahxq{margin-top:0px;}
+.r-1moh23t{bottom:16px;}
+.r-1mrlafo{background-position:0;}
+.r-1ms9ukt{bottom:-5px;}
+.r-1mtwht8{color:rgba(210,168,255,1.00);}
+.r-1muvv40{animation-iteration-count:infinite;}
+.r-1n20pny{width:140px;}
+.r-1n6k3lk{color:rgba(36,42,49,1.00);}
+.r-1na1l7e{animation-play-state:running;}
+.r-1nf4jbm{color:rgba(59,69,78,1.00);}
+.r-1niwhzg{background-color:rgba(0,0,0,0.00);}
+.r-1nj16ve{left:-10px;}
+.r-1nlw0im{bottom:8px;}
+.r-1nq9s1i{color:rgba(145,176,240,1.00);}
+.r-1ny4l3l{outline-style:none;}
+.r-1o9jcv2{max-width:660px;}
+.r-1ocf4r9{scroll-snap-type:y mandatory;}
+.r-1odw9d6{background-color:rgba(20,23,28,1.00);}
+.r-1oec5bt{opacity:0.2;}
+.r-1oep0n4{left:-12px;}
+.r-1ois7e2{color:rgba(55,65,81,1.00);}
+.r-1or9b2r{height:10px;}
+.r-1osy6ei{color:rgba(255,220,215,1.00);}
+.r-1oszu61{align-items:stretch;}
+.r-1otgn73{touch-action:manipulation;}
+.r-1ow6zhx{margin-left:16px;}
+.r-1p0dtai{bottom:0px;}
+.r-1p3vkdf{border-right-color:rgba(45,50,58,1.00);}
+.r-1p5i0ed{bottom:-24px;}
+.r-1p69tiw{border-top-color:rgba(43,46,57,1.00);}
+.r-1peese0{margin-bottom:24px;}
+.r-1ph75f1{height:80px;}
+.r-1pi2tsx{height:100%;}
+.r-1pl7oy7{min-height:48px;}
+.r-1pos5eu{vertical-align:middle;}
+.r-1ptriwd{right:2px;}
+.r-1pyaxff{padding-right:8px;}
+.r-1q142lx{flex-shrink:0;}
+.r-1q3nxaj{z-index:300;}
+.r-1q6rxnj{padding-right:110px;}
+.r-1q77oe7{background-color:rgba(171,183,202,1.00);}
+.r-1q9jyb7{-webkit-filter:blur(16px) contrast(110%) hue-rotate(10deg) brightness(1.2) saturate(1.2);filter:blur(16px) contrast(110%) hue-rotate(10deg) brightness(1.2) saturate(1.2);}
+.r-1qc3rpd{transform:scaleY(-1);}
+.r-1qd0xha{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+.r-1qdbj55{animation-name:r-ndfo3d;}
+.r-1qefu2b{right:-3px;}
+.r-1qhn6m8{padding-left:16px;}
+.r-1quu1zo{;}
+.r-1r0uwd5{color:rgba(255,166,87,1.00);}
+.r-1r74h94{left:8px;}
+.r-1r8g8re{height:36px;}
+.r-1rasi3h{color:rgba(136,153,168,1.00);}
+.r-1rbj2e8{outline-color:#f5f7f9;}
+.r-1rdth4h{border-left-color:rgba(55,65,81,1.00);}
+.r-1rho1gz{box-shadow:0px 12px 13px rgba(0,0,0,0.12);}
+.r-1rkdych{max-width:1040px;}
+.r-1rla0r3{background-image:linear-gradient(90deg, #d33d3d, #b41a1a);}
+.r-1rnoaur{overflow-y:auto;}
+.r-1ro0kt6{flex-basis:0%;}
+.r-1ro7rbe{right:100%;}
+.r-1rttkqs{width:400px;}
+.r-1s3egr7{z-index:100;}
+.r-1s8p94s{max-width:832px;}
+.r-1sc18lr{padding-bottom:88px;}
+.r-1sncvnh{transform:translateZ(0px);}
+.r-1sxrcry{background-size:auto;}
+.r-1t2qqvi{flex-basis:50%;}
+.r-1t7uo4s{object-fit:cover;}
+.r-1t8m4kl{text-shadow:0px 0px 3px rgba(36,42,49,1.00);}
+.r-1tazni7{cursor:not-allowed;}
+.r-1ts5s6y{aspect-ratio:1.7777777777777777;}
+.r-1ttybm1{border-top-color:rgba(45,50,58,1.00);}
+.r-1ty4vvm{left:40px;}
+.r-1tymxbh{box-shadow:5px 0px 7px rgba(36,42,49,0.60);}
+.r-1u8kdu{bottom:24px;}
+.r-1ua3vzd{background-color:rgba(223,255,240,1.00);}
+.r-1ub1aon{transform:translateY(100%);}
+.r-1udbk01{text-overflow:ellipsis;}
+.r-1ufdtu9{background-image:linear-gradient(270deg, #e3e8ed 10%, #f5f7f9, #e3e8ed 90%);}
+.r-1ufr4wv{z-index:9;}
+.r-1ug9s38{box-shadow:inset 0px 0px 0px 1px #374151;}
+.r-1ui5ee8{font-size:32px;}
+.r-1ul06mb{margin-left:32px;}
+.r-1ulgld5{color:rgba(255,123,114,1.00);}
+.r-1um4q9x{-moz-transition:opacity 800ms ease;-webkit-transition:opacity 800ms ease;transition:opacity 800ms ease;}
+.r-1uql0sn{top:-1.2em;}
+.r-1ur9v65{padding-top:40px;}
+.r-1ut4w64{margin-bottom:-1px;}
+.r-1uwte3a{padding-bottom:40px;}
+.r-1uypc71{animation-timing-function:ease-in;}
+.r-1v2oles{top:50%;}
+.r-1v4p587{border-bottom-color:rgba(24,28,31,1.00);}
+.r-1v7fmog{background-color:rgba(236,243,255,1.00);}
+.r-1v7sw2p{background-size:50% 80px;}
+.r-1vamr63{max-width:720px;}
+.r-1vckr1u{background-color:rgba(245,247,249,1.00);}
+.r-1vex5ub{color:rgba(68,47,200,1.00);}
+.r-1vo7ria{color:rgba(38,98,215,1.00);}
+.r-1vutw0s{background-color:rgba(103,6,12,1.00);}
+.r-1vz48go{background-image:radial-gradient(rgba(255, 255, 255, 0.1), #181c1f);}
+.r-1vzi8xi{vertical-align:middle;}
+.r-1w2pmg{height:0px;}
+.r-1w6e6rj{flex-wrap:wrap;}
+.r-1wan564{color:rgba(169,192,240,1.00);}
+.r-1wb8bfx{text-decoration-thickness:2px;}
+.r-1wbh5a2{flex-shrink:1;}
+.r-1wezhl{margin-left:80px;}
+.r-1wfhzrg{height:120px;}
+.r-1wghi3f{top:-8px;}
+.r-1wtj0ep{justify-content:space-between;}
+.r-1wv73ep{align-self:baseline;}
+.r-1ww30s9{max-width:30px;}
+.r-1wyyakw{z-index:-1;}
+.r-1wzrnnt{margin-top:16px;}
+.r-1x35g6{font-size:24px;}
+.r-1xbve24{height:6px;}
+.r-1xcajam{position:fixed;}
+.r-1xnzce8{-moz-user-select:text;-webkit-user-select:text;user-select:text;}
+.r-1xoqk23{background-color:rgba(68,47,200,1.00);}
+.r-1y14msn{border-bottom-color:rgba(55,65,81,1.00);}
+.r-1y9xkqr{left:8%;}
+.r-1yb8zos{background-color:rgba(162,169,185,1.00);}
+.r-1ybp48z{background-image:linear-gradient(90deg, #cc3131, #b41a1a);}
+.r-1ye8kvj{max-width:600px;}
+.r-1ygmrgt{padding-top:24px;}
+.r-1ylffjs{-webkit-text-decoration-style:dotted;text-decoration-style:dotted;}
+.r-1yv4afn{border-top-color:rgba(227,232,237,1.00);}
+.r-1yvhtrz{width:32px;}
+.r-1yxedwg{top:8px;}
+.r-1yyzdbt{border-left-color:rgba(227,232,237,1.00);}
+.r-257lmc{width:1180px;}
+.r-29dh1f{background-image:linear-gradient(90deg, #eceff1, #e3e8ed);}
+.r-2awvau{min-width:-webkit-max-content;min-width:-moz-max-content;min-width:max-content;}
+.r-2eszeu::-webkit-scrollbar{display:none}
+.r-2eszeu{scrollbar-width:none;}
+.r-2fm7cc{color:rgba(139,148,158,1.00);}
+.r-2fw26j{outline-offset:0px;}
+.r-2jelyo{background-color:rgba(24,28,31,1.00);}
+.r-2jxp4q{background-color:rgba(34,39,46,1.00);}
+.r-2kxcpj{inset:0px;}
+.r-2llsf{min-height:100%;}
+.r-2o02ov{margin-top:40px;}
+.r-2tavb8{background-color:rgba(0,0,0,0.60);}
+.r-2zpn8w{-webkit-break-inside:avoid;break-inside:avoid;}
+.r-30o5oe{-moz-appearance:none;-ms-appearance:none;-webkit-appearance:none;appearance:none;}
+.r-30qeir{bottom:-4px;}
+.r-36ujnk{font-style:italic;}
+.r-37tt59{line-height:32px;}
+.r-3da1kt{height:8px;}
+.r-3dgjpp{border-top-color:rgba(36,42,49,1.00);}
+.r-3hw5f6{color:rgba(149,56,0,1.00);}
+.r-3mc0re{right:8px;}
+.r-3mtglp{row-gap:16px;}
+.r-3o833n{background-color:rgba(251,232,240,1.00);}
+.r-3pxcvb{border-bottom-color:rgba(255,255,255,1.00);}
+.r-3s2u2q{white-space:nowrap;}
+.r-417010{z-index:0;}
+.r-41syhy{max-width:504px;}
+.r-432wen{width:3px;}
+.r-44c749{border-bottom-left-radius:7px;}
+.r-493a2x{width:680px;}
+.r-4c3hy2{max-width:245px;}
+.r-4d76ec{height:200px;}
+.r-4dj0k7{box-shadow:0px 1px 2px rgba(0,0,0,0.12);}
+.r-4gszlv{background-size:cover;}
+.r-4jz4xt{background-image:linear-gradient(90deg, #374151, #374151);}
+.r-4v7adb{height:5px;}
+.r-5cpxsl{stroke-width:3;}
+.r-5is6sd{max-width:460px;}
+.r-5kkj8d{border-top-width:1px;}
+.r-5ks0hp{right:3.5px;}
+.r-5kx3fr{page-break-inside:avoid;}
+.r-5oul0u{margin-bottom:8px;}
+.r-5soawk{width:10px;}
+.r-5xr8s6{outline-width:2px;}
+.r-60emj1{background-color:rgba(255,204,203,1.00);}
+.r-61z16t{margin-right:0px;}
+.r-633pao{pointer-events:none!important;}
+.r-6b6lzv{color:rgba(100,143,228,1.00);}
+.r-6dt33c{opacity:1;}
+.r-6k4xqk{margin-top:-40px;}
+.r-6t5ypu{border-bottom-left-radius:4px;}
+.r-6taxm2:-ms-input-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::-moz-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::-webkit-input-placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6taxm2::placeholder{color:var(--placeholderTextColor);opacity:1;}
+.r-6uxfom{margin-left:24px;}
+.r-6wscbn{max-width:252px;}
+.r-73dpzl{border-top-color:rgba(245,247,249,1.00);}
+.r-7b7h2f{left:100%;}
+.r-7bxf49{background-color:rgba(205,218,246,1.00);}
+.r-7cikom{font-size:inherit;}
+.r-7l9xyp{background-color:rgba(255,255,255,0.20);}
+.r-7q8q6z{cursor:default;}
+.r-7xmw5f{width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;}
+.r-81rbui{animation-name:r-1ak6360;}
+.r-855088{border-left-color:rgba(0,0,0,0.00);}
+.r-88pszg{margin-right:16px;}
+.r-8akbws{-webkit-box-orient:vertical;}
+.r-8d26hk{margin-bottom:40px;}
+.r-8hc5te{width:6px;}
+.r-8jwyv6{-moz-transition:opacity 0.2s ease-in-out;-webkit-transition:opacity 0.2s ease-in-out;transition:opacity 0.2s ease-in-out;}
+.r-8upyzv{width:260px;}
+.r-8v5hsd{color:rgba(126,231,135,1.00);}
+.r-9030i9{box-shadow:0px 4px 10px rgba(0,0,0,0.99);}
+.r-9111t9{padding-right:410px;}
+.r-92ng3h{width:1px;}
+.r-934yyj{padding-left:34px;}
+.r-9358xi{background-color:rgba(35,131,226,0.14);}
+.r-95jzfe{padding-top:16px;}
+.r-97e31f{padding-bottom:env(safe-area-inset-bottom);}
+.r-97prym{flex-basis:16px;}
+.r-99m41f{color:rgba(110,119,129,1.00);}
+.r-9aemit{padding-right:0px;}
+.r-9ji8r7{transform:translateY(0%);}
+.r-9jpwak{min-width:auto;}
+.r-a21fva{box-shadow:0px -1px 2px rgba(0,0,0,0.69);}
+.r-a2tzq0{justify-content:space-around;}
+.r-a5pmau{margin-right:2px;}
+.r-a9hzal{height:660px;}
+.r-adacv{min-height:64px;}
+.r-adyw6z{font-size:20px;}
+.r-ah5dr5>*{pointer-events:none;}
+.r-ah5dr5{pointer-events:auto!important;}
+.r-ak0haq{color:rgba(121,192,255,1.00);}
+.r-aqxs90{-moz-transition:opacity 500ms ease-in, z-index 1000ms ease-in;-webkit-transition:opacity 500ms ease-in, z-index 1000ms ease-in;transition:opacity 500ms ease-in, z-index 1000ms ease-in;}
+.r-b4cb4{max-height:440px;}
+.r-b88u0q{font-weight:700;}
+.r-bcqeeo{min-width:0px;}
+.r-bcycc3{box-shadow:0px -1px 2px rgba(0,0,0,0.12);}
+.r-bgnin{min-width:150px;}
+.r-bnwqim{position:relative;}
+.r-bsjocg{@media print:[object Object];}
+.r-bta5j5{right:40px;}
+.r-buy8e9{overflow-y:hidden;}
+.r-bv2aro{padding-left:env(safe-area-inset-left);}
+.r-bxaprw{border-top-left-radius:7px;}
+.r-c68hjy{color:rgba(161,161,161,1.00);}
+.r-cb7i37{outline-color:#395794;}
+.r-cdhzog{padding-right:80px;}
+.r-cpa5s6{scroll-snap-align:start;}
+.r-d822y2{color:rgba(5,80,174,1.00);}
+.r-deolkf{box-sizing:border-box;}
+.r-dflpy8{height:1.2em;}
+.r-dkge59{background-color:rgba(170,184,194,1.00);}
+.r-dnmrzs{max-width:100%;}
+.r-dse9kg{outline-style:auto;}
+.r-dvzd6p{right:-1px;}
+.r-dvzwsg{border-left-color:rgba(211,220,228,1.00);}
+.r-dwliz8{border-left-width:2px;}
+.r-e1k2in{right:16px;}
+.r-e9uq0i{animation-duration:1200ms;}
+.r-ea455c{border:none;}
+.r-eafdt9{transition-duration:0.15s;}
+.r-ecifi{max-width:970px;}
+.r-ehq7j7{background-size:contain;}
+.r-epq5cr{height:2px;}
+.r-eqo98v{top:24px;}
+.r-eqz5dr{flex-direction:column;}
+.r-ero68b{min-height:40px;}
+.r-eu3ka{height:40px;}
+.r-f4gmv6{gap:16px;}
+.r-fa5tdg{max-width:456px;}
+.r-fdjqy7{text-align:left;}
+.r-flmpir{border-bottom-color:rgba(40,49,67,1.00);}
+.r-fnigne{border-right-width:0px;}
+.r-fpub7{color:rgba(0,0,0,0.00);}
+.r-g3mlsw{animation-name:r-t2lo5v;}
+.r-gg6oyi{font-family:gitbook-content-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+.r-ggadg3{left:-2px;}
+.r-givd4m{left:-5px;}
+.r-gl891g{min-width:420px;}
+.r-gtdqiz{position:-webkit-sticky;position:sticky;}
+.r-gu0qjt{padding-left:32px;}
+.r-gxnn5r{border-left-width:0px;}
+.r-gxopl6{left:316px;}
+.r-gy4na3{padding-left:0px;}
+.r-gys0vz{color:rgba(0,136,71,1.00);}
+.r-h2mvr{min-width:8px;}
+.r-h2q2x{transform:scaleX(-1);}
+.r-h3s6tt{height:48px;}
+.r-h7ga17{background-color:rgba(43,46,57,1.00);}
+.r-h7gdob{color:currentColor;}
+.r-ha54is{icon-color:#a2a9b9;}
+.r-hauab{-moz-transition:width 50ms ease-in-out;-webkit-transition:width 50ms ease-in-out;transition:width 50ms ease-in-out;}
+.r-hbpseb{line-height:22px;}
+.r-hd655f{color:rgba(162,169,185,1.00);}
+.r-homxoj{color:inherit;}
+.r-hq6u89{left:92%;}
+.r-hqnlqz{border-left-color:rgba(52,109,219,1.00);}
+.r-htfu76{margin-left:-8px;}
+.r-hvns9x{max-width:400px;}
+.r-hxflta{padding-right:env(safe-area-inset-right);}
+.r-i023vh{padding-right:16px;}
+.r-i7h7g2{-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);}
+.r-i8xx8x{color:rgba(207,34,46,1.00);}
+.r-ia06lx{background-color:rgba(115,92,255,1.00);}
+.r-ibjss6{background-color:rgba(136,153,168,1.00);}
+.r-icoktb{opacity:0.5;}
+.r-ifefl9{min-height:0px;}
+.r-ihd41t{border:1px solid #374151;}
+.r-iphfwy{padding-bottom:4px;}
+.r-ipm5af{top:0px;}
+.r-iqs06e{background-image:radial-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 1));}
+.r-ir6n1k{border-top-right-radius:6px;}
+.r-ixzivm{@media print:[object Object];}
+.r-iyfy8q{width:auto;}
+.r-j300sb{animation-name:r-1rx4pb;}
+.r-jfrpv2{color:rgba(130,80,223,1.00);}
+.r-jn0m22{top:54px;}
+.r-jn5ml{right:-5px;}
+.r-jvuzdy{top:-5px;}
+.r-jwli3a{color:rgba(255,255,255,1.00);}
+.r-jxjwwx{left:24px;}
+.r-k200y{align-self:flex-start;}
+.r-k923pl{background-color:rgba(218,212,255,1.00);}
+.r-kcufgn{cursor:ew-resize;}
+.r-key0ze{height:240px;}
+.r-kicko2{border-top-left-radius:4px;}
+.r-kls4rr{padding-right:40px;}
+.r-knv0ih{margin-top:8px;}
+.r-kquydp{right:-4px;}
+.r-ky29hr{bottom:2px;}
+.r-l0gwng{width:200px;}
+.r-l13dpy{z-index:200;}
+.r-l27s25{background-color:rgba(204,207,212,1.00);}
+.r-l9hqf4{box-shadow:0px 1px 1px rgba(0,0,0,0.69);}
+.r-l9st2p{-webkit-text-decoration-color:rgba(162,169,185,1.00);text-decoration-color:rgba(162,169,185,1.00);}
+.r-labphf{height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;}
+.r-lchren{margin-right:auto;}
+.r-ld67tl{left:-72px;}
+.r-lk1fr1{icon-color:#8899a8;}
+.r-lltvgl{overflow-x:auto;}
+.r-lqms97{margin-left:-1px;}
+.r-lrsllp{width:24px;}
+.r-lrvibr{-moz-user-select:none;-webkit-user-select:none;user-select:none;}
+.r-lv5dtd{padding-left:110px;}
+.r-lx1l9k{background-image:radial-gradient(rgba(255, 255, 255, 0.1), #ffffff);}
+.r-m0vln2{border-left-color:rgba(43,46,57,1.00);}
+.r-m2pi6t{padding-left:4px;}
+.r-m5arl1{width:2px;}
+.r-mabqd8{height:32px;}
+.r-majxgm{font-weight:500;}
+.r-mbgqwd{margin-right:24px;}
+.r-mfh4gg{scroll-snap-type:x mandatory;}
+.r-mfzc6t{background-color:rgba(0,0,0,0.10);}
+.r-mhe3cw{z-index:10;}
+.r-ms8t9i{border-left-width:3px;}
+.r-na6qhi{;}
+.r-ng8e2f{cursor:-webkit-grab;cursor:-moz-grab;cursor:grab;}
+.r-nkouq2{box-shadow:-5px 0px 7px rgba(36,42,49,0.60);}
+.r-notknq{border-top-right-radius:4px;}
+.r-nvplwv{animation-timing-function:ease-out;}
+.r-nvvorq{top:3.5px;}
+.r-nwxazl{line-height:40px;}
+.r-nzcix3{border-bottom-color:rgba(227,232,237,1.00);}
+.r-o8yidv{border-top-left-radius:6px;}
+.r-o9xkwf{top:2px;}
+.r-obd0qt{align-items:flex-end;}
+.r-onxxid{background-color:rgba(27,30,33,0.77);}
+.r-op3p1c{width:520px;}
+.r-orgf3d{opacity:0;}
+.r-ou6ah9{border-top-left-radius:0px;}
+.r-oucylx{border-bottom-color:rgba(0,0,0,0.00);}
+.r-oz83uh{box-shadow:0px 1px 1px rgba(0,0,0,0.12);}
+.r-p1pxzi{margin-bottom:0px;}
+.r-pex7a0{color:rgba(130,7,30,1.00);}
+.r-pi8zqv{box-shadow:0px 0px 7px rgba(0,0,0,0.04);}
+.r-pm9dpa{max-height:100%;}
+.r-puj83k{padding-left:24px;}
+.r-py1axk{border-bottom-right-radius:7px;}
+.r-q4m81j{text-align:center;}
+.r-qklmqi{border-bottom-width:1px;}
+.r-qn3fzs{padding-bottom:24px;}
+.r-qyrhsv{border-right-color:rgba(40,49,67,1.00);}
+.r-r1s0sa{background-color:rgba(255,235,233,1.00);}
+.r-r9hte5{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+.r-rs94m5{background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgdmVyc2lvbj0iMS4xIgogICB2aWV3Qm94PSIwIDAgMSAxIgogICBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWluWU1pbiBtZWV0Ij4KICA8cGF0aAogICAgIGQ9Ik0gMC4wNDAzODA1OSwwLjYyNjc3NjcgMC4xNDY0NDY2MSwwLjUyMDcxMDY4IDAuNDI5Mjg5MzIsMC44MDM1NTMzOSAwLjMyMzIyMzMsMC45MDk2MTk0MSB6IE0gMC4yMTcxNTcyOSwwLjgwMzU1MzM5IDAuODUzNTUzMzksMC4xNjcxNTcyOSAwLjk1OTYxOTQxLDAuMjczMjIzMyAwLjMyMzIyMzMsMC45MDk2MTk0MSB6IgogICAgIGlkPSJyZWN0Mzc4MCIKICAgICBzdHlsZT0iZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lIiAvPgo8L3N2Zz4K");}
+.r-rwqe4o{width:48px;}
+.r-s09aw7{background-image:linear-gradient(to left, #735cff, rgb(109 28 169), rgb(96 104 191), #008847, #FFD139, #b95e04, #d33d3d);}
+.r-s0e3za{padding-left:80px;}
+.r-s8bhmr{min-width:56px;}
+.r-sa2ff0{min-height:100vh;}
+.r-sfbmgh{z-index:9999;}
+.r-sga3zk{height:64px;}
+.r-sgscqh{width:250px;}
+.r-t12b5v{border-top-right-radius:0px;}
+.r-t3lkjx{background-color:rgba(228,79,137,1.00);}
+.r-t9hbny{background-color:rgba(211,61,61,1.00);}
+.r-tceitz{left:16px;}
+.r-tni569{background-color:rgba(11,79,47,1.00);}
+.r-tskmnb{padding-top:8px;}
+.r-tsynxw{text-transform:uppercase;}
+.r-u529wo{transform:translateY(-2px);}
+.r-u6sd8q{background-repeat:no-repeat;}
+.r-u8s1d{position:absolute;}
+.r-u92y06{background-color:rgba(255,165,0,1.00);}
+.r-u9bbvc{;}
+.r-u9z937{bottom:80px;}
+.r-ubezar{font-size:16px;}
+.r-ud0q2t{letter-spacing:1px;}
+.r-ufs8t{background-clip:text;}
+.r-uibjmv{font-family:gitbook-code-font, Menlo, monospace;}
+.r-upfvwg{box-shadow:0px 0px 1px rgb(255 255 255 / 30%);}
+.r-uweo6c{bottom:136px;}
+.r-ux9zog{background-color:rgba(51,61,85,1.00);}
+.r-v2u3o6{right:4px;}
+.r-vlcob{color:rgba(24,28,31,1.00);}
+.r-vq47rg{color:rgba(211,61,61,1.00);}
+.r-vvn4in{background-position:center;}
+.r-w0va4e{margin-right:40px;}
+.r-w9n8ly{transition-delay:200ms;}
+.r-wc24c3{z-index:20;}
+.r-wech8c{max-width:1280px;}
+.r-wgabs5{border-bottom-width:2px;}
+.r-wk8lta{padding-top:0px;}
+.r-ws9h79{left:4px;}
+.r-wwqw7s{left:-1px;}
+.r-wy61xf{height:72px;}
+.r-x1dlf0{max-width:200px;}
+.r-x3cy2q{background-size:100% 100%;}
+.r-xb2eav{font-size:40px;}
+.r-xd6kpl{padding-bottom:8px;}
+.r-xifl00{left:-4px;}
+.r-xky0vn{background-color:rgba(104,60,17,1.00);}
+.r-xnn892{background-color:rgba(218,251,225,1.00);}
+.r-xx3c9p{animation-name:r-imtty0;}
+.r-xzortm{margin-right:-16px;}
+.r-y3rmyz{width:120px;}
+.r-ye2ihm{background-image:none;}
+.r-yh6aho{background-image:linear-gradient(270deg, #2b2e39 10%, #22272e, #2b2e39 90%);}
+.r-yj30ev{right:24px;}
+.r-yrgyi6{white-space:pre;}
+.r-ywxogp{color:rgba(115,92,255,1.00);}
+.r-z3s97b{border-right-color:rgba(43,46,57,1.00);}
+.r-z80fyv{height:20px;}
+.r-z9jf92{color:rgba(234,242,247,1.00);}
+.r-zchlnj{right:0px;}
+.r-zh076v{height:100vh;}
+.r-zits6j{right:8%;}
+.r-zo7nv5{-webkit-column-gap:16px;column-gap:16px;}
+.r-ztyd71{background-color:rgba(0,0,0,0.20);}
+@-webkit-keyframes r-1ak6360{0%{background-position-x:0%;}100%{background-position-x:100%;}}
+@-webkit-keyframes r-1hunrpy{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
+@-webkit-keyframes r-1rx4pb{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
+@-webkit-keyframes r-9p3sdl{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@-webkit-keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
+@-webkit-keyframes r-ndfo3d{0%{transform:translateY(0%);}100%{transform:translateY(100%);}}
+@-webkit-keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}
+@keyframes r-1ak6360{0%{background-position-x:0%;}100%{background-position-x:100%;}}
+@keyframes r-1hunrpy{0%{transform:translateY(100%);}100%{transform:translateY(0%);}}
+@keyframes r-1rx4pb{0%{transform:translateX(-100%);}100%{transform:translateX(400%);}}
+@keyframes r-9p3sdl{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes r-imtty0{0%{opacity:0;}100%{opacity:1;}}
+@keyframes r-ndfo3d{0%{transform:translateY(0%);}100%{transform:translateY(100%);}}
+@keyframes r-t2lo5v{0%{opacity:1;}100%{opacity:0;}}
+[stylesheet-group="10"]{}
+[data-rnwrdesktop-166pt5r]{width:max(220px, calc(100vw - max(300px, calc((100vw - 970px) / 2 - 0px)) - 750px - 110px - 300px - 0px));}
+[data-rnwrdesktop-18u37iz]{flex-direction:row;}
+[data-rnwrdesktop-1hy97zq-1q6rxnj-lv5dtd-9111t9]{padding-left:110px;padding-right:410px;padding-top:80px;}
+[data-rnwrdesktop-1jkjb]{margin-left:8px;}
+[data-rnwrdesktop-1kb76zh]{margin-right:8px;}
+[data-rnwrdesktop-1ph75f1]{height:80px;}
+[data-rnwrdesktop-1uwte3a]{padding-bottom:40px;}
+[data-rnwrdesktop-fnigne]{border-right-width:0px;}
+[data-rnwrdesktop-gg6oyi-adyw6z-135wba7-b88u0q]{font-family:gitbook-content-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:20px;font-weight:700;line-height:24px;}
+[data-rnwrdesktop-gg6oyi-xb2eav-1dn12g7-b88u0q]{font-family:gitbook-content-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:40px;font-weight:700;line-height:48px;}
+[data-rnwrdesktop-h3s6tt]{height:48px;}
+[data-rnwrdesktop-hidden]{display: none;}
+[data-rnwrdesktop-iyfy8q-1qhn6m8-11g3r6m-1h0z5md]{justify-content:flex-start;padding-left:16px;padding-right:24px;width:auto;}
+[data-rnwrdesktop-u8s1d-1qhn6m8-i023vh]{padding-left:16px;padding-right:16px;position:absolute;}
+[data-rnwrdesktop-visible]{display: flex;}
+[stylesheet-group="11"]{}
+@media (max-width: 1024px) and (max-width: 9999999.494850524510111312253100114px) { [data-rnwr1024-eqz5dr] {flex-direction:column;} }
+@media (max-width: 1024px) and (max-width: 9999999.49485052454910510212011610048px) { [data-rnwr1024-1ifxtd0] {margin-bottom:16px;} }
+@media (max-width: 1280px) and (max-width: 9999999.4950564845104105100100101110px) { [data-rnwr1280-hidden] {display: none;} }
+@media (max-width: 1280px) and (max-width: 9999999.49505648454955555510299105px) { [data-rnwr1280-1777fci] {justify-content:center;} }
+@media (max-width: 1430px) and (max-width: 9999999.495251484511810511510598108101px) { [data-rnwr1430-visible] {display: flex;} }
+@media (max-width: 1490px) and (max-width: 9999999.49525748454955555510299105px) { [data-rnwr1490-1777fci] {justify-content:center;} }
+[stylesheet-group="12"]{}
+@media (max-width: 700px) and (max-width: 9999999.5548484510111312253100114px) { [data-rnwr700-eqz5dr] {flex-direction:column;} }
+@media (max-width: 700px) and (max-width: 9999999.55484845103103541111211054511798101122971144549515311998975545491071021141155557px) { [data-rnwr700-gg6oyi-ubezar-135wba7-1kfrs79] {font-family:gitbook-content-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;line-height:24px;} }
+@media (max-width: 700px) and (max-width: 9999999.55484845103103541111211054549117105531011015645110119120971221084598565611748113px) { [data-rnwr700-gg6oyi-1ui5ee8-nwxazl-b88u0q] {font-family:gitbook-content-font,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:32px;font-weight:700;line-height:40px;} }
+@media (max-width: 700px) and (max-width: 9999999.55484845104105100100101110px) { [data-rnwr700-hidden] {display: none;} }
+@media (max-width: 700px) and (max-width: 9999999.5548484510512110212156113451011175110797px) { [data-rnwr700-iyfy8q-eu3ka] {height:40px;width:auto;} }
+@media (max-width: 700px) and (max-width: 9999999.554848451051211021215611345103121521109751451054850511181044549119981045397504549104481225310910045px) { [data-rnwr700-iyfy8q-gy4na3-i023vh-1wbh5a2-1h0z5md-] {flex-shrink:1;justify-content:flex-start;padding-left:0px;padding-right:16px;width:auto;} }
+@media (max-width: 700px) and (max-width: 9999999.554848451151039751122107px) { [data-rnwr700-sga3zk] {height:64px;} }
+@media (max-width: 700px) and (max-width: 9999999.5548484511810511510598108101px) { [data-rnwr700-visible] {display: flex;} }
+@media (max-width: 700px) and (max-width: 9999999.5548484549511085011652103px) { [data-rnwr700-13l2t4g] {border-right-width:1px;} }
+@media (max-width: 700px) and (max-width: 9999999.5548484557531061221021014549113104110541095645105485051118104px) { [data-rnwr700-95jzfe-1qhn6m8-i023vh] {padding-left:16px;padding-right:16px;padding-top:16px;} }
+@media (max-width: 700px) and (max-width: 9999999.55484845981101191131051094510312152110975145105485051118104px) { [data-rnwr700-bnwqim-gy4na3-i023vh] {padding-left:0px;padding-right:16px;position:relative;} }
+@media (max-width: 970px) and (max-width: 9999999.5755484510111312253100114px) { [data-rnwr970-eqz5dr] {flex-direction:column;} }
+@media (max-width: 970px) and (max-width: 9999999.5755484549491191141051201194510711011848105104px) { [data-rnwr970-11wrixw-knv0ih] {margin-left:0px;margin-top:8px;} }
+@media (max-width: 970px) and (max-width: 9999999.5755484554491224954116455311111710848117px) { [data-rnwr970-61z16t-5oul0u] {margin-bottom:8px;margin-right:0px;} }
+[stylesheet-group="13"]{}
+@media (max-width: 700px) and (max-width: 9999999.554848454955555510299105px) { [data-rnwr700-1777fci] {justify-content:center;} }
+[stylesheet-group="20"]{}
+[data-rnwi-handle="nearest"] [data-rnwinearest-1nf4jbm-]{color:rgba(59,69,78,1.00);}
+body:not(.dragging) [data-rnwi--1ghhsy9-hover-focus]:hover, body:not(.dragging) [data-rnwi--1ghhsy9-hover-focus]:focus{color:rgba(52,109,219,1.00);}
+body:not(.dragging) [data-rnwi--1tgwseu--focus]:focus{border-bottom-color:rgba(52,109,219,1.00);border-left-color:rgba(52,109,219,1.00);border-right-color:rgba(52,109,219,1.00);border-top-color:rgba(52,109,219,1.00);}
+body:not(.dragging) [data-rnwi-190qawg-hover-focus]:hover, body:not(.dragging) [data-rnwi-190qawg-hover-focus]:focus{border-bottom-color:rgba(227,232,237,1.00);border-left-color:rgba(227,232,237,1.00);border-right-color:rgba(227,232,237,1.00);border-top-color:rgba(227,232,237,1.00);}
+body:not(.dragging) [data-rnwi-1b00too-hover]:hover{background-color:rgba(236,239,241,1.00);}
+body:not(.dragging) [data-rnwi-1vckr1u-hover-focus]:hover, body:not(.dragging) [data-rnwi-1vckr1u-hover-focus]:focus{background-color:rgba(245,247,249,1.00);}
+body:not(.dragging) [data-rnwi-5xr8s6-dse9kg-2fw26j-15n4387-focus-visible]:focus-visible{outline-color:#2662d7;outline-offset:0px;outline-style:auto;outline-width:2px;}
+body:not(.dragging) [data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible]:focus-visible{outline-color:#395794;outline-offset:0px;outline-style:auto;outline-width:2px;}
+body:not(.dragging) [data-rnwi-handle="BaseCard"]:hover [data-rnwibasecard--1ghhsy9-hover-focus], body:not(.dragging) [data-rnwi-handle="BaseCard"]:focus [data-rnwibasecard--1ghhsy9-hover-focus]{color:rgba(52,109,219,1.00);}
+body:not(.dragging) [data-rnwi-handle="BaseCard"]:hover [data-rnwibasecard--1ghhsy9-hover]{color:rgba(52,109,219,1.00);}
+body:not(.dragging) [data-rnwi-handle="button"]:hover [data-rnwibutton--1ghhsy9-hover-focus], body:not(.dragging) [data-rnwi-handle="button"]:focus [data-rnwibutton--1ghhsy9-hover-focus]{color:rgba(52,109,219,1.00);}
+body:not(.dragging) [data-rnwi-handle="button"]:hover [data-rnwibutton-1bnj018-hover-focus], body:not(.dragging) [data-rnwi-handle="button"]:focus [data-rnwibutton-1bnj018-hover-focus]{color:rgba(92,105,117,1.00);}
+body:not(.dragging) [data-rnwi-handle="nearest"]:hover [data-rnwinearest--1ghhsy9-hover-focus], body:not(.dragging) [data-rnwi-handle="nearest"]:focus [data-rnwinearest--1ghhsy9-hover-focus]{color:rgba(52,109,219,1.00);}
+body:not(.dragging) [data-rnwi-handle="nearest"]:hover [data-rnwinearest-1nf4jbm-hover-focus], body:not(.dragging) [data-rnwi-handle="nearest"]:focus [data-rnwinearest-1nf4jbm-hover-focus]{color:rgba(59,69,78,1.00);}
+body:not(.dragging) [data-rnwi-u529wo-aq1qub-c1zw6o-1khlhp8-1cut0bx-na6qhi--hover]:hover{box-shadow:0px 12px 13px rgba(0,0,0,0.02);transform:translateY(-2px);}</style>
+                <style>html,
+                    body {
+                        -webkit-font-smoothing: antialiased;
+                        text-rendering: optimizelegibility;
+                        width: 100%;
+                        min-height: 100vh;
+                        user-select: none;
+                        outline: none;
+                        position: relative;
+                    }
+                    /* Avoid Chrome to see Safari hack */
+                    @supports (-webkit-touch-callout: none) {
+                        html,
+                        body,
+                        .gitbook-root {
+                            /* The hack for Safari */
+                            min-height: -webkit-fill-available;
+                        }
+                    }
+                    .gitbook-root {
+                        display: flex;
+                        min-height: 100vh;
+                    }
+                </style>
+            
+        <script type="text/javascript" defer src="https://cdn.iframe.ly/embed.js" async></script>
+        <script
+            type="text/javascript"
+            defer
+            src="https://cdn.polyfill.io/v2/polyfill.js?features=Intl.~locale.en"
+            crossorigin="anonymous"
+        ></script>
+
+    </head>
+    <body class="theme-color-light theme-radius-rounded">
+        <script>
+                    (function () {
+                        var theme = null;
+
+                        try {
+                          var rawValue = localStorage.getItem("@gitbook/themeMode");
+                          if (rawValue !== null) {
+                            theme = JSON.parse(rawValue);
+                          }
+                        } catch (err) {
+                          // Make an attempt in case it's not a JSON value
+                          if (theme !== "light" && theme !== "dark") {
+                            theme = null;
+                          }
+                        }
+                        if (undefined && theme && theme !== "undefined") {
+                          document.body.classList.add("theme-overlay");
+                          document.body.classList.remove("theme-color-undefined");
+                          document.body.classList.add("theme-color-" + theme);
+                        }
+                      })();
+                </script>
+                   <div class="gitbook-root"><div class="css-175oi2r r-13awgt0 r-12vffkv"><div class="css-175oi2r r-13awgt0 r-12vffkv"><!--$--><header data-rnwrdesktop-1ph75f1="true" data-rnwr700-sga3zk="true" class="r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-1mlwlqe r-1q142lx r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-nzcix3 r-qklmqi r-gtdqiz r-ipm5af r-184en5c r-18u37iz r-1awozwy" style="background-color:rgba(255,255,255,1.00)"><div class="view_manYY publicContainer_11UZS smallHorizontal_kBCzR alignCenter_zl3iW withStickyHeader_HQiM-"><div aria-label="Show Table of Content" role="button" data-rnwrdesktop-hidden="true" data-rnwr700-visible="true" data-rnwi-1vckr1u-hover-focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="button" tabindex="0" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-rs99b7 r-18u37iz r-18kxxzh r-1cmwbt1 r-1777fci r-1ny4l3l r-eu3ka r-1bnj018 r-1kb76zh r-18c69zk r-mk0yit r-1aockid" style="transition-duration:0.15s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" preserveAspectRatio="xMidYMid meet" data-rnwibutton-1bnj018-hover-focus="true" data-rnwi-handle="nearest" class="r-h7gdob" style="vertical-align:middle;width:18px;height:18px"><path d="M3 12h18M3 6h18M3 18h18"></path></svg></div><a href="../index.html" aria-label="WeChatDocs" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-iyfy8q-1qhn6m8-11g3r6m-1h0z5md="true" data-rnwr700-iyfy8q-gy4na3-i023vh-1wbh5a2-1h0z5md-="true" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-18u37iz r-1awozwy" style="transition-duration:0.15s" data-testid="public.headerHomeLink"><div class="css-175oi2r r-6wscbn r-1ro0kt6 r-16y2uox r-1wbh5a2 r-18u37iz r-1h0z5md r-1awozwy"><div class="css-175oi2r"><div data-rnwrdesktop-visible="true" data-rnwr700-hidden="true" class="css-175oi2r"><div class="css-175oi2r r-18u37iz r-1awozwy r-1777fci r-z2wwpe r-14lw9ot r-1l94q7l r-88pszg" style="width:40px;height:40px;overflow-x:hidden;overflow-y:hidden"><div class="css-175oi2r r-4qtqp9 r-1q9jyb7 r-1oec5bt r-u8s1d" style="width:80px;height:80px"><span class="emj-people _1f451" role="img" title="crown" aria-label="crown" style="transform:translate(-50%, -50%) scale(1.25)">👑</span></div><div class="css-175oi2r r-4qtqp9 r-bnwqim" style="width:28.16px;height:28.16px"><span class="emj-people _1f451" role="img" title="crown" aria-label="crown" style="transform:translate(-50%, -50%) scale(0.44)">👑</span></div></div></div><div data-rnwrdesktop-hidden="true" data-rnwr700-visible="true" class="css-175oi2r"><div class="css-175oi2r r-18u37iz r-1awozwy r-1777fci r-z2wwpe r-14lw9ot r-1l94q7l r-88pszg" style="width:24px;height:24px;overflow-x:hidden;overflow-y:hidden"><div class="css-175oi2r r-4qtqp9 r-1q9jyb7 r-1oec5bt r-u8s1d" style="width:48px;height:48px"><span class="emj-people _1f451" role="img" title="crown" aria-label="crown" style="transform:translate(-50%, -50%) scale(0.75)">👑</span></div><div class="css-175oi2r r-4qtqp9 r-bnwqim" style="width:16.64px;height:16.64px"><span class="emj-people _1f451" role="img" title="crown" aria-label="crown" style="transform:translate(-50%, -50%) scale(0.26)">👑</span></div></div></div></div><div dir="auto" data-rnwrdesktop-gg6oyi-adyw6z-135wba7-b88u0q="true" data-rnwr700-gg6oyi-ubezar-135wba7-1kfrs79="true" class="css-1rynq56 r-1udh08x"><span data-rnwinearest-1nf4jbm-="true" data-rnwinearest--1ghhsy9-hover-focus="true" data-rnwi-handle="nearest" class="css-1qaijid r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-1iln25a" style="color:rgba(59,69,78,1.00)">WeChatDocs</span></div></div></a><div data-rnwr700-hidden="true" class="css-175oi2r r-18u37iz r-17s6mgv r-1awozwy r-1ro0kt6 r-16y2uox r-1wbh5a2 r-1qhn6m8"></div><div data-rnwrdesktop-visible="true" data-rnwr700-hidden="true" class="css-175oi2r r-1jj8364 r-puj83k r-1pyaxff r-16vg0q1 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div aria-label="Search" data-rnwi-190qawg-hover-focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" tabindex="0" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-42olwf r-kdyh1x r-rs99b7 r-eu3ka r-13qz1uu r-18u37iz r-1wtj0ep r-1awozwy r-1qhn6m8 r-1pyaxff" style="background-color:rgba(59,69,78,0.10);transition-duration:0.15s"><div class="css-175oi2r r-18u37iz r-1awozwy"><svg viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" class="r-1kb76zh" style="vertical-align:middle;width:16px;height:16px;color:rgba(59,69,78,1.00)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 4a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM2 10.5a8.5 8.5 0 1117 0 8.5 8.5 0 01-17 0z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M15.093 15.093a1 1 0 011.414 0l5.2 5.2a1 1 0 01-1.414 1.414l-5.2-5.2a1 1 0 010-1.414z" fill="currentColor"></path></svg><div dir="auto" data-rnwinearest-1nf4jbm-hover-focus="true" data-rnwi-handle="nearest" class="css-1rynq56 r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb" style="color:rgba(59,69,78,1.00)">Search</div></div><div class="css-175oi2r"><span class="base_qcuoW shortcut_2Blls xsmallHorizontal_j9kFq groupTitle_xV-vG flex_jZskO row_PhhRi alignCenter_zl3iW main_Iciyi">⌃K</span></div></div></div><div data-rnwrdesktop-hidden="true" data-rnwr700-visible="true" class="css-175oi2r r-1jj8364 r-puj83k r-1pyaxff"><div aria-label="Search" role="button" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="button" tabindex="0" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-rs99b7 r-18u37iz r-18kxxzh r-1cmwbt1 r-1777fci r-1ny4l3l r-z2wwpe r-mabqd8 r-1bnj018 r-mk0yit r-1yvhtrz" style="transition-duration:0.15s"><svg viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" data-rnwibutton--1ghhsy9-hover-focus="true" data-rnwi-handle="nearest" style="vertical-align:middle;width:16px;height:16px;color:rgba(59,69,78,1.00)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 4a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM2 10.5a8.5 8.5 0 1117 0 8.5 8.5 0 01-17 0z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M15.093 15.093a1 1 0 011.414 0l5.2 5.2a1 1 0 01-1.414 1.414l-5.2-5.2a1 1 0 010-1.414z" fill="currentColor"></path></svg></div></div></div></header><div data-rnwrdesktop-hidden="true" data-rnwr700-visible="true" class="css-175oi2r"></div><div data-rnwrdesktop-18u37iz="true" data-rnwr700-eqz5dr="true" class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-14lw9ot"><div class="view_manYY publicContainer_11UZS"><div data-rnwrdesktop-visible="true" data-rnwr1430-visible="true" data-rnwr700-hidden="true" class="css-175oi2r r-k200y r-14lw9ot r-18ayb63 r-13l2t4g r-12dqhl9 r-1rnoaur r-gtdqiz r-1fo40xd r-18u37iz r-17s6mgv" data-testid="page.desktopTableOfContents"><nav aria-label="Table of contents" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-1mlwlqe r-1q142lx r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ipicw7 r-eqz5dr"><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-puj83k"><div class="css-175oi2r r-150rngu r-eqz5dr r-11yh6sk r-1rnoaur r-1sncvnh r-1ro0kt6 r-16y2uox r-1wbh5a2"><div class="css-175oi2r r-1yzf0co r-1sc18lr"><!--$--><div class="css-175oi2r"><a href="../index.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f602" role="img" title="face with tears of joy" aria-label="face with tears of joy" style="transform:translate(-50%, -50%) scale(0.28)">😂</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">部分风控说明（必读）</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../da-jian-huan-jing-zhi-nan-bi-du.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f602" role="img" title="face with tears of joy" aria-label="face with tears of joy" style="transform:translate(-50%, -50%) scale(0.28)">😂</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">搭建环境指南（必读）</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../docker.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f916" role="img" title="robot" aria-label="robot" style="transform:translate(-50%, -50%) scale(0.28)">🤖</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">❣️Docker❣️</div></a></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-objects _1f9ff" role="img" title="nazar amulet" aria-label="nazar amulet" style="transform:translate(-50%, -50%) scale(0.28)">🧿</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">登陆相关API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../deng-lu-xiang-guan-api/qu-er-wei-ma.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9d0" role="img" title="face with monocle" aria-label="face with monocle" style="transform:translate(-50%, -50%) scale(0.28)">🧐</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">取二维码</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../deng-lu-xiang-guan-api/li-shi-deng-lu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9d0" role="img" title="face with monocle" aria-label="face with monocle" style="transform:translate(-50%, -50%) scale(0.28)">🧐</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">历史登陆</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../deng-lu-xiang-guan-api/zhong-jian-lian-jie.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f605" role="img" title="grinning face with sweat" aria-label="grinning face with sweat" style="transform:translate(-50%, -50%) scale(0.28)">😅</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">重建链接</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../deng-lu-xiang-guan-api/pei-zhi-wen-jian-deng-lu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9d0" role="img" title="face with monocle" aria-label="face with monocle" style="transform:translate(-50%, -50%) scale(0.28)">🧐</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">配置文件登陆</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-travel _1f6a8" role="img" title="police car light" aria-label="police car light" style="transform:translate(-50%, -50%) scale(0.28)">🚨</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">发送各种消息API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="fa-song-ge-zhong-xiao-xi-api.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-travel _1f6a8" role="img" title="police car light" aria-label="police car light" style="transform:translate(-50%, -50%) scale(0.28)">🚨</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">发送各种消息API</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="che-hui-xiao-xi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="background-color:rgba(133,163,224,0.10);transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1ghhsy9" style="width:17.92px;height:17.92px"><span class="emj-people _1f929" role="img" title="star-struck" aria-label="star-struck" style="transform:translate(-50%, -50%) scale(0.28)">🤩</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-hbpseb r-1ghhsy9 r-b88u0q">撤回消息</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-people _1f46d" role="img" title="women holding hands" aria-label="women holding hands" style="transform:translate(-50%, -50%) scale(0.28)">👭</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">好友操作API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/qu-tong-xun-lu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9cd" role="img" title="person standing" aria-label="person standing" style="transform:translate(-50%, -50%) scale(0.28)">🧍</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">取通讯录</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/tong-xun-lu-op.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f6b6" role="img" title="person walking" aria-label="person walking" style="transform:translate(-50%, -50%) scale(0.28)">🚶</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">通讯录OP</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/sou-suo-hao-you.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9cd" role="img" title="person standing" aria-label="person standing" style="transform:translate(-50%, -50%) scale(0.28)">🧍</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">搜索好友</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/tian-jia-hao-you.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9cd-2640" role="img" title="woman standing" aria-label="woman standing" style="transform:translate(-50%, -50%) scale(0.28)">🧍♀</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">添加好友</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/tong-yi-hao-you.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9cd-2640" role="img" title="woman standing" aria-label="woman standing" style="transform:translate(-50%, -50%) scale(0.28)">🧍♀</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">同意好友</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/shan-chu-hao-you.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9cd-2642" role="img" title="man standing" aria-label="man standing" style="transform:translate(-50%, -50%) scale(0.28)">🧍♂</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">删除好友</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/la-hei-hao-you.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f9cd-2642" role="img" title="man standing" aria-label="man standing" style="transform:translate(-50%, -50%) scale(0.28)">🧍♂</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">拉黑好友</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/bei-zhu-hao-you.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f46c" role="img" title="men holding hands" aria-label="men holding hands" style="transform:translate(-50%, -50%) scale(0.28)">👬</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">备注好友</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/wu-hen-jian-ce.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f46c" role="img" title="men holding hands" aria-label="men holding hands" style="transform:translate(-50%, -50%) scale(0.28)">👬</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">无痕检测</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../hao-you-cao-zuo-api/hao-you-zi-liao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f46c" role="img" title="men holding hands" aria-label="men holding hands" style="transform:translate(-50%, -50%) scale(0.28)">👬</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">好友资料</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-people _1f916" role="img" title="robot" aria-label="robot" style="transform:translate(-50%, -50%) scale(0.28)">🤖</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">群操作相关API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/chuang-jian-qun-liao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f47d" role="img" title="alien" aria-label="alien" style="transform:translate(-50%, -50%) scale(0.28)">👽</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">创建群聊</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/yao-qing-jin-qun.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f47d" role="img" title="alien" aria-label="alien" style="transform:translate(-50%, -50%) scale(0.28)">👽</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">邀请进群</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/yi-chu-qun-liao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f976" role="img" title="cold face" aria-label="cold face" style="transform:translate(-50%, -50%) scale(0.28)">🥶</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">移除群聊</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/qu-qun-zi-liao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f976" role="img" title="cold face" aria-label="cold face" style="transform:translate(-50%, -50%) scale(0.28)">🥶</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">取群资料</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/tui-chu-qun-liao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f634" role="img" title="sleeping face" aria-label="sleeping face" style="transform:translate(-50%, -50%) scale(0.28)">😴</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">退出群聊</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/qun-er-wei-ma.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f634" role="img" title="sleeping face" aria-label="sleeping face" style="transform:translate(-50%, -50%) scale(0.28)">😴</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">群二维码</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/zi-dong-jin-qun.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f608" role="img" title="smiling face with horns" aria-label="smiling face with horns" style="transform:translate(-50%, -50%) scale(0.28)">😈</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">自动进群</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/sao-ma-jin-qun.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f445" role="img" title="tongue" aria-label="tongue" style="transform:translate(-50%, -50%) scale(0.28)">👅</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">扫码进群</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/qun-gong-gao-she-zhi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f445" role="img" title="tongue" aria-label="tongue" style="transform:translate(-50%, -50%) scale(0.28)">👅</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">群公告设置</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/qun-guan-li-she-zhi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f92d" role="img" title="face with hand over mouth" aria-label="face with hand over mouth" style="transform:translate(-50%, -50%) scale(0.28)">🤭</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">群管理设置</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qun-cao-zuo-xiang-guan-api/qun-yao-qing-she-zhi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f92d" role="img" title="face with hand over mouth" aria-label="face with hand over mouth" style="transform:translate(-50%, -50%) scale(0.28)">🤭</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">群邀请设置</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-symbols _2764" role="img" title="red heart" aria-label="red heart" style="transform:translate(-50%, -50%) scale(0.28)">❤</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">朋友圈操作API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../peng-you-quan-cao-zuo-api/huo-qu-peng-you-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f49a" role="img" title="green heart" aria-label="green heart" style="transform:translate(-50%, -50%) scale(0.28)">💚</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">获取朋友圈</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../peng-you-quan-cao-zuo-api/fa-song-peng-you-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f49c" role="img" title="purple heart" aria-label="purple heart" style="transform:translate(-50%, -50%) scale(0.28)">💜</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">发送朋友圈</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../peng-you-quan-cao-zuo-api/cao-zuo-peng-you-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f90e" role="img" title="brown heart" aria-label="brown heart" style="transform:translate(-50%, -50%) scale(0.28)">🤎</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">操作朋友圈</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../peng-you-quan-cao-zuo-api/shan-chu-peng-you-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f493" role="img" title="beating heart" aria-label="beating heart" style="transform:translate(-50%, -50%) scale(0.28)">💓</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">删除朋友圈</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../peng-you-quan-cao-zuo-api/la-qu-peng-you-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f499" role="img" title="blue heart" aria-label="blue heart" style="transform:translate(-50%, -50%) scale(0.28)">💙</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">拉取朋友圈</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../shou-cang-cao-zuo-api.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-objects _1f380" role="img" title="ribbon" aria-label="ribbon" style="transform:translate(-50%, -50%) scale(0.28)">🎀</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">收藏操作API</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../tong-bu-shou-cang.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f3a9" role="img" title="top hat" aria-label="top hat" style="transform:translate(-50%, -50%) scale(0.28)">🎩</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">同步收藏</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../tian-jia-shou-cang.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f195" role="img" title="NEW button" aria-label="NEW button" style="transform:translate(-50%, -50%) scale(0.28)">🆕</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">添加收藏</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../shan-chu-shou-cang.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f300" role="img" title="cyclone" aria-label="cyclone" style="transform:translate(-50%, -50%) scale(0.28)">🌀</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">删除收藏</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../shou-cang-xiang-qing.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-objects _1f52e" role="img" title="crystal ball" aria-label="crystal ball" style="transform:translate(-50%, -50%) scale(0.28)">🔮</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">收藏详情</div></a></div><!--/$--><!--$--><div class="css-175oi2r"><a href="../shou-cang-xin-xi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-objects _1f9f8" role="img" title="teddy bear" aria-label="teddy bear" style="transform:translate(-50%, -50%) scale(0.28)">  🧸</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">收藏信息</div></a></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-objects _1f48e" role="img" title="gem stone" aria-label="gem stone" style="transform:translate(-50%, -50%) scale(0.28)">💎</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">标签操作API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qian-cao-zuo-api/huo-qu-biao-qian.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f7e0" role="img" title="orange circle" aria-label="orange circle" style="transform:translate(-50%, -50%) scale(0.28)">🟠</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">获取标签</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qian-cao-zuo-api/xin-jian-biao-qian.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f7e0" role="img" title="orange circle" aria-label="orange circle" style="transform:translate(-50%, -50%) scale(0.28)">🟠</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">新建标签</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qian-cao-zuo-api/shan-chu-biao-qian.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f7e3" role="img" title="purple circle" aria-label="purple circle" style="transform:translate(-50%, -50%) scale(0.28)">🟣</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">删除标签</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qian-cao-zuo-api/bian-ji-biao-qian.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f7e3" role="img" title="purple circle" aria-label="purple circle" style="transform:translate(-50%, -50%) scale(0.28)">🟣</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">编辑标签</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-symbols _3299" role="img" title="Japanese “secret” button" aria-label="Japanese “secret” button" style="transform:translate(-50%, -50%) scale(0.28)">㊙</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">授权/小程序/公众号相关API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/wang-ye-shou-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _263a" role="img" title="smiling face" aria-label="smiling face" style="transform:translate(-50%, -50%) scale(0.28)">☺</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">网页授权</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/xiao-cheng-xu-shou-quan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _263a" role="img" title="smiling face" aria-label="smiling face" style="transform:translate(-50%, -50%) scale(0.28)">☺</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">小程序授权</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/huo-qu-session-id.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f60f" role="img" title="smirking face" aria-label="smirking face" style="transform:translate(-50%, -50%) scale(0.28)">😏</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">获取Session ID</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/jsoperatewxdata.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f60f" role="img" title="smirking face" aria-label="smirking face" style="transform:translate(-50%, -50%) scale(0.28)">😏</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">JSOperateWxData</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/shou-quan-shou-ji-hao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f913" role="img" title="nerd face" aria-label="nerd face" style="transform:translate(-50%, -50%) scale(0.28)">🤓</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">授权手机号</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/sou-suo-gong-zhong-hao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f913" role="img" title="nerd face" aria-label="nerd face" style="transform:translate(-50%, -50%) scale(0.28)">🤓</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">搜索公众号</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/sou-suo-xiao-cheng-xu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f913" role="img" title="nerd face" aria-label="nerd face" style="transform:translate(-50%, -50%) scale(0.28)">🤓</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">搜索小程序</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../shou-quan-xiao-cheng-xu-gong-zhong-hao-xiang-guan-api/qu-yue-du-key.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f606" role="img" title="grinning squinting face" aria-label="grinning squinting face" style="transform:translate(-50%, -50%) scale(0.28)">😆</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">取阅读KEY</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f537" role="img" title="large blue diamond" aria-label="large blue diamond" style="transform:translate(-50%, -50%) scale(0.28)">🔷</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">CDN相关API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../cdn-xiang-guan-api/cdn-tu-pian.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f920" role="img" title="cowboy hat face" aria-label="cowboy hat face" style="transform:translate(-50%, -50%) scale(0.28)">🤠</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">CDN图片</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../cdn-xiang-guan-api/cdn-wen-jian.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f920" role="img" title="cowboy hat face" aria-label="cowboy hat face" style="transform:translate(-50%, -50%) scale(0.28)">🤠</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">CDN文件</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f4e2" role="img" title="loudspeaker" aria-label="loudspeaker" style="transform:translate(-50%, -50%) scale(0.28)">📢</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">表情相关API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qing-xiang-guan-api/tian-jia-biao-qing.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f383" role="img" title="jack-o-lantern" aria-label="jack-o-lantern" style="transform:translate(-50%, -50%) scale(0.28)">🎃</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">添加表情</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qing-xiang-guan-api/shou-cang-biao-qing.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f383" role="img" title="jack-o-lantern" aria-label="jack-o-lantern" style="transform:translate(-50%, -50%) scale(0.28)">🎃</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">收藏表情</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qing-xiang-guan-api/shan-chu-biao-qing.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f638" role="img" title="grinning cat with smiling eyes" aria-label="grinning cat with smiling eyes" style="transform:translate(-50%, -50%) scale(0.28)">😸</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">删除表情</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qing-xiang-guan-api/fa-song-biao-qing.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f638" role="img" title="grinning cat with smiling eyes" aria-label="grinning cat with smiling eyes" style="transform:translate(-50%, -50%) scale(0.28)">😸</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">发送表情</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../biao-qing-xiang-guan-api/xia-zai-biao-qing.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f929" role="img" title="star-struck" aria-label="star-struck" style="transform:translate(-50%, -50%) scale(0.28)">🤩</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">下载表情</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-people _1f630" role="img" title="anxious face with sweat" aria-label="anxious face with sweat" style="transform:translate(-50%, -50%) scale(0.28)">😰</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">其他功能API</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qi-ta-gong-neng-api/yun-dong-bu-shu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f3c3-2642" role="img" title="man running" aria-label="man running" style="transform:translate(-50%, -50%) scale(0.28)">🏃♂</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">运动步数</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qi-ta-gong-neng-api/qu-li-xian-lie-biao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-food _1f34d" role="img" title="pineapple" aria-label="pineapple" style="transform:translate(-50%, -50%) scale(0.28)">🍍</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">取离线列表</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qi-ta-gong-neng-api/qu-kuang-jia-xin-xi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-food _1f34d" role="img" title="pineapple" aria-label="pineapple" style="transform:translate(-50%, -50%) scale(0.28)">🍍</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">取框架信息</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qi-ta-gong-neng-api/yan-zheng-fang-shi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-food _1f95d" role="img" title="kiwi fruit" aria-label="kiwi fruit" style="transform:translate(-50%, -50%) scale(0.28)">🥝</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">验证方式</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qi-ta-gong-neng-api/que-ren-shou-kuan.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-food _1f351" role="img" title="peach" aria-label="peach" style="transform:translate(-50%, -50%) scale(0.28)">🍑</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">确认收款</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../qi-ta-gong-neng-api/tui-chu-deng-lu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-food _1f34e" role="img" title="red apple" aria-label="red apple" style="transform:translate(-50%, -50%) scale(0.28)">🍎</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">退出登录</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-symbols _262e" role="img" title="peace symbol" aria-label="peace symbol" style="transform:translate(-50%, -50%) scale(0.28)">☮</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">SocketIO V3</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../socketio-v3/jie-shao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _262e" role="img" title="peace symbol" aria-label="peace symbol" style="transform:translate(-50%, -50%) scale(0.28)">☮</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">介绍</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../socketio-v3/zheng-xiang-lian-jie.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _262e" role="img" title="peace symbol" aria-label="peace symbol" style="transform:translate(-50%, -50%) scale(0.28)">☮</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">正向连接</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../socketio-v3/fan-xiang-lian-jie.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _262e" role="img" title="peace symbol" aria-label="peace symbol" style="transform:translate(-50%, -50%) scale(0.28)">☮</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">反向连接</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../socketio-v3/websocket.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f251" role="img" title="Japanese “acceptable” button" aria-label="Japanese “acceptable” button" style="transform:translate(-50%, -50%) scale(0.28)">🉑</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">WebSocket</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f514" role="img" title="bell" aria-label="bell" style="transform:translate(-50%, -50%) scale(0.28)">🔔</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">Lua插件开发</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/jie-shao.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-nature _1f315" role="img" title="full moon" aria-label="full moon" style="transform:translate(-50%, -50%) scale(0.28)">🌕</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">介绍</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/di-yi-ge-cha-jian-fu-du-ji.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f916" role="img" title="robot" aria-label="robot" style="transform:translate(-50%, -50%) scale(0.28)">🤖</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">第一个插件--复读机</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/luaapi.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-people _1f47b" role="img" title="ghost" aria-label="ghost" style="transform:translate(-50%, -50%) scale(0.28)">👻</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">LuaApi</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/lualog-mo-kuai.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _0031" role="img" title="digit one" aria-label="digit one" style="transform:translate(-50%, -50%) scale(0.28)">1</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">Lua--Log模块</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/luajson-mo-kuai.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _0032" role="img" title="digit two" aria-label="digit two" style="transform:translate(-50%, -50%) scale(0.28)">2</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">Lua--Json模块</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/luahttp-mo-kuai.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh r-15zivkp" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _0033" role="img" title="digit three" aria-label="digit three" style="transform:translate(-50%, -50%) scale(0.28)">3</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">Lua--HTTP模块</div></a></div><!--/$--></div><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../lua-cha-jian-kai-fa/luamysql-mo-kuai.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _0034" role="img" title="digit four" aria-label="digit four" style="transform:translate(-50%, -50%) scale(0.28)">4</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">Lua--MYSQL模块</div></a></div><!--/$--></div></div></div><!--/$--><!--$--><div class="css-175oi2r r-1r5su4o"><div data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" class="css-175oi2r r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1rasi3h" style="width:17.92px;height:17.92px"><span class="emj-objects _231a" role="img" title="watch" aria-label="watch" style="transform:translate(-50%, -50%) scale(0.28)">⌚</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1enofrn r-1kfrs79 r-19r33im r-14yzgew r-tsynxw r-1rasi3h">定时任务</div></div><div class="css-175oi2r r-bnwqim r-11wrixw"><div class="css-175oi2r"><!--$--><div class="css-175oi2r"><a href="../ding-shi-ren-wu/tian-jia-ding-shi-ren-wu.html" data-rnwrdesktop-fnigne="true" data-rnwr700-13l2t4g="true" data-rnwi-1b00too-hover="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-z2wwpe r-rs99b7 r-18u37iz r-1ceczpf r-1pn2ns4 r-1kb76zh" style="transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><div class="css-175oi2r r-4qtqp9 r-bnwqim r-1bnj018" style="width:17.92px;height:17.92px"><span class="emj-symbols _1f509" role="img" title="speaker medium volume" aria-label="speaker medium volume" style="transform:translate(-50%, -50%) scale(0.28)">🔉</span></div></div><div dir="auto" class="css-1rynq56 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-oyd9sg r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1bnj018">添加定时任务</div></a></div><!--/$--></div></div></div><!--/$--></div></div></div><div class="css-175oi2r r-1p0dtai r-u8s1d r-13qz1uu r-184en5c"><div class="css-175oi2r r-10ptun7" style="background-image:linear-gradient(3.141592653589793rad,#ffffff00,#ffffff)"></div><div class="css-175oi2r r-ymttw5 r-1l7z4oj r-14lw9ot"><a href="https://www.gitbook.com/?utm_source=content&amp;utm_medium=trademark&amp;utm_campaign=nZ1SAT6QunZQ8DSOtzqN" data-rnwi--1ghhsy9-hover-focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-15n4387-focus-visible="true" data-rnwi-handle="nearest" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-18u37iz r-1awozwy r-1b00too r-1xfd6ze r-5njf8e r-ymttw5" style="transition-duration:0.15s"><svg viewBox="0 0 1000 1000" fill="none" preserveAspectRatio="xMidYMid meet" data-rnwi--1ghhsy9-hover-focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-15n4387-focus-visible="true" data-rnwi-handle="nearest" class="r-1rasi3h" style="vertical-align:middle;width:40px;height:40px"><path fill-rule="evenodd" clip-rule="evenodd" d="M562.168 159.724l325.95 162.727c15.062 7.519 15.298 28.898.404 36.746L465.19 582.283a82.875 82.875 0 01-75.639.83L123.74 450.409c-32.376-12.972-68.568 10.748-68.568 46.474 0 28.728 16.256 54.991 41.99 67.839l266.48 133.036c16.267-16.537 38.918-26.795 63.967-26.795 24.334 0 46.404 9.68 62.558 25.394L822.075 521.45a89.893 89.893 0 01-1.385-15.755c0-49.44 40.14-89.519 89.655-89.519S1000 456.255 1000 505.695c0 49.439-40.14 89.518-89.655 89.518-24.21 0-46.178-9.581-62.31-25.153L515.94 745.065a90.036 90.036 0 011.324 15.417c0 49.439-40.14 89.518-89.655 89.518s-89.655-40.079-89.655-89.518c0-4.572.343-9.063 1.006-13.451L68.622 612.068C26.566 591.072 0 548.153 0 501.205v-26.15c0-35.755 19.82-68.574 51.49-85.261l435.039-229.24a82.87 82.87 0 0175.639-.83zM427.609 794.912c19.044 0 34.483-15.415 34.483-34.43 0-19.016-15.439-34.431-34.483-34.431-19.044 0-34.482 15.415-34.482 34.431 0 19.015 15.438 34.43 34.482 34.43zm517.219-289.217c0 19.015-15.438 34.43-34.483 34.43-19.044 0-34.482-15.415-34.482-34.43s15.438-34.43 34.482-34.43c19.045 0 34.483 15.415 34.483 34.43z" fill="currentColor"></path></svg><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-1qhn6m8"><div dir="auto" data-rnwinearest--1ghhsy9-hover-focus="true" data-rnwi-handle="nearest" class="css-1rynq56 r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb r-1rasi3h">Powered By <span class="css-1qaijid r-b88u0q">GitBook</span></div></div></a></div></div></nav></div><div class="css-175oi2r r-13awgt0" style="background-color:rgba(255,255,255,1.00)"><!--$--><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-18u37iz"><div class="view_manYY pageWrapper_ca2kA noneVertical_jpmaI autoHorizontal_dqmM- flex1_aMpAE column_C3yiR"><main class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-eqz5dr"><div class="view_manYY blockWrapper_y0Ubs noneVertical_jpmaI autoHorizontal_dqmM-"><div data-rnwr1280-1777fci="true" class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-18u37iz"><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><div class="view_manYY relative_F68jE column_C3yiR xlargeTop_38ZbM largeBottom_v1r32"><div class="view_manYY row_PhhRi justifySpaceBetween_js4s1 alignCenter_zl3iW"><div class="css-175oi2r r-18u37iz r-1ro0kt6 r-16y2uox r-1wbh5a2"><div data-rnwrdesktop-h3s6tt="true" data-rnwr700-iyfy8q-eu3ka="true" class="css-175oi2r r-18u37iz r-17s6mgv r-1awozwy"><div data-rnwrdesktop-u8s1d-1qhn6m8-i023vh="true" data-rnwr700-bnwqim-gy4na3-i023vh="true" class="css-175oi2r"><div class="css-175oi2r r-4qtqp9 r-bnwqim" style="width:24.32px;height:24.32px"><span class="emj-people _1f929" role="img" title="star-struck" aria-label="star-struck" style="transform:translate(-50%, -50%) scale(0.38)">🤩</span></div></div></div><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><h1 data-rnwrdesktop-gg6oyi-xb2eav-1dn12g7-b88u0q="true" data-rnwr700-gg6oyi-1ui5ee8-nwxazl-b88u0q="true" class="r-1xnzce8 r-crgep1 r-1nf4jbm" data-testid="page.title">撤回消息</h1></div></div><div aria-label="Page actions" role="button" data-rnwi-1vckr1u-hover-focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="button" tabindex="0" class="css-175oi2r r-1i6wzkk r-lrvibr r-1loqt21 r-1otgn73 r-1awozwy r-42olwf r-rs99b7 r-18u37iz r-18kxxzh r-1cmwbt1 r-1777fci r-1ny4l3l r-eu3ka r-1bnj018 r-18c69zk r-mk0yit r-1aockid" style="transition-duration:0.15s" data-testid="pageToolbar.paletteButton"><svg viewBox="0 0 16 16" fill="none" preserveAspectRatio="xMidYMid meet" data-rnwibutton-1bnj018-hover-focus="true" data-rnwi-handle="nearest" class="r-h7gdob" style="vertical-align:middle;width:18px;height:18px"><path d="M8 2.4a1.1 1.1 0 100 2.2 1.1 1.1 0 000-2.2zM8 6.9a1.1 1.1 0 100 2.2 1.1 1.1 0 000-2.2zM8 11.4a1.1 1.1 0 100 2.2 1.1 1.1 0 000-2.2z" fill="currentColor"></path></svg></div></div><div class="view_manYY row_PhhRi justifySpaceBetween_js4s1 alignCenter_zl3iW"><div class="css-175oi2r r-1wzrnnt r-1ro0kt6 r-16y2uox r-1wbh5a2"></div></div></div></div></div></div><div data-rnwrdesktop-1uwte3a="true" class="css-175oi2r"><div class="css-175oi2r r-bnwqim"><div data-testid="page.contentEditor" data-slate-editor="true" data-document-key="e5aede094fc44978bc8b213d2b806208" data-key="e5aede094fc44978bc8b213d2b806208" autoCorrect="on" spellcheck="true" style="outline:none;white-space:pre-wrap;word-wrap:break-word"><div><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><div class="view_manYY blockWrapper_y0Ubs noneVertical_jpmaI autoHorizontal_dqmM-"><div data-rnwr1490-1777fci="true" data-rnwr700-1777fci="true" class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-18u37iz r-1777fci"><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="c8524a715aa64f7ba3db8328e7789961" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii mediumTop_QDiZG mediumBottom_jdYUb"><div data-block-content="c8524a715aa64f7ba3db8328e7789961" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2 r-bnwqim r-13qz1uu"><div class="view_manYY hint_rnF2j row_PhhRi success_3o6RV"><div class="view_manYY iconWrapper_NJPs7 row_PhhRi justifyContentCenter_l8VjR" style="padding-top:18px;--icon-size:20px"><svg viewBox="0 0 16 16" fill="none" preserveAspectRatio="xMidYMid meet" class="icon_abDxV" style="vertical-align:middle"><g clip-path="url(#CheckCircle_svg__clip0_1372_9763)" fill="currentColor"><path d="M11.966 5.778a.6.6 0 10-.932-.756l-4.101 5.047-1.981-2.264a.6.6 0 00-.904.79l2.294 2.622a.8.8 0 001.223-.023l4.4-5.416z"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 .4a7.6 7.6 0 100 15.2A7.6 7.6 0 008 .4zM1.6 8a6.4 6.4 0 1112.8 0A6.4 6.4 0 011.6 8z"></path></g><defs><clipPath id="CheckCircle_svg__clip0_1372_9763"><path fill="#fff" d="M0 0h16v16H0z"></path></clipPath></defs></svg></div><div class="view_manYY column_C3yiR flex1_aMpAE"><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="1d611f15b40e4a67a9d479408fff2297" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii mediumTop_QDiZG xsmallBottom_NnBZ6"><div data-block-content="1d611f15b40e4a67a9d479408fff2297" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="051fa3b3d4d64975835dab26966877cf"><span data-offset-key="051fa3b3d4d64975835dab26966877cf:0">http://127.0.0.1:8898/v1/LuaApiCaller?funcname=MagicCgi&amp;timeout=10&amp;wxid=Wxid_1234566789</span></span></div></div></div></div></div><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="bb483b49470e40228bb69fa6908cd206" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii xsmallTop_ABm9D xsmallBottom_NnBZ6"><div data-block-content="bb483b49470e40228bb69fa6908cd206" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="7cc911f1249f405b8db2393f927c76ac"><span data-offset-key="7cc911f1249f405b8db2393f927c76ac:0">POST JSON</span></span></div></div></div></div></div><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="c419b3d6409843d9b16e111d34492e61" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii xsmallTop_ABm9D xsmallBottom_NnBZ6"><div data-block-content="c419b3d6409843d9b16e111d34492e61" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="c8e9fdc9b24d4562a9b024519c7c4297"><mark data-slate-leaf="true" data-offset-key="c8e9fdc9b24d4562a9b024519c7c4297:0" class="r-crgep1" style="color:rgba(115,92,255,1.00);background-color:inherit">撤回文字</mark></span></div></div></div></div></div><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="184683ff84b44b88ab080e54194cf1d9" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii xsmallTop_ABm9D xsmallBottom_NnBZ6"><div data-block-content="184683ff84b44b88ab080e54194cf1d9" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="5000ff9499f04f5fbb9bcec801973790"><span data-offset-key="5000ff9499f04f5fbb9bcec801973790:0">{ &quot;CgiCmd&quot;:594, &quot;CgiRequest&quot;:{ &quot;OpCode&quot;:0, &quot;MsgId&quot;: 743786127, &quot;NewMsgId&quot;: 4314493789182819328, &quot;ToUserName&quot;:&quot;wxid_123456789&quot; } }</span></span></div></div></div></div></div><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="f5ac419ef3d149de8fbf3a725c08aed4" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii xsmallTop_ABm9D xsmallBottom_NnBZ6"><div data-block-content="f5ac419ef3d149de8fbf3a725c08aed4" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="360a58ff789a4398882cc3ddfb33e8b1"><mark data-slate-leaf="true" data-offset-key="360a58ff789a4398882cc3ddfb33e8b1:0" class="r-crgep1" style="color:rgba(115,92,255,1.00);background-color:inherit">撤回图片/语音</mark></span></div></div></div></div></div><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="2740baa023654d6bbc114e8e40dd0504" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii xsmallTop_ABm9D xsmallBottom_NnBZ6"><div data-block-content="2740baa023654d6bbc114e8e40dd0504" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="8d3bb6951a95468c81fd7f938fe42e2a"><span data-offset-key="8d3bb6951a95468c81fd7f938fe42e2a:0">{ &quot;CgiCmd&quot;:594, &quot;CgiRequest&quot;:{ &quot;OpCode&quot;:1, &quot;ClientMsgId&quot;: &quot;05400502645840593133556384501063&quot;, &quot;NewMsgId&quot;: 8018245077853287515, &quot;ToUserName&quot;:&quot;wxid_123456789&quot; } }</span></span></div></div></div></div></div><div class="css-175oi2r"><div class="css-175oi2r"><div data-key="40f023c907d94572aff9aced6f26c7ab" class="view_manYY relative_F68jE column_C3yiR mediumVertical_-Vaii xsmallTop_ABm9D mediumBottom_jdYUb"><div data-block-content="40f023c907d94572aff9aced6f26c7ab" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-eqz5dr r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-417010 r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-gg6oyi r-ubezar r-16dba41 r-135wba7 r-1nf4jbm r-fdjqy7 r-1xnzce8"><span data-key="7f6062b9618c4288ba71944957fded8f"><mark data-slate-leaf="true" data-offset-key="7f6062b9618c4288ba71944957fded8f:0" class="r-crgep1" style="color:rgba(211,61,61,1.00);background-color:inherit">参数来自发消息接口返回</mark></span></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div></div><div class="view_manYY blockWrapper_y0Ubs noneVertical_jpmaI autoHorizontal_dqmM- largeTop_jdaOn"><div data-rnwr1280-1777fci="true" class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-18u37iz"><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><div class="css-175oi2r"><div data-rnwrdesktop-18u37iz="true" data-rnwr970-eqz5dr="true" class="css-175oi2r r-1peese0"><a href="fa-song-ge-zhong-xiao-xi-api.html" data-rnwrdesktop-1kb76zh="true" data-rnwr970-61z16t-5oul0u="true" data-rnwi-u529wo-aq1qub-c1zw6o-1khlhp8-1cut0bx-na6qhi--hover="true" data-rnwi--1tgwseu--focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="BaseCard" class="css-175oi2r r-lrvibr r-1loqt21 r-1otgn73 r-190qawg r-z2wwpe r-rs99b7 r-1udh08x r-1clhhh9 r-18u37iz r-1awozwy r-nsbfu8 r-1ro0kt6 r-16y2uox r-1wbh5a2" style="background-color:rgba(255,255,255,1.00);transition-duration:0.15s"><div class="css-175oi2r r-88pszg"><svg viewBox="0 0 16 16" fill="none" preserveAspectRatio="xMidYMid meet" data-rnwibasecard--1ghhsy9-hover="true" data-rnwi-handle="nearest" class="r-1rasi3h" style="vertical-align:middle;width:24px;height:24px"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.924 3.576a.6.6 0 010 .848L3.95 7.4H13.5a.6.6 0 110 1.2H3.949l2.975 2.976a.6.6 0 01-.848.848l-4-4a.6.6 0 010-.848l4-4a.6.6 0 01.848 0z" fill="currentColor"></path></svg></div><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2 r-obd0qt"><div class="css-175oi2r"><div dir="auto" class="css-1rynq56 r-gg6oyi r-1enofrn r-16dba41 r-14yzgew r-1rasi3h">发送各种消息API - <!-- -->Previous</div></div><div dir="auto" data-rnwibasecard--1ghhsy9-hover-focus="true" data-rnwi-handle="nearest" class="css-1rynq56 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-1iln25a r-gg6oyi r-ubezar r-135wba7 r-majxgm r-1nf4jbm">发送各种消息API</div></div></a><a href="../hao-you-cao-zuo-api/qu-tong-xun-lu.html" data-rnwrdesktop-1jkjb="true" data-rnwr970-11wrixw-knv0ih="true" data-rnwi-u529wo-aq1qub-c1zw6o-1khlhp8-1cut0bx-na6qhi--hover="true" data-rnwi--1tgwseu--focus="true" data-rnwi-5xr8s6-dse9kg-2fw26j-cb7i37-focus-visible="true" data-rnwi-handle="BaseCard" class="css-175oi2r r-lrvibr r-1loqt21 r-1otgn73 r-190qawg r-z2wwpe r-rs99b7 r-1udh08x r-1clhhh9 r-18u37iz r-1awozwy r-nsbfu8 r-1ro0kt6 r-16y2uox r-1wbh5a2" style="background-color:rgba(255,255,255,1.00);transition-duration:0.15s"><div class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><div class="css-175oi2r"><div dir="auto" class="css-1rynq56 r-gg6oyi r-1enofrn r-16dba41 r-14yzgew r-1rasi3h">Next<!-- --> - 好友操作API</div></div><div dir="auto" data-rnwibasecard--1ghhsy9-hover-focus="true" data-rnwi-handle="nearest" class="css-1rynq56 r-dnmrzs r-1udh08x r-1udbk01 r-3s2u2q r-1iln25a r-gg6oyi r-ubezar r-135wba7 r-majxgm r-1nf4jbm">取通讯录</div></div><div class="css-175oi2r r-1ow6zhx"><svg viewBox="0 0 16 16" fill="none" preserveAspectRatio="xMidYMid meet" data-rnwibasecard--1ghhsy9-hover="true" data-rnwi-handle="nearest" class="r-1rasi3h" style="vertical-align:middle;width:24px;height:24px"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.076 3.576a.6.6 0 01.848 0l4 4a.6.6 0 010 .848l-4 4a.6.6 0 01-.848-.848L12.052 8.6H2.5a.6.6 0 010-1.2h9.552L9.076 4.424a.6.6 0 010-.848z" fill="currentColor"></path></svg></div></a></div><div class="css-175oi2r r-1ygmrgt r-1yv4afn r-5kkj8d"><div data-rnwrdesktop-18u37iz="true" data-rnwr1024-eqz5dr="true" class="css-175oi2r r-1awozwy r-1wtj0ep"><div data-rnwr1024-1ifxtd0="true" class="css-175oi2r r-1ro0kt6 r-16y2uox r-1wbh5a2"><div dir="auto" class="css-1rynq56 r-1rasi3h r-gg6oyi r-1b43r93 r-16dba41 r-hbpseb">Last modified <span aria-label="2021-12-05 10:35 UTC" class="css-1qaijid">1yr ago</span></div></div></div></div></div></div></div></div></div></main></div><aside aria-label="Page outline" data-rnwrdesktop-166pt5r="true" data-rnwr1280-hidden="true" data-rnwr700-hidden="true" class="r-1oszu61 r-1xc7w19 r-1phboty r-1yadl64 r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1q142lx r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-417010 r-k200y r-1rnoaur r-gtdqiz r-pw2am6 r-146iojx" style="top:104px;max-height:calc(100vh - 104px)" data-testid="page.outline"></aside></div><!--/$--></div></div></div><!--/$--></div></div></div>
+        <script>
+            // Rendered with GitBook 10.9.399-2fa4f4cf72a0997672914a265168d491eeab0b25-5868321133
+            // Space nZ1SAT6QunZQ8DSOtzqN
+            
+            window.__GITBOOK_WAS_SSR = true;
+            window.__GITBOOK_INITIAL_PROPS__ = "㞂‖འ츂аⶁ䱀⸐ࣁ堧肎䀱聴Θॣᘐ䀵맔䈀㓘┊(⌌ؐǜ劓$ꤨ᱃燣\u0004둸죒挃؀ܨ퀘䎧啚锡ज꠺ነ\uda06퉔灢콌/Ꝓ'ᐁᐢA᠌倞ᬸ≯F6f\u0016N\u0006擴癎䐸桱ࡸ\udaba０ₐ頰耡㱡ᄀ楤耫樀䤀┨M咀ⵊ\r帀唨Eࠀ☹븀嘸uᅊ䒹ࡀꈔ䂁\u000f慬耟樺툀㍌专ꞄW\u001bᡞ厤㔊ԅ懁蓔㠘ᓫ䎒籸腎轟갳ᩌ曳▪\udd6b싚牆ਃꦃ聍ሀ数者夨듺錖\u000e\b뤠༣\u0001砐r爈吰⭀̉쉠뙪✠䨈쁽븼丌ᚍ膶⡡撆ೋ⋉㡡娷鐍폪ె곁河婬登Ώ醡ޥ䗐᭎⟇䑅ࡄ\udd31犥䌂郈ꤔ녁੕衔መ粺亯嗰㖾\udc18᳛\udbef樣䴨譺㫕讵甆ⴀଡĻা摂儎䊂䁁輸䒓\udd21뜬脜艎뢋崣풀n䃪ᘚ践ꌓﮟⰜ愊Ф崢䀍哢ࢨ慒鰞ȃ瘂\udc2f䙔ꈘહ쮞费)澛㦚䒸䲩፯輳鏊䂫晎擤뽆ῲ䃦ᖊ뗨礰ޕ咏\udf51較봨俀ܕᤒ㙛ਙì⸈馀칊능䘑ɢ䂟〔慙梉魠顴Ⰹ䈙빒ข괲⺉䍢♩蛵ᢐ䮛⢆\ud89f⠁ۘ礪咆숀ㅞ顊궾⫛⍓㹭鞣助䖛瑘황魰㎾\u0014崢ᣔ鹗舠鐝ዢꐞ之Ꜥ⛋務↘嗲ꬥᶢ쁖ᴛ蘧쉦ହ䖛戡뵬⧷ᰢ\ud803呈䑒ऄ줘䎇䅀娴ꁐↅ!㸔ᘆ䎀⪪ꚫꪼజ㍹Ȅৡ胊隲꺫櫺ꄴ䧟猅か计脖↓삁ᙡ嬢䁸삍䭓쉊඄᎒ꪩꙕ鯦얹浛훍뭭\udad8ڎᎫ蔆ᆆꃪ\ud941ޔ偎ఆꇇ᜙퓰䪘Თᖂ梄ڑ㸏Ꭺ疲切뉸衰쨘肰府䍵ꆲᘝۤ὆@ꆨɅ氐巐⚚〕膥⡎漀ە1건臇靆칁胰抸䟻㱾䨆\udc20標띀娘၉Ꝗπ啡਄賂朘ᄁ폯䁙逍黇萮璄⬕㹵呱竊ឩ킄Τ嬖▩矩鞉屦〽惘ᚒ㠕䄄ޙ홳᰷だᱫ䗑ఃᄡ堊爛❏졄鴄攙䲑週을胀e㸄ᰡ톨慛Ȁᾉ磵\u0005ယᒆᑨ\f襕䁝᠕뱉뉞맅훻撞蠀ὅ㣈㙤餠⣳뤉Խᡦ怅혼倕䎝շ\udf07紿ﱰﶜ፧鼷葋玹뛭逈ᔗ얯꟫祥ꛖ쏽愝綦߶臄̇僥ꑷġغ⨸砛✤咀\u0011㹶䟉㠦\udbcb\ud9efဃ섏銠ꠧ쳹齶ഃ聶ƾꛄ˳繩脟떱〯췺㭏覜돰翓\udaeb樓赀岀脺\udbd9洝掀瘐耄ꓐǭꨀ烓䀎궡벷耉휇탆᪨氃恄\udfcd\ud93aᰂ涭讧裂ᷡ籟茢熎蓸脊⦠哈䎈瘶㸄㳺傡ᑬﶔ㘜⷟鎶﫜⟸渢ﱈు䇄≀섘ʯ뵣臶㡃4က瑀ྲྀ깈ࢀᓷ䦑툻߉蔦膵冣Ê湈⥬蝂봓虓᪵䪬倒而劑胐䅇䢩ൻ␔꩏⅀∛꛴ﺞ胐烌䣹ጠ貼ᤊ쑤褕敬ꪐ助Ѐ墧ޓ꠲遒➸끞⬉窯㳠勐澄秪⼆뱮낡螤頜浴緶愡㖆\udb70駃▔䥶㰷ٯዾ䴉ᇉ␸⊭ᦒ襁䳀訰ǽꨀ焧̈ůꌀ㏺䯏셩㴖思᠓б蓆⚀㌘쀬素雐씀簟蘂䑳ੱ⸳媟瞙瞎樂㊖탮晬艋๾既꿪屌톒⿙ⓘ᪋핆䪎夡ۈ찄퉪煏餛ʧ坒㪣亩ⴭ꒠㊘邭炣鲠홥鵓눆쉌뺻€㲁넙በ딑锢ꐍ貽刨棘\ud914禤ʕ檦䳉ꁦ㈄\ud9b2笶䀨毃护ⶐ养ަꦇ㣦ѓ骁침薞휶䲀澃╯⢄ἑ圁졏졉劶譢௥綰襜㨖㊵唃ᅰ諕户哀橱ꀂṔ\u000eꚀᓜ퀁帆Eě栁)熠ؾ吀⯱਽듎쥝䪇炀ㅇƔ颦哠奠䒱읲걒Ƃ㍣燂꣺誯鏢샃䒚厄ຸ刅\ud846嘇䡐텔耹ꂴ隸ꆺ᭎ŭᶧ둩炅䂁ʩ져苑㰟丐ꒂ鍒婏䠦ጥ搜鮓悐iꉄ暕ቚృ榱⸠瑐웂멠짩댋䏴솙⍬\udcea醒Ⅺᦌ锲灋樍馊ᣆ瀄르㦁끋脄룡ଂ㉋苸礳⛜蜕≼稾䦠⼇␒ឃ踘ȡ刅痨‐蘑誤䃔蟫나ࠣꁔ谨먊쐢ጛ煒䒊邺⣁䁪䜐霶䨰肪䚄ɐ乂↶Ȁ胤藌갰෱码ˀ瀓鉤冇ゐ﬩쭹悭ᖘɖ쫅媫㕮긪敊꤀㟭ꀀ⩔¾骀᩹䖲噶㨡㣁捄嚓ዚᱏ槱Ꭶፂ\udd02咐ר覘䒈剴㍤ᲈ쥒ⵀ\ud8ca疍똎즀묦䔠䐀ˑڤ쾇「㎆蓎꤄樃ꅈ䳑켙뷌ീ鼖՞⠣惨⫆줮㩆䠴鬡㰧薁틧眑鐵ﯼ嚅큄⟆撩ᖣ萰P꤬圜䐆ȕ❌螨☾잸＞Ꮲ穏짮跫숐π栯䀏ឨ#贀ス룜㑐쓓≳䬷磉摛斈乘띋ᛄ鏨Ԡ꼡鴚໸欻궝덐愄ᯜ욤Ἑଷ臶蔷\udf3a​齳쀆벨즼ܠ๡뉖蒠쀬鉸㨄깐庄〆ਂ傽ৢꐔ禗뱧 ⬜⎎䙁©᠀ᢌ踒圏\uddb1툯ه哽铇룰麓쩻伺̽柤珖怒듀슙郲䀁Ɲᗂ⼀ᡂ议㡘ᴬ艥淋\uda68꽽⻙坩ଢ␔袐㘁䚟\udae2ꮴ톽攺ể籏襁萄缑贁˴ᖀ肫⁂ⶋః搬้ꘉ甠㜵ꇈᄄІ飤蛉눉裀☪妮伀脼➹禃䇠Ł䀶ᎎ㤣愍鄌⏣䎭怔⼁ꤶ䉼㵛ࠨހ搇䁬ٲ㰆ꌒҠ伱뎦ȀĒꀀ馦趻祥ꝸ춏ᬖ˘ল\udab8⃻궰꣸蘖䀝臚搅䭤㳺愼ෛ\udda3\ud8acᆺ북㎛餲宏\ud8ef鯀΁㉠ᘂ〳↲Ꮰဳ≤㔱閊쏇뛃䰂Ʋὠ斚㯓≀䀗䉜Ё㰗䁬Ꮓ줪笤━쀺䍩騄鈅蕘䶅\ud843蕀ᎄ롛蕴ᄅ垪ꈀᘂ怃흆*뺛⋰ᔄ讴\udb8b鴇춿᤭ꎣえ鮠ᅂ涸飭벹쨤ŀ⚡棬肆嶈Ŷ㉂莄蘨妸犌蕽鲆怓몛踲簘Ȳ㤡⠓⇉㸎茤ᶑ㸉獌ሃ萸碩꨸鼧ΎӁ嘸䀐ኂ츫䉼ૂ尛≲⟃㤯Ȕބ丼올狇簪재曇汑ˬ䅀葵碀 &\u0017切ᒀ籅㨍Ԥ兠ꑟ礰玢摆\ud96d裻抏ી殨殔拺呓쎏굇㮔萴柙宁䊄≚\uda88ඒ搚銌Ղ尚鍼㓃簒Τㄥ㸶샪⻸챾늌㣡刴썤⁀䰀쎒✪ꐠ䉤㳁耝鏬䐁퉃┲䬥뉘穲眦竜棚,즠ë좷魸嘰롼扇熷웷뒻䖭諁끞䗭霆㈲䉤㒘媔┈氻㘽᫸澖﯈灊䞮낀㌠턖Ġ㛁㰫䄲䄒倪䉐ᘁ䀑ͤぇᐗ蝘涇\ud863虼㎆롻虰 愷䙲ⓢ됰ꈄᝀ䰯䅀ᝀ\ud939썡ᲂ㖾娕녚閹婕땚햜荮✡耶솲ఆ츄ͤ⼂搊썮ᘀ䇇鲀恄Հ䰅쁵蟠爆ꁧǠᏀ\ud923₿鵤䘶ጤ㤡ౕ戤⽃腖⣃਄쁬ඓ簒耠Ḃгℌⴐ儒艆鲁刚鍡㘒爧⅒⭥掿﬊ァလ쎄༠놪䎎Ḁ䰯¶䅒멹ℌ≃倶ሁ⼃ਰٺḃ倜싢市簕慴Ꮐఌͬ⁂邩㛃싁簗ꄒᒡ娔慖ᓡ䷆ꨙ瀠ᷙ\uddbc達 ᅚ:못쑱빡籏祋ꌇꑿ얭ꀦ며繱搜䋶⩃驦˔ᅫ쉛䞽ꍄꉯ\udab4䮻㈵ ᳀霐삈ሃ港ìꔒ尲䆀ۂ簛⍒呺놆썮᠀ܕ∲㴐강⎒ᰂ㈖˰ኃ氏ᜡ訂奵铀⶗\ud963霹殗륟愪⡇ࠠƲ騀㳨怂Ὴẫᕍ묕ꩧᐰ婆쮦䚏Ầॊ놦쾪䉤㋰䥌♤Ꮒ㈌閽뒇≳䒀㑖\u0017鞠¾ꘀƲꀀ劺(솠ʶ⤩劄耯䆺阂ꐔ醐ਃ鋟ꔁ䀫䄂ᦖ膧òӀ\ud91bꭡᆕ㸩Lኁㄊ쌲Ã氉燄湻࠼혭矃ⵆ슭竖浶훭屆䩪ꈀͩꀁ緪8֠ǻ砥柇╤몥䲸ྦ䜤ᙔ灸賓⣱뙾橏녕瘁䂠㙀啢☳㕗宷噢嬢倷쀭忣縦䍼᳃踶䁌㉃憣⁬ೕ㌺㢈⽀䁌ߑ鎏⌊༠ဢ셴჈ꀍ寬礶卵㒠ⴷ퍣㜳穂덚嫝炂\r㞠\u0001쨀ᔜꀁ⼚\u001b\udcadᘀⰦꀃ罆\u0017㦻횪睹絪䓽皥먿ᔫꀶ蘑㒬แⲄ㜈䩂썽䟃沆⍺⛉昃␴숤㓀ﾸ䊴ᚅꤖ⌡눧쉲ૃ왣ꖘ䓒䷚⁍造ቑ㰸㌡琶蟬昕蝄쁇嘗䝧ꗇ䉵❰뙠 ䷊,\udf9a딥䚷큖땪漕먇ꃤ纴艖䄓澩꼊숤ㅕڊ솠㖧ᮬ镕䶶ꉟ\ud9db䮹ꤦ⣀㘗䉐㄂㈸ᄁ㸴㪌ኀ鍺㤐ીఆ㘑⠏䎄᪑琘Œ㣡⠟閰ǔ붚围凴齥ᜈ☈뒩슄ೳ㈏䝻ꭄ뮗濄\udbcb赵ɻ҂冤䘁\ud964३魍䏀茉ʷ癕別\udadbꀀ薹譠ͥ쨀શ怂곙⍎ㅖૃ㸓ᘀꀀ쀌䄁눣靌⌂逝⌯䍃굾⩁䀾ǌ㹐䔃숬⤃刾윰\ud802냻෠✎搷ཤ⼏璀⊉ẉ疋Ꟗｦꗼ䀏أ勗瀥⌔澨갺䄝ꙁ魛晤▵肵딴涴⃏咗ᕣ䰸Ӳ⌢〞Ʋ᳂倉獡ี性솩ድ䱓ꚓ䍃祓ӂቷ셠ᔡ∲ᄀ릨쉤ἡ齅钄\ud84f簄䵄쓼两쏶怠\uda00ᙶꀁ뺚7\udca0ȕ⠨흸ｏ쒨￴끍젃繇ಱꐕ瑨搿Ԅ싹ࡼ檘흶䡕둛ꖏ༈㩃渌ɜȁ耍颠එꆦ甁制Ꭴ⣁ణ๰◀羸䎒┴䅴᯻愇뢠㌡꼾앬\udb20찔Ǎ᳉출凜죠ƣ切≼毖哭ު圕ꕯ헱捌ᩰ㖂䉫ꐫ癴⾔㙌對ҿ侘⥃ꗂငLฺ逕怌ŀ‏⊈踧스⌃萆첀✢倶䀌⌁ဩƲ㩂䵉燑᳃ਊ쎒ᛓⵒ촭틃⺴ጭ㸋ⶲ윬죓엊卸⩧챱暵ｺ哪䀭达\udaf0䕈ᐱ뜘억睭ꜞ⛻澚┇窘఺䉾坂ꐀ쉤Á‣₥꤀鹺䋴ᔠ놚錊ඐ숬ț䰗䆹ᕢ尕靮ॱ㳈\u0010㩏永蠝頬䠛ℼḃ㈜胙⩀蠳−Ḃ〷솩ᰀ갉귀ᰂᡩÃ泆᱒쒬嫄汖쓬廇䞶䋴ᘃ㈢숰ఁ눯䈬ਁ耖禺鳂簘쫀ဢ䅠㋊谁䈬✡쀶႗ᅩ눮郙㫧플⤃清孤◂蝈苖ۀ蠨咈ᰁ⠨쌤ૂ됶쀐᳃꥕慖Ⴢ簍旫꜃萠䅙఑쀣ǁ➁룀숬㻬‍풀Ӏ쀆슴◂簌ʞ﫯䍤ᄀఁɲ㉂긺㨚髹깚\udafd괤↲ᳲভ髅굚\udb20\udac4쇚쎭Ȁ㘒菖뱔괨쵏煜껫䊭२蛀띙똔ᖤ싪ꌢೢ阏佔䰜썡ᄀ蠞ʐ㉂䎫䃨♤氥숤ᫍᢾ꾙橃Ὂ鈕롃䖛捔啣踉煠⣃鈾왩\udf94\ud825⇩쐀᧑鲙\ud99c죠à騀ᄯ궻퇙瘱퉨젍椦㇬驊觔簯쥍和ⰴ싴⁂㈂ŀ⊽⫔䀓\udd79鋂Ʃ㟻渵냴⭂〨ᷠ⚔ኮ㉎ᗱ底闥录几/였Ւꀂ魛꺇齔욥㇟춺⌢뇎哏ꁩڶ䍬馶ꐩʤϙ藴푝쥂㜌좞托Čࠖ谣⅖ॳꐌ鲬⽃㈢庴㘐쓙⻴ሂЈᗀ㌠ⓕ†ᛔ䰄쎄ᄂ㈶ጒฟ늭\udfdd㷳\udebd뷧\udf7d은죮 怀肪,偷僟秕瞨搱\udaa7ལ욇俪ᝍ⾲䀠⁬䗋\ud9ad⋞꼢큛氵̤Â通鋁ꐄ⾹琸✠ᙿ輇䠃ə甃乶᭬剤Ṡ䀔▓뱋풾Ќ뾒᲼⯥飈쩊㺱蓙ꏩ瘍쿏歶㺰徟㋲꽉鳝暙辭⋚\ude60਀쀓㓂逼栌⭁㰯싙暑萁䉐᪑鋌税곘퓬컜瑽່今싎컌轮非6ﱓ쐍옾鯥疨ﮣ跨♏깰ꜱ㾝萬쉍䉓ﰌ৒ഉ葠Ώ였B怃뽆\u001f쩱에湜ⷥఖƩჂ贌─䰶䂍孤놩蓒旀蚔˝㸣⼌ꁒƀॱ㰨썜㉍濣⃯ﴖ鿹｜಍\udba0ƈ娀᭹鱖韷콽䕼끏婚㑕ꐍ㈌兂ꩱ칮㶬怳ᢹ壁麮髌ࠎ䡑苡v\ud843㖯ź䕈⫁鋑聠Ř⤀軯켹茤ᱰ伄䠳襟Ƞ秫脤ଠ䅀⠕䂚Յඐ㊌贀Ű頀〥䀁챦\u001c룐/톀΃㐀п䟵ᖨH翟䊺ꨱ悲짆抋⼆ꚁꁩ鷫会꯷퀀⭲考᯴(ᩢ뗇⠂␗肽늀゠풃ꀷ썮ᩌ码鰙ⵎ姃怨ߴ딀礄䁦䂠᩠㙅ⶒ无鼆簏섁ਈ䡂숑჊㪽佞귤偌굪泇⇲寛⪠雈⅀譍ᩮ㨲Ꮊ籶ဖ겈䎫݈濋\ud820ӈ㛁옣ꀸk쥀㦳쀀섨ৰ庂倆⚑苔隢딵ꡭ䉠孑\uda9e퐗擥涀鮌롇惤ꁁ줋큞脨൞爄릵췂ླ䎙䁁㝇ね븊᭰\uda46숀통趼洓沓䎇ᰬ횧༸内⸙䝀;禐于꣰䢱볋ᔄɚ븓२贤捰塔嫬Ԇ䠾舻ǩ쀧ᢗ̀㻥뜆ꑦ䃨ᱰᔃ耨䊰ɜ㜚ᚵක茉ಃ夺䄼᩠堁눶ᄲමᆀ蟘먕稂䣏膒⊑咉ꑔé჈餚ක⨙๑냜糮职莨㜪蓼ദ진ꨈ瘇擄핛蘥ꋡ띡㧂㡀탖爷섩ධ㡁꤉恋ॱ䈂䘄펀亱疍藝晉⽚將홾뀍뻄ⴚ䙺\udbd6뺳?괩က࿌縟॔韂￬ꂺ駼㜡ېѲ즶䅒游ᐆŭ됣拥뜜抌А뺦搨籖ࠐ䖁刣恐و⡂蘇㨒ⴠᬇ࠮鴗淀띉öᜤ⭁卭讖㊱㒌ꀍ拫იꛇ㈅넲㘩륌ԕ穗흒榜飛▚糡䚍먑脦⚬㽅䫪협ꚉ䦨䷂椓梛擆\t㏤㨹숍ね耄⛈炈뀆ഘᖁ쀉Ɔ뉍輚碚Ξ㋱\udb86뱎泯ჸ쨻兖訛霤⋀䮌액왣푱耏闤츘ⳓᕊ䪈摔佴錘胷碀`廢ꐨⷂӸ䨂됛ߊ\t臶퓑ᠶவ䂂Ǘ橯鉀⽁숌⠬᎐ﬔꉵቋ譄趃턳虌䥢䑃\ud89b좁눀˂ⶪꁏ⾯쏾愸쁘ᐗ苠钟Łᷮᜄ씪◞鷷Ɦኔฐ尢셏葤Ꮑ᠋ぎ쐔᭠ﭱⱹሚٻ㔢倦졝Ș⭁⠀Ȥࡠ、膷ุ綊\ud93e즎乲殓\udc99⛹♆푔긽㘪⣓칠䠀晄聠┈윉乌鬤⪬戫칐ꤠ섨佒昀㘍葘턾᷈䠄ᢸ䅔␰㟲黂B妣탊℀洉堇䊺Ꮠ뺇ꅍཪ杓몝탞蘲ᾡడǛ苭쇳Å씪ꛟऌ療꯫⒐܃䙮요鮙뒡걛岥ꨠꦛ獔䞽ᘆ袧뤠᩠欑춆붧氠蠌陗醼鷤Ἡ逧점ײ澐ﲶᵟ車➦\ude5e酂蟓弮累쩑퀀ަ者嵴\u0000얠ƥ洤鏰탄줸ٖ臘厈婍鍱섎傈놌⏇朘睜逥ꍤᇝ\udc8b㌮該ܩ홋﨧솦ཤˆ搙邘跠⇼個큋腀ψﬖ馣㉆౩噥饜짦瑒슫煨ꮉㄙ쭉ᮆR靝㤦䲭ㅒ帲ᅬ飣ꒀ஠谀⠗䁋赀ǘ氙郈ᇒ凤풎䡲䊿즩ΐ᱀♺䇚ະ瞃鵜ﻬ⁻朁퐎癌᳠텘࿐}톀η沭潔旤‑ꂳ榲䆌抰磆싑ㇸ쫖刃\ude8a磬ℼᛮ⠃䲆Ⱨ㦂搇膶졨ᏸ忆️蟼鮓Ҁⲓ⫦뾝ﲟ⿹ᮘė㕐뗡补ꤜ겇䜵㣣熓ᇙ鰚茧⽩뀏澆猊齭ခఖҺ樭喇耓왒햠ᒌ堤⎅掻\ude34꺉Θඐ沂⁊⑀ኀ　툄쇶⩼꟡琂綾즾梱ﳊ㣍　탦⍤\u0004㪈ṯ 利榣왞૰㈍음舮㽩诌홲썤㠀܃风ヒꔃ윁끒Βɠ崄搟鈀䓋♕㋩铌뙥猯饽讐ꥀ⦖ꀡ玨厙㳊仒躮璠볓ኯᒓ礣╩䙐㖸⸘抋ꐘ욷惖䈂躔肉顯␼ꚰ\ud80d㤘Ո晀ရ怱단Ā쥡㤩죎哱複鲢貹嗉ꖙ♺⺜萁朤抅줮䕲殑醠Ħ贀ࢷ鷂颥罈ㅊ઎炢著Ნ聭㣶薤酨薖镅믈ꤠԱ晁ᘄꁂᣄ\uda81嬰桯ᄒݾ㉘➕똈Ʋ㡁簫쁻ᩐᗁ謇␵\u0011ಓⲖ╹⾰腊穌勒閩쾹숄7鮠Ä툥源鸔絁⥒乆审윛Ჴ꓍쌠⯄蒌ꊄ⩕堚쀲ꅐڨ庬㜕将殤짰탓搑{䕘侁찊냉ۜȒ䀈끪͑ސӒ䀽̘ீʃ珙뙍뚸꜀싊䀛⃀ऀ伅–ව璸ㅐ݈⍒蘄踄Ɯ음㙁끺慀⒀Ⰱఛࠌ轇ӌೆ䝬䨤Ṏ啦搥Ƨ─ƃ넹☈과㩁酚諎䎢댕\ud8acꎸ錺墩伕ᯏ蕋䷱禽ٚ铺핸ႍ艄쪗쀭ᖻ旳⽜瓄쒚◑Ⓒైቫᎄ鸀٥㌨奬촖眳禙쁴舰ᤠ퀀⠫䡄৛㠫瀈怮䙤᪜揃졠烙ዠ㲀覶䆁嚤槲搈恕腾⿁뜍脁ɠᕦ술䂔ਝዠ가싐啞倪䅙糰吞䂠傩蕃⎒栊鰂ڬᖉ桫ꅛ૊㨀ᙑⰹ䏏楈઱缗ನ튜燙ᴰ㥒啠졄뗞婎襺䂜䀱⸠䀟₩ۄ朳蔏聦䆎ᒅ脄㈫䄖Ԁↂ〃悺쪤ฬ㘂杓㣧鏙頇浯䄻巚\uded7痃꼤๓驚䄲௲㮥౽⬫㖦ꮜ兆鐨䍼痆ࢰᒵ驍葒͸܀␃踐⃂蚘ᩝĂ퉏脌ហ밆ୈ奀翱꤈肥侭谁鱍ぁⅮ톀猁全ᦿ偀志ﺫ槐〛텤쁰㙑\udc82.Ś妐퀗暲উꚓŕꔒ伦略༞枨♊掄ྀ芃鈚⢙늼輠㼦ꐒᙼ謅▱겪핕䀝嗂蓕穁땝\udabd垔걵 ꨵ喪릀䶨欠貳ホ䪍횏㡑諎P钳䭐烀ᣚڱꜣ晳傜᐀键䊁馣䩃乂〉둘ሁ蔄ꀾ˰Ĉ䙃耧쁗ᄁထ怏莚鳒㝦폍⠆騟섔텉䁔聼蠒铘뒕㓡ꈉ㮪ڑ㓽䉚糑섻‗鑂戌鞛⋔⒐㞡Ԁ뼓섨࢓゚螉䁡䂣✛ज靤ᖠ侅摪尦ࠞ䬩䀉矘덛ᘊ훶둼ڈ\udd6e\udc2f寺팣⋪暼ঙᛈ郋饔洬菨쉅䖫茴튂麪쓐⃡ɐ◁Ȁ뀞䂈૥⬆ᐶ✔㉛繗镬ꪅ⍢԰⡁䨊줵뭟ꣶ腜੕蒂ꔝ䛈\u0011壀ɦ髍ꤩ武\udd62\udb01憌톕☇ᦫ耫尵遜嚊푀ᓥ㲀뾍⊯嶎ᴂ倛惂舘┢쥫쀘ʉ䞐㙀\ud81c䴡р䲂裊脃ӳ㉍䧞今睓ꯜ瓩욪ᔼ쌣䀂켪\u0011Ր{꜇璒壮雃櫶ՠ祭鹑毛Ꙑ藧ꜥᶪ詀厚풂⁯脇\ud920肂ꐗ䁽撠㇛簛⁶汫獓霭ベ虼ṡ脄塲썖᪁撛鮧悖涺嘖낙ᮐ乩풬驼媦뀕扮軓ﰕ뛔璯㯠Ꙥ↲่Ṋ鎥£ޒ╡ȋ턲妲ސ\ud901ꐉ炟٢\ude02逞욗ۈᧂ琄뵤饧ꜽ줃콁窋픀ድ鞤녋궪鑕\u0006紑⒤땼\udfddꥯ魘ꍭಃಌ\uda9c灗媒邔嚕皡〴ᴔ젊ͤ侃倈悅朼䆳㤌⡻鑗㎀즵䶺洳涛峚ꐟ㚅둼墛矖鬢䀟Ꜷ禰ⶓ臧鏨뭱㱔ᶢ澝ꇙˀ키Ӓ₎⍱ᑼ쐕⮦䕓烁숀ぃ頹੤팃頨셚ঐ∁ԙ싶渹䢁九窋镜ꛥୃ홾쒎割뎕恺얹帆摨0Ŀ⡦ꮽ튴ᑖ橘⨨㑬ṙᐍ훜ℒ픣븁鄯ⵊൔ䲂鵐ō齚喉젂膩ᒀ쟓▨쁹ଁ媂␖뉘ך댠㘍͉진᱊僨쁔㚡贍桧䌦揻\r\ud9e8~뽀Ρ⪉㗽舫썴먣䞖꠆ꜿ軀ῠ엫傜젪솒勠ॢꅆീᄂ῞싘䊮ᶁ䷐炕脚ꅽꚯ㕥ꮭ孪ꄃ尾⏆ꩈ혀ⵚ泔跚늎냴协묃៮ぬㄟ浀왍♥╰洠귳乾厐餞靲૘備Һ䍃㤈뽦䃲媬伆쉉ਅ塈띐ꌉʬ㞵稃摑莱ӭ堀\ud818q嘦ဒ揓ᱤⳇ\ud911Ĭ散鑴碋䪢⣡䎩锁睈㺍⟌밂蕀ⱽ촘齲뮄ࣱ䀃⯪\u0016䥝ꖨ㐀ᵾ豕쟧耸ό犀줇ࠂ\bऽ刂儧䃌萾誅㉑끎䆇蛈괇ᰧ↼\ud84b່蠕ꂽǭ뻄覤觔肢洓ᢝ붗둱㞉餚\u0006Շ꺫ꤨ싓믞冹떭赁꠱䖏殐㽑ᆱ뻇꽳⽌耲퇉ꕹ㦰‫䇉ڤচ逓‟鐀瘉䀰Ä筽 숥ǉോ䪰廍㛿ս꽀蠍䒬댡鵓骜怶ꛦன銢　퍆鲣ꀁᗽ\n⸳趩꼍폥ꗪ㟾ᮁ֊쯆в껈貀ㆎѰᐅ䊀ᴡ揋鹚陼랍龕勵쯶⒙鞕벣⣌댳⍀ˎ␽塾꺟㞤ᦠ슨즍派騐趼⏚ƕꂀ挠謚郛⻣懛➤졛ጥ뛀 ꇲ䄼༜㑆頼ަʰ澁㸜₻ϲ䣧揞㦔\udb09ᩳ뎟鳢溆뒅劭谴깋佺⨿⬉矇㘴膥ｯ❽ㄈ莔첹燫붤ᙚㆦ掉뷥꿏繵鷼촠ሕꀵʀ㆓勆갤\u0010Ҹ퇐တ섃枽ᬠ갋O臤Ὴ挩첂脼ក趡摿基풀ƨഠ湃䬙ȍ違⭡葀猆１ņۈ㠃Ⲍ๜鏵殤☎䭺倠뺗斃Ⱁ撛ㅵ譞釴몦뢴ᤐ쩑컜鄕㣝ؘ녷뾲仠鹀婪ኖ첊旜ࠂ﬩\nɜࣻ渔銔ݼ鞼㌩봲夬냡ꬮ젺쬶嶲\udd97拦奙嫊㙕-铬꽥瞜罠b˷䀏䫍踢캷깁驜\ud8c6㰜ᓳ와㺥麫䲀耰݈❢缘伯骀䌝ᠺ䂬髹홎눍鈘፤®\ud94e쭶埉줲⫽攛⃘犬癋눽隤㱐租甞榓ჯ᝕䙄塶恩╋牻⼇锖媟ང민⦵綡椓쿔␀澴覓꿬檧峀笣\ud89e쳶឵놵槈䗱覣殇똽ꧭ콩筽귞튎伔\rꊠ¤嗃頕뒷ℙŮ頃룣\ud835⼆枪䬉耉峰需䫅爭䣫ᆿ㓀礏袂갴ᴠㅢ벶쁟촚娡嘉蚠䔗龟ඵ∣戀죜Ț㚑㎔溲䴼⪘ճ귗\u000e輨w귽圞娉堖쥕쩶⸏͕䥏ᰫ偦ꚲ볌舝늀ာ㦩謆刁恝伮椊ᵔ㦃췕Ẫꮦྱ᥯㪾存ݵ枫ﵬ귊㨀ᨎ倀뻱씜䞺냁䯕᳗⪬礴站䜈壚㽙릾삀ࠬ갍晇ꐅ\udfac逼«ಖ拜㼱累슰珲徚ﲷ㻅莴縓苼埡뼝隣쥇ǧ鬬騼㩛➕ᨂ헏趛틮相ﲔׁ唠쀗ꀅ䜂᠀比ꁧ聀ቕꐬ怀ឲЅ였腯⣠岂찁ꂸ샖玻恘苢삠뷨뉬耖Ứ櫎䊶읟偀ⷃ尚젢㭢뗍ﵳቔ艐㉀蠄䁔荡ᖬЅĘΠ㘚搜違茨椊菄ᑡ䈰ἶ堅栴ၬ赀䵏䰑遼鷶弨ﶸ̿痻\ude57驍\udb8a\u0006⬰톀ӭ㐀㰾賷茌쇾꽆驝꧄笮髙땎鋮决\u0003٤ኀಃ 艜Լⴋꨒ©๿Ζ邩㉸ޤ뉁㸇ᐨꈐߥ첃❸⟶❃蘝ロ裟ա즲㡳ꊙ᠋胀뛠〕㞩륊쐟ꀑ镳\uda06ꓸ荍ᩡ괖ꢴ박弃ፐퟍꩣ博鮀ວ⹝槛佬౰㓠⹝㣱쁎≰鎝⠬и沌탋茲ᐴ\udc36삫ഽ⊋➵箫흞꤁㞭뵐䳟僺婷\uda08Śؓᴀ쁀숺ŀ鄀\udfbe撢孮қ烜䠂㚑놰ᑮ፣ᬤ\ud8b3뚝곥䡽㥠჎왵㎡搠ฟ᪱琞┼蚀㧡낀鹱셀ᶉ⋙ᜂŅꨬ텮详桀ﻔ쓑폨셴ጆꋭ៨뀳쨻㢮\udcd3\ude92ѝᲱ롋뽵\udc12촲죠倩胍앻쏣托琅š郀ᬜ\ud897ាრ෹㉚㻙ս믭㌋퉯\uda20ၧ뽎ိ캐꽳럙考㧽鿬寔ȗ稀అ짫ି닼吞芫Ⲅ╅\ud8f0̱붗泵䘀蟙⸺裻㠁餚擩ǐЖ澳෎n䭲璏\udca1⩹傠幑\udd9b雜껤ꥴ礓줭溗ǁ㔀ų懕썹畱鏦\uddeaﲗꭚ舘ℝ㠾화⟹昅죛ᤡ3鹈◁ᘌЍ→\ud8e6젎脹ྤ깊遣恈ƢⳌ錭岈ݗ窻쀁꽻屫鐐ఛ廠㵔 桌Ẩz̄樀ᰘ퀀㈏遌躓ื糑ᶅ㢠햗捦짧ꃱ걩⊍\udacc馛‐Մ珳珤螎遃蔂ㆀ鮣锠\udf04怃ހ堡⫭遦䈣᯸豞朂\udd16Ꜧ頹漖ज़固Ựꇩ涆俐摱⊽釵緣䑩᪃᭝镑빯蔼㑲쵔㧳ﲨয哮➺搅烻韜继⁁ᬈ쎆就堏೸朊蚂셾ஈ幂稆薌⹜ଋ줳㷂ᚐ륚ꯜ\udef3எ癵㏺仰곛ﶻ鋌犭낣낮쎇⵬\ud95f뒮通递沁㪞ﰁ謆⽲А슁딡掏鱺莸\ude3a蚨쀽黳쓻཮㣱힎讈䟕ꙩ沖Ш⃐侃ꃟ면ꋠ鉎䍆ᇅߔ♓굨툛삟Ū樀ᤇ遰̵嫗䡞逄ʌჃ㥥얷쇄恀嵟뢭湾沟⠳圩脇叔嬿禀䀁먪\r湐ù䪀׸໭삯䶴⮀㶿끷枚֬䑶㴷켾ڼ꾝줵在넵얮볃殄셗뢡⚘쌥쓐琶ꝫ﫟콾߲㾓ﳏ㤂｡ﭏ\ud97e할\udfb1﷐Ḝἀ㉼섍\ud8d3₀殎簈胾ỜĂṙ꺍赌晣猘壾잖㛓蚁ꞣ֩튁F鼴﬒婺蚝琉꜐ũ寗渋ۦ䡚뾹⼷品쾟䚄涨ኘ룸Ɲ龯潧렽眏⃙ಐ⯛\udac6졏Ј㣡䘀享龤݈撰옞J﹈㊼휒꿕笙脃鉪빽⬂ꯍ廪ﱧ适\u000e쏐%턑吀ἵ꬞峹㸰ߧĴ獵ᾢ卪팱⠚恧൬㾸֭ꅦ䎾ꄳ꒹2첾闙껃盛苝鄀睩剓㓹죝㸙쨺\u001a죏쯾襛﫫輱淑屩ꐏ읡톪좾남뗯⎵៣蛀蘌ꝍຨ谂斤淄艃㉙䓩솱㺘㱎ꫴ鎝䚤ᔧﬓퟌ了ܓ蒜鯥✤\ud96f䂹\r⑬굚湂Ǭ꾺騠刘䂸ᐰ뒫欋꘾垛Ꝺ㧌Ὑ⮔⅔Üꆙ檊ꐖ瞤⠠ᵬ᭤\udb16\ud9b6쎶嶶욯汓웛㛕뛭듭ꐔ돷\udb20廹怫䭉똯ﲆ꜄搪㢝필㈌ᾗ熅\ud988㻯Ŏ镘Ѝ㛞腰ȳ妩졏묲ᴋ슄㙂ǣⰑ೉ㄟ\ud8fe⟵㾙ｐ๿鹘黺ꂯ죘佸죣撸嵫쌃뉯佞桂詍濏呁쐰䜲뀙삌˨Ə놦졄注ࡿ쑼ᖅӰ瀪蛝ₚ腴୥㋤ꌀ錗﹎닿㣠\u0007鸌J鳂㡃ㆵ邺⋪埬⾀嫗ヮ眙幯涾룇눼槡訮읻欪逞˦⺄脀쯲ꤍ澋ᛩL඄ᒞ찄ꀶ颺嬊̀㉀ꨒ\udb0a쁙䎤昦묁鰆倍쁯ĉ탙 傁뾋霋ⴠ\u0000請ꃈ똁쉐ꐃ\ud82c㠣贻諢侙긧\udac3桵꘶胀㵩랇㑔탓䑀ᴴ೑㍂촛㒜Ϲ⸸Β么뤪爈剞䣹⽠ĀꇢЅ䠆쁌䨤٤㦦Ё됦誰耑䂅ㄔꡓꅉ蔶ᒤˡ䧀⁚칪슡楹ꏦ龚爃㸦碅ꁾ⍸럢ビꎅ\u001f脷稄ᰐ桁堃萙ၹ哉㉔ῠ䵁萔\udb3d䄑рԐ瑚㑑\udd82尝樋낮聻篬⊤뫃⁔蘲⹚ᆁ忩褱㢌ʙ誰ༀ喁刨ᐯL䬝ฏꤊ\uddf9閆)¼Ȱనኾ轣ī䣾肑㻁⟙ᰒ灙솪룤ꐰᗁ鑲\f湈<῎ꀦ슜װ䲎쯀홪㰬胤ຫǞᷩ㖸ﰓ퀹䬔ᘪ៳踊鎊沼LĀఞձ끦ꐂ碲ᨮ䃋ଲ첂\ude40倓煢ᎈ縊礁䀀䡑⅏죈읦⿁〃쇦舧㰪ف⨚⅔ꪲᝡ㮼몺ێ꾞ꛩﺊᴸ瓚塧䌝㙴觑꧁Oﹿ᠀簁ꀅ젂캯ꠔ길ഺ鳨㎣캫ᢙʏ諾꩑꿡뾰А怰߰ຎ䰊逮逹ʔ୐⭀霂ఊ瀁殕껺믏읫覮躹⨘뀁섏ڜ᜿㏁震瀗‥䫕⯤ꡒ荊攩젏鮡滙̖ꍮᖸ찊\udba3勼鏒䣉㌤겓뉆⤱ሒ鎒쥋㔬뒳틈쬳Ⲭ뎲섴냦ꎚ깩㦆頮惴꜀쫳渉⼄ଯ⇤嫳ؘ覲⚨鮢戠☦徱⊉䊲⹈ꔢ풊툫뤏≿ꁶꗚ轪綪ꢧ㪜鸋꧈՞깺裡깈庱窥๞譠㹐\ud947攱ʁ傹䛥ޔ爃䐥鬬䋾࣐ꡂ熦ꦹ⃴㣒௃謎벂࣯ʢǹ袞㉸ꧡ䀎鸏䇥॰∪ҫ̈́䪉⪜腢ꤪ貞牻搀Ɪ黵ߩ鲀ᓰᣍ衄¸虒ᵈ璆뒆뮁쁁닢Ӱៀ璁휚젙쀛払詶⭘脒㶋㘥撳胫·⢞폢랄⠜Ùϥ跩ۀ猂䩦朲䳔qᆰᜑႂ耿ᆂ䙛✠∀ꠃ舉밅僤̴ⶾʄﮰ㘀耛,㚀稁✄䨨àπⰀ䜂ꎅ䀃¨킄՜᐀혂\ud808尶䀆Š`ഀ琁봇瘥쁷抗識㤀☁ꀄ0ȹᒀƀက᠀聵䀀ੂ뀶汤艒͈ᴠಀ눎젗₼菅ᾤᑐဃ椕6冁ॸ뒁螲㍉瀳耢̊ӥჀ蕇⤒耪鄭䏗෴ヰꠂ嘀耿灌૜㓁䣃㰉逝\ud81b ൑ᷘ휙㰀倝\ud8c3뉟蝶ៜ냣⾌Ẵ肂ৈڀ냡끣鶩ᢠ셒༃㔀᠆ꑾ︵飍쉩೸ႉ鶉堇胓䍐丬⃠눻胇ÔĪ漮㹀筺瀂ﶸ찴此࠯㻆貃뫇-ᚩ|ů뭤、紓飿䘃ᰌ呠詅Ώ呣凪䛣ত幑㩅ꀁ釺Ę౤灀晄甉摊酻䇟Ⱌ㶑慇㤚鄖ŹᏤ徑䐀Ԛ怃耡䖓ᤔ瑑攕䘲冴憥ᣆ♑㲃攕鄉ͥၧ觀\udcf2簀倄⁪멐Π㩀릊뺤ꀝ兖䖩᳔激귁딚ꔧ冄臀૜⴬끣␍\ud822䀳䔳桬穀쎲ⷉ葢\udc2b|ാや堁郇붽肒聨ƐⲘᨲ洙텁⋭᪎㻑ⵂᴖ즞检虺棟됰뭄锅瑈렷䞤搚⪬ཅ㴕ꀰ恛‶戀ᬤ㲃済뤗䁘Ύฆꉀ怂霌䳂䖉ꪜ穱줂朝鱏₹쟧ᇅ靄ꠄꑒ녾쑩ᴤ⨱猂ꑮ聘쐘Ό榑\udc03氃兄웙በဠ擆䱇醖Ȱ෤澑ᾡ팘ᑣㆡ䖸Ĕ呑踁댐鑇ㄴ报὆㩑䱡攐鑀놨쐕႔欌\udb02䓆ꐴ샂礳솰ِ뭅爧〷삊쒩Წ䭑櫄ᨁ푸ꁚ욷Ԛ਀⍐ᣊ䀝\ud8c7戠樴䛈⬁\udd88\udd23″䘖Ɑ㇘ꪰ䈨Ʋ톫䘕䮐㌆弄둞턇䞠Ꮥꀞ⺠ܞ䂽聹ב粌栔熴쎂䆣ᐠ봒ᱥ癌醀Ѷꪔ쏓ꐉꄦŀɛꌢ偲Ќ쉜사⚒䇂塘\udc27樐ꑪꃞ윿ᓜ爱⷇椖\udc7a㇠ɣᑤ䦑磄夐㱵釄엙ᨼ狱뤙㱵ㆳ쟹Ⴜ灑䯅㤒챚䑯ᒔ囱瑠ㆁ鑳᣼웥ᾔ癑줃٦䍼р⭀䠀\ud90b䠂䃧脿ე䯱꫇ꬑﱗ凚욐րሸՒڇ瘙吥ꊍᚬഔ벪㑘䀧Š྽鄁\udcaaₐ頓㘭킬枱鈦悓≏湿령鎞砧즢栣⃿깴塱㶣邚‥ল㪪솶ⴉ콆✚꬙\ud848ș憱ྚ̀旂尚訖䨞줯⦌줱ಗ〈줰玌餲拴ꄛ꼋ౙ䦍씣ቀ਱뜑豧焪⛣ៜ窉噅༒䱎襎䗨饌枑䰀켛䱽ㅁ䔳᲼䖉ㅇἘ鑵ᠩ䗘鮼漱並ଞᑿ錹깈ࢀ\ud843漄내惯造॰⭀섦⌒걫凯왫ᷔ剠쯡厫붝\ud829썏訴圦퐎逝\ud8f7螂薨ㄤₔ⏆膴䕀摣ꂕ䥈왔骷螾뷨뉤瑺정⌐雰⭉ᇄ籉퉸⓹쇇្䪸嬢燤삌ş⧪꜠ꐉ젿फĨೈ㡀㘑烩⩴ꦼˊ餚ʩ쐋⪚ꩬఒ␿ऀ㢠珁ꃦɼ䥁ꍜ蝶⾨㚦␈豿\ud8bb▣ᇜ憑\ud8c6ꢒ牄でⓙᅲ䎑먤뤟ꉕㅷⓓ᜼揉诇㌚뱛짬쓘闲眱ว鑿짙䐌༰⁁ሀ\ud90d렗䃌艊鄁㛀쀍꺶冶삅ᄀᦩ印\uda96ɕꤩ샚醰ᶩ뼞ቲ⧚윙蟠놘ᓲኔ䴲䂣䒐ⶐ℩褃椙詣㺩쀠ఴ永냢㬒둂惹쏉‐⴩孄悓ण֔昰浉೙끨倁賰襲Ꟁ褂將5\u0002䈤쀟㘐獂餪옷Ӯ鞺䇩䞤穙ꗗᜌ毰ࣆ⺓뉜觎ꐜ髪睱餙㇞Ꝩ鯪嗉ﺤ\udc95㱽줡꒘鳲禉ᆧ꼑㇛쟘鞼弱߇㢔ⱂ儃\u0007ฐޤ೉琠䀗䂤̲ʫ趐熪ꆖꐔ褡┵὚利鿇甜㑸퇱ꇻ읶㐴띢贓倊ꔦր⣑ﯚ솄頱\ud8b9˱쾒竘ꚒȜఝ⦥␷ᅔ⾱䲥\ud9eb\udb8c陽⢭❒瀞췏⒆䁳袐鯊等∀ટ瑸䒊鲲☎撻␋쀙⋉͡ฐ㋸㲃ጃ搂품娙侱⻊ᙧ䰅晍餛Ǚ鎒ꎙꜨ뼄橼ㅛ☺駺䊉⺥眓\udc5a褀昏ᐆ䣱⁧蔝牁襁ꔘ鼼䌱꘧蚚챕褈曘鬚䨙缥Ἕ鑞稰ذ0⫂ᾑ䔎〸ᓡɜ\u001d鰩ꄦ⊞푣榭쏨쁐㚖ࠁ厠뒐⚎适器䦂贖峆펂䨋¦≥ᚄ䴄∳ꒃǬ糩㉦⺜쩐븸⚮龂窙뺣ᶎ⩨熗䛩逪䖨⬺鱨ꥆ銦Ðসᙅ 䙁苄虶ᘀ뵁쀎䰑ꃇ書Ѐ\u0000";
+            window.__GITBOOK_INITIAL_STATE__ = "㞂⁦ॠ上惎Ű㶬䀮净ค〱밃퀇怖肌̨ࠠ઀氂⠊pȩ䃲ࠅ쀜멐碐ִ錘舸所ߒ傀➖ᣨ䄠Ѡ૆Ḅ ꄇ阎а儱饪赚킀䄆戜銰䄬醉퇉頀堁㠀᧨Ǚⶈ熈遂◃⍣䫊Ⲭ泭蓕됁\udc01ꗩĤ㑣䠁찀㐀ᐁ員ᢐ왠䘁妈ǔᨇ좂璡ꇛ쉠=뒒|⃊㴬盀熘l၇眤⃠쎴ↈ-瘐ጥ馂ኂ㑚洮꽟갷ᩌ晳䖊쵡뒰Ƭ惵伙ઇ䉢녈ᱮἈ䨤뇽Ő恀ᡌᲇ篱泟戺Ứ妼ࡇ螄ಱ苓ﺶ丒ༀ꒰㦁酐㍕ꇖڣঔ홯㉚귖訉⬙삵աܓ酂Ꝓ榴\ude5fȟ젖અ૨梼央醋䒲㤼뎢⺃䧄쫥包凣葁趍ꛚ踤༮蔪쑆ꔝ꽄膥ࠀⲒݭꑻ誱谒䒃歩졠㢂쬻聃ﴚ䘑䈞츬钀nἈ⺂ࣶ߆냌崰너硿鍛ဃ嗙籾栘鎶缼忆窴笿휿옜)䞏ᎇ萺酨ꑇ낟谤鋧㡣總ﲑ趦릾谣ﳂ㺋飄쾭㇠㇞8轎䃰ࡧ䛸⇀椁ﯰ릭ϐ㒤⒎篼㴴쑆郋⤅苨\u0004Ꝉ쐮悑㒴甚䄌螏䤢᲏⌌䏱칹쀸㋌⋐砂ခ诨鱮棲ಜ쌬兀魂かꌋㄌ䮚飰¢焧䌧ࠣ㶋䕠蜭ų┆㋁䙌鏂璴뎛髑甮贱悏Ὁ펞ꐧ鿂ニ㶌校柦⁂뤀퇠鈂䆊汈⚌䌊㤀쌂琰₌쏀Ғ壳깟阕앢ऒ窷ᐃ膀ࠎ屁兒噄焥謁鬩䴂ࣂ瑲ለ싒䤤蓅䀲䲝䀌䠦쟰΀名겶舵贓爍㛍\udcb6괕֦뢓죱颠렧Ȑ覢꬈ꨈ몬襪梢轠簁丆ꌈ︿⮠᪈쉬堿쒃⁣❀Ë棿Ȁ腠瀚ࡂးཫ拎瀀݀㌂Ｘᶇℓሤ衃やˇᏐऌ仃탓\u000f쏘¼焦쵠삱릢ꏠ锎듯溢䊑쓓♂ͤ뤾䘐٨ቁ匰မ槢봰늯প䢦ꪈ᰸荤㈶踎䎂❥㥊鈎и훩⥇Ꮀ什\u0002舠蝍䡦Ո࣠䛨เ쒪胠衯桐ሏఀ둘ഩ樎焣ᘐ뜩⹸蠚蟉ୡ഼姼　ጀ\u000e넂\udf77㷯矟칲尲刎糘嘰ॴ膗私笻ជἑ\f棚˜Ä砽艩胴\r짝ླྀࣹ↏肌蔼쿹쾏㳧䯊꿫츀釠䤘Ґῄᇲ綟Ꮵ枍㧘瀿⟪釘᠁聱௸ｄ਽입耺益拮ూ᏷裴ᎂ瀚蜃螂ാ䠲碠ꠄϐ乱㑐̓悄肱툂䖁蟈蘲㿬莧ꨋ鸠ム킺ᆽ꘬䗐窰䈸夊ⴆ\udf45龹ǀ팉⍌崅ﰇ隉Ꮋ梞䀌䅾'〈ꂭ㼣õ퍠\ud8b9ඡ蜮룉缄㦁꠶키섂Ꞝ薐ࠇ㯘錁八㤆蠥Ẃ壊搽ꓘໟ郬㠍怠ᘆʫ휐鶡ృ恘Ǆⷯቮꉉ胉⟒㭏Ҁؚ݉餻⛭㲜ሜ构ㅸᏒᴱ⩿≉㠅❸蚔퉯鹓꺝ㆹꌌ斌熎ˀ堄鬂缔耱Ѱ晰ђ쁂ඁР춙艈崍邇ऀꀴƀ뀶ׁ砀脐萗ǥ䈊䅨鍇ء쁈昱功邸谏ǐ≥臚뜷ⅼ쀂鍌ᢃ苰䵀d얅槳ᑚ䋹鷀磏Ⴧꑶށ솀䤃슀⬝ꁆ壏꥞ƣɧ ᴡ뭨㠆珐劀豐༩⠩閡≮膈砏˨笈ⱜᔬ꺧隀礭睥Գ숀ና䀇뚨#洀㶁ꆋ昱ẃ逤螁ꕥ⡉完縉쭶ᨂ٤狏ࠨ犂̔ነ자笀\ud9a2⬲᧔ꚦ貅妜㛬퓝咀疤焌祏䣐Ⰳ誠\ud9e1蜱݊絆ϝ企\n⛇ˆ硹馍놮ㅙ欯쐄ⓤ―誰籂୙傿鯐≤郻侩衉܀ⱦᔸ敂䣍妤ˀ峒Ɩ䁔黈ᦃ츜版ȭ〄뙮媖啭⭧퍺턹沬洙蛅\uda06⼳뾵⑃ᒐ猀먝⇄觕劧曅鶜뵁錀橡渭꣏瘬쫚늏浭㵣鳵틛麳歨㧒や礃鶰ണ끴폢㻧퀺쌚ꮐ裉᫊ဇၶ⺀塠ġ읍힐ဪ䩶Ⴭ䊻煍宏儶훃ﱎ㱬\udb2d荶ਂ赘粗 項鐕̦쁙ୀ逭⎓ࠁ䴩큰Ã쩐ᝏ캬āᐁ췀Й戈瀆ⴑ᠘赂ᰄґ⠧hꍄܨ䃾ᶀᡍ䜧缉쉙棉ꙉ栀ͨ]孢ⱶ㆜僸ᫍ쀠邀뎣웃輘뀴ያvᲀ耸᎐\uda28ౕ㘪往饥鲷陳訆广ᭀ*⪾⩪왟ꭇଁ靖鋤䄀蜇㠡춓鲎ᆆ怡海\ud873ض⛠䲐덥醄㠈럆靖৸籰ꦬ霷⪱ؠ㦳洭鶹㚹満㭭ⰠԀ쫥蔫ꄮö燙멢ἷ溁踠쑟랼宧돦鳘㊾誦K븄Ӹ绐‰䶡㠏䘐퐗㎴婄ⲡ퍗豉봣ꐑᩓ飢⩈᳉⃧眩쁦槞セ叁战ր狄Ǭ娒躄빎햛㚄᧬⒅\ud939훱Р﨎Ƅ⁹喌쵋樝ꝛ詩될ꁛⷚ₷樌쀆୵儈ꖸꐴཙ疽Ůࡏ஖筀㆕ﯓᐄ␙⃐㰝⁢⠎셩ཡ꣏ร㉜쭉А씠䤁ꋽ묚셩﷞鯇칬杏؀ㄬ\udfb0䤁↨܆\u0015쳮\uddbbᘂ죩䇎얯㻬᳠턁㟴ᶩ㕂쓨ꀫ㢄鸏̖昏惀Ἣ朠ᄀ퉣ؼ骱ۀ⠍숿᤽飘㌰ྙ稅豪쨦쟆䗛䍐⺽鉳醖‒Ύ딕됮䅮Ⲿ狷놶缁㚇䞔ኂ汋塀ᥨ税邘찇恌穡籲褑퍑᠆ﵶŎ巡䴇㤇ɫ㮱ὣ戀耰±䬃ᬰɪ௤쨐넛丂㉡Ǩ堎嬩듚㣵摹뛐⓱伴⻶켋놭⮷\udb56鈻ᅁ㬳듥⬷耴ֳ笴獧㕳眴㗳⚃䀀놀₶ᝮ애\udb1b든騌笲딭ᠰ괛ٸ楢☈摸㔄ጤɭ噷胾䤆蕮഻乃隳塑衪Ȑ蜲猗㍳༲㞠ܦ烪֐奈ₔ埦他頔勄㔃ݠ⠀뱆Ȧ。們蘐了ꀀ訲ᲇ恻ܼڄɐʏꁚ䜂ᰂ䀄蓠౅ꑃ聂䘇⁥茀䎂偽ݨ⒁ꠑ萸ࠀ䠥솈ềເ鳤揀䆴谖쓰忴䕲\u000e児䡉坦稄肼ܠҀ䠰Ͽ。镲՘뢅큲需퓤胝א⌅퀤董ᔑ蠅臀嶏 蝽完࿫څ\ud807ǎ䡦퀄☄᪀क़ඝᅡࠟᒻ䂓᭼᳥㔢恈≡衵誎䬄댣険䨇큇蟐ẃ縑荐丅䠞쁂Ƅ⑸㢇阈騋଼Äࢰ♴ڋ倃ጐͨ⚤\ud81a䮤왍\rଘ戃\r౤\uddd0夊퍫̍ㄫ戂♓끀䈅퀬ႄ‶냫碱\u0016醤搌煾䥀佡ଖ␅魃䥮珆耜Ů筃聩큏泇㤇Әᕗ佤쩀ⴭऔ鱤聘Ӂኡ䁙泠ᠾ䙙ྃ괞쉈祌 ࢄ곧뀃ख़凰䀺픰ꂎୖ䎀硓鈋仌⁬쩈䟃ᨩ剨㰀䡿薤崅‱蟸爀䈞쌀㳈⡻훦垳ߺ冕じ낰晍딸婈얤좃謞졋壥尔닫侁␇쭡戫漅⬑듋䪱笹춫竧ꭒ둫暵☡ꄀັ\udcb4끜눛᧎ᩭ덠삕轙놠썢\udb0a൛硴첏쬄锍묮ৈ㬏㭇칐˵੻滅筼・呦ﭟ됷羴ݠ燀偵䡒苇桷㼸疰䑴畇瑴읈甯⁦퀼瀧璁쀘蝈᠐䠳ᆀᢀꝎ芧ຑ꜐뛐ٲ杒녧延赸ඐ㷳瓰Չ甐遀﹄᝼혗具ᝢҗ㶕썙灀祴\ud848럤ᕷ〵焷䵶흝熈絷ꁃ灘㐁⥓眷⥄띫痻ޏ❜쎸麄蒐刁蠞聘䙣値扨ҁԠ昂䘹䲐䘠轋\u0014\uddf3鬗쾏⍧嘘膀羃偾Ǭ縆逊됃峲聼䋳쁢勶쫜ꪯ夆ꅥ쾯構陦洇潣䫯Ỷ鱌럍傔쬜蔟⠇ὣ橑쀙称碥Ἰځ਒ኂ섒絛♌푴쬅彸샟Ȃ\udf1d菶媣␅㼘炿氮뽏ֿ篲ᢆ곯៰‷ᫀ塅喈堩囘ﬅ퀅躉܃┘Ց惀塵ᗐ堈ዶ꽰␌⃔஀琌샘ව큧ی쩇ሌᣑ딂\uddb5誷쾊䫤굊遌ꨘ訏ʵྻ掶ʾൄ됇䓌仄ꒅ쓼䮈䉎ⓒ䮈ᤌꒌ죛爋ﲒ櫔린킑댭堵탛䆀̈鱣໸㌌鋋࿰ᬊʳ끰︊첗দ걉쒼䠤ꉉⓅ⎈䲅ഈ빧ࣈ軄ᢋ袄詈钋䢌襰겎“诈芊⣉Ĩ늈ꢪ覨몈梦襨뚈觨뺈ᣘघﳗᣝ雐榊衄얎㔕識越\ud89d诘莈⁰杠ᎋ㢉咸\udb88䕛辸잏개Ÿꆋ碏蹿澌血羌\ud940䧍恏춞⡉蒸䡄蒂䒐ń‵π峀䉁ۘ쁡݈ẅꉚ֤⚄蔤蝨ੌ୎洋凊ҋ冑譵䮼灪닟懳쨑뒆㬆苝쪼ꗉ峂넉ኴ킯«延ꭹ쮫䗌㳥쩫ᩁ㳶듫䯋绫참纱ࡁ둋篍䚊ࣆ﮷粥ෛ⿈僟쩼ￍ⛯뎴䆰⣠빬苧랝榔劫枅苏뗹ᾳﬀ焀ⁱܰ猚ꬂ蜫㼀䜑떢皅ꀬ⧇ਫ|烺頀氍蹈灱抶ⶓḎ轓컢有⾀칰ᡮ瓰平ᆆ銖儋礨靓饳霜䴮圇ǒ튝獑⌨㜌荀榇恋⣡㍛⤀㭴砇牷ᝳ眏狷έჳ༈꼀⣱說ർ諶г㢃A㢀롻ꛍ⦭쫾뒜䊮⫴颯㊩꽊꾐웳腯窪置廷꥿ᇷ꿃ৱ᱾갚맰彑ꢇ廇鹵傔\udad9껚\udec5\udac4逳糐㫳쎮퀶ᩱ푬뫧鮮贻곰羰塯퇀稇㔨ጵ㔒¦፾碃䠖別瀳褋꫓⤨䚮毚ꡨ사െ롯샤ਠ᪁듘領碜䧤驈咘膞櫁쎱ꂴ᡾윈Ⴡ퇯끱黹䗯暕辜쇕ແﮰᛨ㋴숁᛽ర쥭゘ܰ랴쬫ྖ鸏냨奖薑觪麙藯桽棦썫ࢢ悈ꢏ㛸輼䒎䣔轈첎죜迈슎⣒踱཮꣚辨욎棖轨캎迨鑫ᬰ酄躩豟ᣨ✸▌仵賘뀆顭讈箏\ud8c3賎㢼싮窧贮颅磥첮꾏豚ᬠ䲌᛫ﲸ콮ﻔ䦓㻪‚臬ు砥쓠Ƃ㉴蝼榆顾߸璁鈄и旫郕꒨뎋⧎᭙콚킖㻸ɶ㔇㺿\u001e뺂뛺\udcf2뛜倫뻮\ud8feﲶ㳖듰珎᷿엉벐ᯞ醵臉당聆솸᭛䈈\uddf6ළ⛛ཁ關फ़濝▗럁ꌒ䡂᥻戟筒ᡂ訙䊚ᣂ꺚롣ꩡ슐֙츟⊂᧡艵⺅蜕㒅﫲אᄞꜣӢ勺̞⸜ᤛ᱑뜝釐檩ഛ銱燑ꥱ劃ᨱꕳ畓᷒赲흋ᯗᬟ䡳⺘䜘뜗᭵᭳燻瑷杵睷瓷潵߷ᰄའ烱H騋嶻丠㔀咯隧큇鬯Შ꽌騯吉짲粘ꪺ⦺꭯ઞ櫠蕪쇰鬟⚝鮕Ʈ쌡꣩銃ꆕ귩ꛞ\udf5dꭱ\udaed톈駫\ud8baꟶ뫩ᘉ喟\u0012鉈妊锗꧀⒇뀱却㊕ᅓ凘淡耓坶禚릫ᆹ鐋맨汹鰋색쑨⋷騦뿈鎬溓ꠅ鎵ޓ늻䛝\ud882菘嚨幖됅䷴\ud918䳞췜\udce0糜ⷢ\udd2d豘궬宫ꐝ㷤ࡻ⠬◽혥酣킙ܖꌉラ械驛雈宀╭䒀蠛賚출\udbcd苚ⶒ\udc38幜얐蠕ꅛ㛘贕뚩家饚盹嵶앟⣊襕喿櫕샭햐썘軉褀棭颋塘ꭘ仼Ɏ뭘痔᝘컣袆᳨뢫蠮뮉푨껂똍龋䨘죙ӏծ졎缎쓘ꡤ\ude7a瘅ꁱ⟠㢿퀿쒼և怬Έ刁屇蜭꩏뭎䦭귍팁﷭Cꪥ㻶\udd6d诊\udecb㇝쾾췊绎\udd7e\udd79\udd3c纽쮐庲Ǜ쩗첉뢩\udd95닝鿎㷤ᯅ퐜㷎䃷\udf7b㶥뷁\ud9f6퀕恈攙芇\udf82䋊ạ됭ꇷ\ud861쎭슖ᦙ﷜爃\udd03_吥乧췏䚃莺焀⤝㥑줭䏘繑遫减ۃ괝쏅ⷑ쉧통ⰱ贮⎁䔣ꏃ⸲⁝掣덳馐픒腆揷ᳱ㿱\ude3cু㤉鄼諰鼓라웵ὺ闡蠉쁘｢쫜頯ⲟ厥㴪펪긩⦣㱪쪝䁓㠟皨骆駪잵돑馴\ud86a轖弲푺槠㖪㎟ꚞ矟㞝虫堅죪谲쾜촟죕ࢺ\udd51렉݈ㄩ젍ほĽ岤．쇊䱎㢻뀚␄鰅ラ块驃咮냐ꮑ峞橁汛ꍟ绑㐿꺁迪缃諐㢚悴审\udd29굦㐃珗黼ꏁ藪⽱磦驮틱䂜\udc71旗珛ⷓ튫焥ꛜ쥣띊壋彮혔㮱\udc9c⋡⤇Ⰿ黤\u0017飀藢⼱硋\udeee㍴箱딅橭梊뷒\uda12놶뒬ᶫ⭧株\uddda胲굽ꦫè㫺똘飌赡ㄨ섞躲앑ᓩ㫍㪮뗇꧄㵨伛謓\udecaꓷ甃楏櫨耔㚴봽ꍤ荘𼸶泶洙桀᳡⌉䃓٠౐ႆぴ荐॰椓쀠脺Ϙ⌠䀊底떗鿐ᤣ뵺\udbde䕞紳⊻兛春䵸彖癶깙㾪뤻폀宖纈䭺｛幦怍聩㰥\ud9edמ鐑鬻뱽淘﯁満垥蠕萗뭅롞켆ﲅᴓ겈曶㠪隉뉼\udf65蕆ᡧ쟶ꅷꆙᕳ獓ꢒษ쟍館쯦⌎⩗\udabe䡷찛స럔찁䖒뭼ᒤꕮᕊ圳ꡈ懸᥊왣ᶌሏ䝧᧏\ud960௵掗谸游ӟ蹁㈓ꡌꊡ⌗蝐䞁犦뀹W轀Ể攘瀗鹕꿧딍㬩쭎꼣ﷴ囱堘칕ㅪ韼픿淋从䀊玨κ暾ࠄ갠暰ిȂ肩驌쐮\ud9f3ஆʖ椗㬃䗚⃬ԧ⺁‥鹻ΰယῄ삯䠈Ī䰈뼅‗㟋곉깥坛鮫ം༱恼㐋᱗ဃ၃腪ૠ毂࿢ꢨƪ㿠᪊푹顫᧗ᐘ需㸣摥騁㨝탞螞ᾡ茎ᡧ䅆Ḱ즇⠵窊ᙸ矂灨⵭ࣣᝁ拗큔딌ិᬀ頻녦ྀEﬓ킾萌⡡⌋ᡄ술ೠ锅쀈\uda26형鞂앥浉嫛媀皜걝ꛭ╘萵嘾탕뾵땤ᴽ媇両ヴ䡌앣꒏歛ꐹ㫶둵뎭펤焬\udf21倫⡑畽晏ࡋ鐳ຨ䍴\udd28\uda82䆡淒桬⑚Ꮭ乺တ쎯Ḁ撋ꀌ䈼ᣄ㄄梮愄஘Ⰰ␜胓ทᕭ싇ペ\udaef䧞趱힭쉻恰ﻘ㽄ꙙ瘔祯쳲㉊뺂ᰤ蟊䃛臟せ㯂뷡똠硫㮮뼌㉈菹겷㯘䈱≽傮蕰瀢㴾찱ﶡᓑ솎᳻烃ᄟꇀ㧍댄菢₠蒏尕簐剅酊㒤沩ꤔ⸺䗡콆䲌⎿糙ᠿๅ络蠷⼣Ḡ⣬샙䦎뛥ᑲﴸḹ仁㘓ꢜᔐ흞үሀ㄃㤏聵ᑨ뵅꧀톷覣੠\ude73䒿쫑濱㎟磌亪ￚ컿⭌ᳮ팑ꬹ쮦깴鶽᜵Ἲꁀㅁ爌䠀캬൰뮆⬁\uda01쁣নꂐ⳩瞞삻ᛘ놈ᇧ煑톧鑄థꁳ紊醲欙腃ᙹ茂↣坪쒂폦\uda4dꂫ粏暦딲䂜࣬徼묓휞엵\uda89둏ꉣ᎘髄焢縆킆뭢佦擹쒭\ud85aᚖ\uddc9殷橚渮雀凜匭醛빔攱⚊ᣈሯᴸ렶ힼ侃㻬릾⠡龌ￄ䏆⇐갽Ӕ蓚\uda09ᣲ졖㷠雫␦ꇞ똨珅䨞伬╗䐶㓳쉭䈈郏ခ㏞㋐陨坴⢞킜䣈㔂栋傚๑縀퐂­Ǌ딀ᨃ쒹닌㍺垣숏ꊰ雘毃뛗ඒ䇤紾\udbae䩉⛱蹕ᢤꭸꤻ뙪䴁듥೥࠵젾Ἆ鱤餠ᇦ䬏闭綎࢒ᧇ턊뙍葃鋨懻䑄뤵蘡资圍á裺Ŋ靀뢂炠ᠸ䣋諡䦯ꑓ呭ᓴ㧳踩淵搶贻Ỹ눣刃餜ⱪ㽜꒙噢Ս龫贗漛锲凫曽檓뼱㣇萙皐‒ǒĀݛ퀕⠃چ婍甚꜂꣟쒪뵏⪩ꋴ↤ⳝﻕ㜚綢ꚟ這ꕏ黎돦g䱗츀适䀣樰ࣚ簃絛ӭ⓪뾱ʮꑴ閚㜄璺޸錕찧Ꟙ쟼ⳅ＄ヨꢘ變Ⱈᨅ猆蟒頒墟ꚰ⾅É衖鋫Შ꬀쀍蘭췞㟳羐峝넙㿞࣏၀蔝還杦묡î쩀➳붟ꁟ搴ੱ데公㉃洇ጵ낖膂ꥧส暘㆖箊癋닝釬꽤שׁ~콦缬\udc1cӳ㷮辋៷悆謸ỡ௼砽ꈔӑ袁㓖恌䞢늠麏堧搧Ẉ䯈嚲傓곢‶ꡱ닫ꍐ裛鬾ꇊᑨ䶲좗沶蜫傀舁᠍䄸$盘⸞ꈋؐ㓁梄㡠쀇㪒햰ቼ버鞜\uda32ꯕ愧퍭둲杪Ⓓ◫\ude39۴㡲犇捯㓧Ⲳ닎禼玖᳓ᚻ\udc45㩎⹾鉇앜贇쌤쥟༮暃殟젬稯膹뇲葍鎐ꕃ笤Ꟊ줸勮樃㲟\udcdcӾ臢꿃设Θꄼ伾ຌ攢ប\udf1eᕡ앤्幇簙ᴮᒦ軩䷞朣⣭挓⢔郜㹑叧輘弼冫䛼檗⣝錄㣥ꃍ贃息悧♨‒䁰৪嗼몔壃䗟퐅﵎ꪓ礠嵨迹贮턖灴瓒鴘ùꚠꥩઽᎂꆙ턄⺙鄋車袲ᘬ즨쬷줔揫൴ꮀ㵌哹뚺梈顀൶$៉⋂〗碳ॾ䑕ﴺ깅边谵і壆҈ꘙ䜪呎鍾ۊ犧끜ꮀ䷋ꮑ୮욨꬘⴫楇䮛Ӑ準ꕤ鉈ㆋ熘狠拓⭁슑큉㉬嶷㗇\ud8b6婛衆洲Ȣ髶镉\udd35馫쪒௢휄\ude25⡼澂뻯뮾㿮쪵ࡏ耦䏕ᨲ졈牋쵢郤禤㕢ᤉ艦㶱홅఩徭詔ᬜ⒛㰶압ಅ늭霛窗동ይ೨㮔怄렅苦ࡠ㰂᠍䄺Ā᠁摍࣬fำ號쓠ㅡ쫷饍쌖帤\udbea䤸\udeeb⬸墓펒홌㬹໴嶆鈋呜봧繀쥱겹懜⹙\ud8a0䓇툑彣祝鍟棤툪眻ᅇ㮒䢫\udc80㢀ኊ봢愩앺䴒ёԬ‡䲑賲䤗૙(톾녈ᜲ⭩᪊海矃ᗌ误ꬢ뒤㼬ꕲ⪎蒩㊽慉壇牔뇒镢襟蕒ꔝ哙䝯찦迎︃匓첞瑣쐂ì͐š\uda91鍼ꭤ힕闣鰆鄂쌻ള볐ⶴ浌敟˦髍㧑読瑋鰰喂济Ś꫚愋᜽Ꞵ໼݋౱ꨣỾṰ킯졉ꆁ≀뇧聟⼀襐諸䆦࿶䠻茝해࿌恪絝餈꺭喍ᅽ嶟鼕稊妹☶殳帳୓楗ྮ랬䪃勺럔纫ǽ幫ᆧ횥ᚇ셱䒶屙㋬呠윗渹씮ᄛ緫὜𧻓ힾ돵㠆ﵤ耻妙乤Ҥ回ࣻ鏢弐ჟ롾„儫࡯쀥䏘ল촂糫⵩ӥ휫㌥櫉졎䯱≹ꄤꇻ괩甽쩚泊隞몥뭥ꥫ㰚减的\ud839悏Ɉཊ؄豙ऀ鿡ㅩㆁದ帣Ⰳ壋胙㋘㞁뽞ቊ乴᭎ᶰꙵ沣㥗ഃ汳蛵⑌ꧡ戭ൺ킃ᰶ瘯ඒ愛䚲ᬷ㷥䧳湪紿撈騵ᅃ즤叮匚胮奶ˑ䘀౗Ｑ몸\ude23㠹蔦ᖳ젓圹蓔병㓒㍆ቪ䩣≤\udd8a虜攼蹊栥禕\ud80b갇᭏솎䊉ᑶ髊鄨뗹唦兛䑍饗椹ꈶ∀焄戾膒ꛘ鳲忓ꦀ⻪瀋贜⪷㚊꒦ᚏ⦈퉭᧿㼴ￊ츈⾕瓸䋘뒷䒭ⵕ歈해婆找㢶征ⷻ䴌礊틜璶蘠믇﬎쁮∢昲␀腜䳘陂奆囤ٺ궁ﰫ娃忴쫆헝෭溥⪣鏚黴뾭঩児\udaa9ꖎ鱵鶴舧䤺집亹땳䅭뜪孑㉴♚봆\ud8b2딛涥鎋閠ᄋ례❱㯒੎谜撻䞃껛쳛뚄ꇭ䎬襐㵞\ude3a쥧쒫⧻峫鈟稃ꌥ殯噮䏁\uddac鷗ꄿ妘䤩瘒쩖ᭆꢉ㔩≝䨓櫐豵㒶胿Ęའ䘋䀄臀Ơ驪퀧䁗ڀ䃂诽町Ú-履භ็㫣飖ᙵᯐ盬窇㾭닥┡꽥˭칊螷\udf1e\udd27㰤맘欮籪⮔筛๜깝噊湳幆Ꟈ橇ⴛ袯矣髩䰤삃헳态獴秖䨝Ӗ蜄嗦㥹扮睘䃗麊船抭⦞ꊛ긚㪓荰ଇ午稩咿䯤䞶閷쾥军ố琧땑癧삒ƈ䅡Ｃ꤀⩳幺峐庳䑹닑倭ᩍ䷌욘힠ŵ桛隞ᛵ啅럑녭핼孶鏞連ᴿ붔⤺欰뿆戸胥\uda60Óꦞꉊ㟡䟘鑟뜊鈻슺땽⁅毩禆署푾댶⒙ꎇըקּ㨰嫅떈⳽ሎ߸㠡嘌䌵⒐Ὶꂀ䲿ꋅ▪녆\udc57ᗾ詙嚸쇔챖뛚솾ఈ桃∞蓄蚤㲰栌辖Ϝ쭻꽫烈盁휋㧭栛ᵄ닢姶綶異䊳᝔곢ຫ㵵ᫍ쥁㷲奁鐶荆쮇䌇쇆磆햃棪뵯痚ᙀ璁콆䣁苀㓀貏䁊ŀᡞ㤀而邩횽礏漨ඊ檇琿⓽虁떝\uda1d\ud95c᪹킆鹴油෷ര緡蚫ග꿡ꂳ냲议壡舴夾瓲劺죗ࢊ㚢⪍硔흝ᨂ㥅笃⃋궈⤹∱彐꜒⾊뛪ፅ∝풊ꝴ䴛쳅図豮죜轻뼣㞵혛㓔䩑돦锲ꌴ꿓瑻曺ꓯ볍덧䠖\u001a̐Ի逅쓎槨퀊돝ꜰឹ걕鹩᣹窥奞즧垰ⵈ⥴䍺싚ꪈ둹쥣魋\udab6틖㱂趎᪳Ļ᭙ꁰܯ㑄㤒䴁ɯ洰☩瞞 䦌巇呮輖㕽彷ꯞ㟖쾎疴珣鲜쮈旒ἠ䷷辮᪚퓎꛵どꍎ䁝Ȳ䞄쳣︔픋巽혬ｅ欱㏾莹涿ﴮᅂ퍁딴遝俪烓욞싥⚯ᓷ㠍\ude38╽ꠖ䃪薑ኑ撲籙넨ﭔ旉鍘┋ꠇ娽㈗Ӑ癮걓\udbaa蝑䪥ぺ兀咤홠쨻锻法乑㎡㈘쀱΀紃踇胔ۥ猁퀖篖܁ࢗ怚䇍㟄뇊販䏴堚鳃礜ㇺに僃Ꟈ淎鶕ᡬ䧻⭃羧\udada犬㞜븋ꈎ᭥픙ꈶ왭쌪攛鲓⧸筝౯䑺䄈᱖㪷ܞ欕➙溢컗\ud9beፅ晑嚑둕䦳⍵駞䊚鬰糂賑\uda24ᶞ⩖騪㵊봴\udf20촱惦ⰸ풸襀ὀᙞ㔽驔많猢ꩿ膝蘱⪘ᝊꉣ躎飲ଜ歷ṱ捞癘㯙﬛볪鬝䭫㈀疋漐禥9鉣뙢桷ꬆ౔Ⱡ愡잚藓བྷ\udc71˂⾫珆䂺ⵯ긫ٟ̖벵ﴂ굹ﶡ骹惚邵䵣⺐ᓋ닮膬뭥אַ㥴璞肺婁炴绅뜢梋䮈ｺ⛈녌蜖ﾪ謧煰ꄷ覱斫ⳙ恠癘狴⒜덍휭슲᪤윖椳皐韶갥轮ᵗ囶觕䬡◡헀풖ﻑӂ෉畵䊝⃘㮐銥鉹ꥠ\ud9d2骧赴轘솝⸪碉쳳惹ጚ媉ງ븉䀁쟠㓀退뀞茬ᴠ鰄휻軥ꃤ⡤㧊ᩘ漻㙑ꆧ䵨磡⧋軨㏽䢮ꝸ쌾頹爷ᨹ懏줆洫࡝䫲噫鴅ᣎ롦ᇮᡌ헛굫뺍᾵흆曊킜Ჹ猁ᑶ䄢଻욘輖渣盫ⳝ締ⲑ쫎┽秉佷癆䱥に瘱㜐笅᧙냷癲歑䌪䳘ꢨ馆돀ऀ耡냖ⱀ⠂ࠈ䐙웗珟㧗㘌祳ﭛ⽤꫆ㄴ쬺䱻獳䶘엖啚땫곺⓳䖋㳗篖㓵钵걮ቀꁄ霳჆㕘흈㢂연֝ᣄ뫕塞蛝Ự逌洿칉䀋ᯪ磰ᛂ䓖랍⍹᤾\ud9f6ሁ綫̽旙㽯슓埘꽬ﭯ\udb01\uda0e졷順ᶞ쏓笛ј纳㛖뙯錽熔쫦ͻ素뻟瞃먝銰诔黭洦聯盁构ꧭ⎫ᙌ䯞\ud93a䥮妼鵉缧퉟▬鑮덙쩜蝥뛷庥\ud875\udb7e᷇ꮨ溗⛊躃Ɒ竵䴯퀸倠а῱ 栘脘ሁ萄逧헠ౠࡀ軍㪣뵩냧ⰴ⭋⡎鎼ᖝ෹氫忐皽㶝읺\uda7c쏹\ud84a쒺⌷೩矔ﳅᥜ껫쫣㫜\udcad♿⬩鷰퍷팴ܠਤ঄姕懲헳㔊ꭶ⇈筣\ud8e7㱇㎪䒯⎫햙黪勤\udf3d웎⽪軋\udc4eࣗ㓞粝㕟㈽璬㍬竷逃撘쁰ߐᕸ 㧬网ʮ獶휋\udbb5鋶뿛춣ᶁ羚뜳朠됪럻‏\udcc0๛\udc79박\udd75捠㢼쐏篔櫨ᵅ쏼䱑耝ᑁ냂員ꃷ蚨봱ⱱ絀掵췩༙⇐៚ڢୃ鲹숁깻珿菜｀䈉೮ᬓ尉脊蓱胡㲉承Ꮔ鼤袙웓㜗ḣ둍궻ﴛ趑峲粻观了ғ萣森宺㡖켖᤿엣ᶫ紃沝ዥ蹰㷉復\ud8f6䬫꥖䊗뉔ꖈ皡⷇ᡋ쪍뜏巣蝮ᄩ\udb2c᥶쪦艶ꦦ霐妨둃ﰵǾࡉ䘀⁈ݶ炁阆ꁔ鹚煃ㅧ⦷ўꃥ㉄¼韤ꂤ拂覊퀮胂玆鲑㇅싔紳볋険⪥୎⮢\udfa6斺䀅溪恲㶓᲎랶윕컁⬌宖匶ﲷሟ淮짛睛橌陱㸁밊츖앴ࠁ渟潖襈碨嘌ꋰ〡殁\udf14\udf32濮∐Б㔏⡁鑩⡤쳌䱓퉆娲䲂⪙獍晚惮␽찁鬦ၬ죄ᢀ䈦퇸ୈᲨ댖郺ѩჁ蠂げϾ禍邠紻攻⑾Ị乆팪᫉ﶦ牸鴅穉兜鍊硡곯䕤쎹\udea1ﱗ엙鲥愙엚⵽쩹욞給敪묭즮빛ฆ깦ⷜ捆暳ꛌ。⊗㜙썖㏦䟑扑焱⻚븦뮺䵫㪴칆铭鰇껆䙓廡刴\udc28묪猇㡤ü䀮刜ࡠꘕẃ〙耸ƒ㩀䘍䀽缻쟡욢须㾙‟奏㿥䥹幸ﷰ᜿璽\udf3b峻忳쐔ｼ뫩貪ꚥ㙖喀ꖇﻛ鲠ᑹ鮯ñǷ奀灢퀒尭踢跃憨꬜懒ဦŦᛱ䵅Ȅ앀䬺萿ỉ⾽婃僱ᮀ쯎奝贤ꦅ焂诃㙟𱛅۬!묘ᡮ⍵ᮘ\udce0ื樆ᗋ࿱桅궵燤妕䗪ŭ筻ꢁ\udf63缛굟謽꿑툇ᤰ◦于롋훶ٵ녫鬜쥰\udb36븇炦젾淗ừ㷇훘틬ꚴ믣힁㾶卋蘟䀦脻蚠뒆ሿƖȰ᳘蒀䑍槝㻇粧溝짠囖塓빷⯤纷ꌻ鷘껑딸揾ᚥ\uda5d옿靹伞犿ࢼ꽸枧跛䳎뭄᠐謖㢇ẉᢩ擴䣹㴵沑猽Ớ龤ꊑ꫍槻ꮲ淓웏资႕⒭㏩끳歽鰋썆椞虠妀򀨰↘ڵ빔᭹폷诞⫗捳鿙㫠⹦㶗됕耪벫䁳埮倹㕒⿔溳䶈ꜚ 숑ㆺ檽䕎拽䦊氫縐㔮攍꽖ᘢ澥衆삽叿翅倿ʑ࿿퀑욷鱬淯껸ﰧ\udc41觺俲繓犯洞㯤뼉饢䫺\udead並ᥠﴓ嘌忸ޗ立껖ү䞈ᩖ餲揵池經扝衹꼤륫꡽⺨\udbb6뱱좧젾⧕ⶑ픟⼜㙁卋撕㛇틵罜貶\u001eň׌մ持Ѓ䖍䀝Ⅹƨ଀婼㞧䧎鵆籀홧풏ȼ\ud9f3杕팒ι슏戃林꧌썙볞ᐌ턫惍寂弱緒댏閧ስ\uda75꜎瓏蕟缌헵⫟虀∥ଳ稁Ⳑ\udf39옩狍췴黅\udd69퇓\udeb3ಥ㙰㏚옡겆넳쫊㌼쨳᫊镝㖯釞횣㎜饖௓쁝䶛ጀ`璀ᨁ넓㌈ﶳ헨쇻ƍዷ迅猃굼휘퍳⿬ű\udcde봜뵊岯疥㕗潟樂ﷀ癋帗毌恰ꊁუᄖ৖壡㦅）ㅷꧮ♺鐎復䍅챟벻잿仼⬗胺씮皘ী霂\udc08Ⱉ䘳볃㏆ힱ䝥梀䀩Ȑ̀⤠ఃꚆ쀵罎Κ甑틯噬ꕱ믆䜻볥瞑\ude00쐃透ᔈ惴̰ເ⋿⹤異䃑孞ⶕ녀큋⁼챴훋͎䳟\uda4bȌ뿱蟄荅⶜瑵삥⨌懓ꃍἄ疴답툀궓Ἇ洝醨ፈ◁猁᠃䴿얢ހ昁Ђ尖遜˥蛔㩐嚅뷄塬肌⛰ᯔ䬁㍵㬢˹퍃∼厵ꀸ꜃൹튂żꩰ栺☑絋钘⦏烍養韒쥆益폥ռ멲埘䃊쒊뙮\udb1c畽븄肻뜫噀\udeed芗〈鲍奀먱\udf64䘋粧냈퍹᭼琍앏⌁겢Ț핻ጂ\uddf7\ud9dd耜֢घᰁ梀\u001a覠皁搀恁.锠࢛࢜樃쀜xݨ៟玝熙职ࡢÄˤ㸅︆ֆ⼨ﳢ섯◍ﰉ绅⼷瘺칕厭眴蠫㼰屢ఫ\ud807໵ꅰ竔ﲯァ䴠케飇뀏šि耂ⷡ梦Ṙ紖〗픱ऱຂ櫖⇜潪菽嗯캠ꨜ䗔ῇ鱐쌤㢀⣃腤᭞࠹狆ࠐ遂섏䠂჊¡঄⸐\uda40☍旒㍩艖햘㭿椝㦴堦饥莁චᐐℏ䠚ი䏡৘⫭⸬㇏謣ᵕ녻喓ᄬⱶ훞ⅷﴡ⁓ܜ䇗뗉ഀॵ슞瞃䀏䟊ꔿ᷁⟒였聃ﮤ癙怟䉽੫უ炀砂耓콎脌б耸䥃綀窑ႯⰖᐠ↝眹⎕饋幊㴨ख़䨍ᝌ䣷Ꝫʩ௃욐拓ﴲំꝺ㲙ড়↧ขҊ頺ਫ\ud8d6⃈᩟ⲭꮷ韑㍁Ϲไ䞹ᄽ쐌◘琟톦ˢ岜奃룗鐺ᕅ䌔஑蕐쒌⨏叕⌑焺놬홻疜ᬷ럙덃̍슟铐뉔⳷〰赻㗞캣䙕䳑ꗑ㴵䖚ࢆਾ掀먰獙쉼ࠩ鷧䆤Ȍ俈₏劘촿㎬ᚑ창턼쎰傅옭㬸畔馏唿鑒ࢬⲿ企ᎇ쾇虯퇈݈ἁነ굧ᔓ㍒ꉲ◵ฮᙑ័靘泈炥옛窂碉ᰡ넿≅ú驠₢䕳旔ﵼ氤ᅂⴈろ逞쁬⍰迂⬺☑㿅음쨙泰똒㖏斵䭐野悝ﶱ㏿䞛樀⚏㰝ࢤİ趚✈鸑梢≖衼㯯毼ฏ헍ൎࣖ팃ํ쒲렷఍뎸⠝ނ䂍ᓙ䲭똀㏇⪅铑\udb1f艽珸✟睭ﮡ恡j֠਀ᆀ騀䈉⁎Ƙɜᇀ㱈笄ꀇR⏩씐雩茥ಓჶ\ud9f3䛬༐갽㉷饈冀硨諘䎈Ꮅ␤⭎揓뉒嶈ꊜ㥺䉎叢⛃㙃塴깆烂㒯敦அโ幕邏ೕ홌쁐鑄钊詡Ⴍ枠Ỗഢỏ䢒쳐ᖫ㔃\udab3㈥札ʲ㊲㝀鬣ഏ⨩਽鶜辱鋐洈琩탴৚մ㷐콂怆탿䌃ர➨\uda5d谂떍䀨ǁ聘ذ뺍朷뻋歄슋홿騨퓂鏶ࠥ㽌쌒軌㌿咢쫷䨷㽌ꋼ鄠൐毕ﶚ࿘卑쫐投顪곎➣ᶘነ⸡ﴓ頤룛⢇䪂⬖냚菘ᕫ堙ஜ깰㰸䚜⵿笍竢ꚅᢴ戱諆✘뱢঎斓聢扰ۜⶀ템⻷\udc27棃슱㓛廯䎣垏䘳ᣬ捱迆゘\udde2䦈稾孽苵琱앛㞣䱰塀Ｓ巁⛠ﾣ㛎휧᱁謂㧗樍嵱*ᢏ屡軸◷坭퇖ৃ\udb27함̘ᚒ䨁켁ꠗ䁉±賠Ȁ愁猂跓耲揰ࡧ\ud998ꦕꢈ\ud84e敲䊹㧓擭禊ᘢ\ude08걨ਤ㡘퐴胂ॣ쁭܌ꖏ㯍轏Fꋌஏ⹃ꒉ䢯ఄ졏纜씈ꨵ쭻첸鋇訜ⴢⷐ㟐笥䏧鐲㋘赃퐌폓䃭㷭趷\udac8뱕鶏䐷捃휚틀樵㧖欿糢ꑪ往ࠁ⃣쀕⩅挳퟾任棽슈羏삌੪锯瓂䈍俜⃠崋詯僳墂\udbd6핂룢썪㼨⬋螇蘨參ظ씗ㅐ뿂疟蘍覉䄨Ჭ笘䥁ᯞ腖ꉇ襸챸ꑨ曱ꃘᓱ㯄\udf12⟱ᨭ蝹싐́⌄豀끉섯Ҧ耈䨡⒄菣퐕\udc2b棔䵉錾⊋᫔阈節擌Ꮀ䷁㼄숓行ꢅ莸랤쏸Ƕ︩ｓ屿੉佛㾢퉒⃈ࢸ糍닝償巔₌㙖\udb58ዀే嘘쐓︊䘨聎蕑읠ी㣄ᨄ蠁臏Ɉᆀ朽켃K팂̨䢎䶘験梋ꄢൂ㷙█쩂ㅏ邆ɚ䡤≘꒭ដ䒍ꏙค孀⇐ᎄ鈻轥瑤䮮썘蔣蓱ᐼ䃗↌䝠ℑ檵ᆎ傉鴚럒㙧ᇬ合姂筫插㋪읐轴넩笻ᥳ协ໄⰊ㧚ꍩ귻㞨젰죣繣蠍䁉ü䝽伃鎊व㣟ʓଉ㤯࢒팊㫚Ⓖ䣏\ud955峃讌譔뢑馪ℭ櫢ᙥ䠰ꢷ᠞∀蔸㓱㴀㘴鐺⧰ᄍ⊨聨㈇儅䐚鍪픥ퟕ䦽䂳炶됮盕㝔ﵒ喁\uddc6炩ﰉ뉆ῤ쁓\ud806Ԣᡚ⃁䢅⨔ꦓᑒ䓘ꊷ콨诣陌㨯\u0001䨅␔닓셌蔩s셶䪿흗Γ弌︤鉍盼Ⱏ心긏훚ﵡ쇗ࠒ釶礭흍ⴾࣇ츘걼ᆌ䈧ꄺᚠᴈ拡蠇​ũƒࡍ䄀瀅ꀆᓤ\udd43郒圏ᘒ릋䔼胦∩ୡじ칽㢊ᓡ썸䯼髃≓葉┰㹙扚煰쩄륽嘨䃗⒅ੑⴗด挗̋铣戕අ塻勍蕋㟈쒱双赙\udcc4뵂者\ud9c0삹劢ذ♾✣唭죯簼趰㯈劎zŎ왡ࣔ삒슍㔢⢸ﰭ䫹쫔ୌ€붒辉Ⅳ᳼聳쿈난ꏏ㟤ዳ᫢䯷䭚⸄倿蛽඘嘵諗窉豞鄥ຘൢ䝔솰万ㅈ涌豩⒮㡭졶䴰烦鋿䱨㭔防\ud8ce㝟폙猚ⵅ①ཌ逈툨ܽ㋴ꭋㅓ梓\udc25瞙↴ꏃ矰㨼섣ꊼ창㫏㼲콈봹뀫퍨߭㸃綒弊㠾Ｃ崿इ신ﾎ鴪ᱮ䤁㟿硼Ṋ痙璨ጠ覔\uda08悌쟟위⏘㉂⢀樁ꁇ怐䀣⇸@ὀ㰁栃ᜟ䁥굳ƨಈ寓ꎱ퍖拖኎夔踓克 袺⌱䣽㬔츓וﴭ㓞⎘ன\ud80c\ud9c3䃎┵﵋\ud9f9ɵ鬼䤒喎鄭壾㲿晗쌤銬疎\udd06⡨倎Ϙ괒ꈵ툣ಅ鱚땐㜌贼涊럒咹䠴㙔葑棤唥죏綷넹왫ǌ\udc4d椡襽âĔφἀ멥谻삞㉂伵⽫䭒糐꽇㣸ꎿ똋两읒讎蠤룩㋋轵⹌顝ⅉ䲄峫裋䥆ؐ飅⤇⸲뗅䝑ऴ⻨Ḧ㣔吔맱쐷临黂ꨌ䴦ꃖꊺ辳≅ࡠ㄃䜣Დ쓬볒␒ﱞ돺찛㡬鮜웈鬺恠돱鈾⽰뫒⋏曊⳽ꎹ떋❜麲靖ᬨ沑뎍쬢̬ꟃ绵뿟尿ง\udce0꾣忶⬷䶭理ⓛ䞃쁈2ҷ舚쭹☈蠂빌䘳荀䍳Ԡᢀ②많%쀚ƒঠ᪁Ђ视谩덫敍\udac4旡㶁ᲀബ\udc73瀔觬ⅈ쑰栅벤被지ິ䠀更咍剛臠Ł魀ᆁ婢﵁ꀖ甴虈盲宂밻䢷牚靷幁滑鼧爐莏烟퓷彈ꍤ뷐㈴䉃№ỷࣈꌥ퀆㈨ϣ⑌錘纰匥㴍㈾夈⛌鈀嗲郳첐ᐢ킠ژĈ䘐笁崎\u0011膘ؐౠ②᠂䏕눴㶥۬鼐馳Ὂﴹ늘䣧\ude3b紌㛋紫泟䵅迅㱘ﶳ䗳┺壒匏褑슻࠳껊茶緤䡻ⷉ儂黈՛琝颓ᗺ鿼ᰀ탉ﬦ\udd3e炔蕏䌓寤퐣䃭䍫㗔㞫׭矜괨聊㕷쪌묩ￆ蒜샭໢仐ႄ䠙者脸ԠѠ榀؁툇뀙ₗҠƠㆁ쎌挸デϨ߸ᾀಐ퐃䶆ﬤ쨪鸯㍓펌✠䳢珗㔧⑌첼⧈甭턼밫읠ꃼ㛰ᚡ⯉풚牝䮧㸠퀜䬌䭙⃢ﳙ쥓▯劁翅昕怍헄团撀ⵓ⫞ㇾ쒗⡸쾤﬈椮峔팧贰릠Ⱘ⪆싮鏅➠㏎켩刼쨯Ⓖ걠횋ꢫ胙錷⩇珣敵㰡搳쫏⋋嚋⼸벙⁨쓷⟯᯽ซ뿀ἇﶍ狼㐟䮂䏋샌㳨簣촁⿿Ѽ櫊礮겗鏝睹⯠돔쿈뵝곝팽뒊ܸ◀ꁚₗ\u0018ౠЁ첷䁟쮅⇴院헧鬽飍뎖쵙嗴떳\udf49ኘ궸䡗㌂븒້삩磖Φ䷨ꪬ⯘㦇昆铈㋩䴠꾐㖌別钝抿䌱ᒔ儑ၴ툮ꭈ哤⁔퀐ైܻ苣ᎁ촱㫟⥓쇏哄ŷ퇈꣍爫\udf6bɜ䩇㍔㰄沂⽎懬ߠᲀ㔀鸄⢇ਓੰꏧӼ뎍訽⽐芼⨅쟂큝鵈ꯂ⊔鋰ʈ봤꽓᫷机⹭餇阱͢罡嘥墆꜀钜䈅볜Ȃ计됂왜퇣䨫댷泈⠘๒蕊锨帰狔嗌Ǣ꞊師碣詰Ǹ럼㍳近ᄯꊖ浏貋⡢鏃焵ᢡ㋧⵸뷢쾋븭怅語轾㡴ꎒ혯쬰㲗ﱧ倁♴늲جӿﰭ떫⸼힓炑곍퍚캀㛢퓳ﮥꀎ⡁x։쵰߀䈙ᰥ쇏͐ᒘ饬㲳쀶ᒊጁ⪡ㄔ退쾤嬺郘ਡⵛ└\ud88d蒺轁簑⬗䬂︣ꢵ邔䫮唒㾐ᰅ焮₿ዚ쾒㮹晒턓ⒷႻ썥䑄昋♵יּꭦ䩅䱷伌\udb62챉ᕢ㎄⥬\ude20嵡쐬ᒬ삏粷늰ℜ번㻊劙퇼䁨Ƞցᡳ訅勘볕⸉ㅳ朋㹲䲝䫾珔뚽⒢镔潒䳼숲譵㿑䫣駏ꯛ풂ꏫ訪⩔斉ﶂﴏ졶ü葌䜮懴ോ⭆냉㶇䏋賌쇣ﴨ䴡굸氬쳟䐲⎋踹牊⮨꿮ⷌ蚊﫡鲷䀹쨗⾠ॲﳐ圩犍쪳ⱦ횴릓쭔ᢱ撽ﲎ웊묪逄岹狕쯗⧀າ쇓닉墯\udca1Ⳏ೺ⶲ꬝䏊뗏拁䰎⪫◇掋师ࢄ쩏㫢툥✩䄿멓䴘薬褀ḁ緀ꊧ耵ǜꀘ࿈渤뜬軗狲⏡䴼륥ቃ텉䂵蒘䩺ꮄꝬꌫｊ䆐಴䮫䲟졈ㄪ嘦归㐺痤⹈ꉊ䂲䨿脴৕࿍⃡鐶銾䡐Ⳙ列烍撱ઐ珸⫤뇘饓೴슩혘狰ꢚ삊ᇈ픢㣒⫚侂ठᾌ郞䔜猶냪嘿傒尩抭슴뷘ꦉⱌ贫ࢤ틜ᓋ趓〮礳ẵ袼났鍽䭑ˢ員䃡ꅓ戶恫ྲ蛶⳱\"┕頓僽⿒뺤봫茨鸰뤚州ꭨ쯪龪稩⻊쪪棊ꩉ츘⪫ḁꪮꪘ耚꠳㷊髓ⷊ謟⭮③쎣\ud9a8ꪫ骞毪걪눪럢蝉쬵押눃졊꿸꧓銬￘ҟﶀ跬꣢鞃┱䟒ᣡ쬽犸럠鮊\uddb2鲨聿臚иᩃḁ翊䘝ꀥ셨虘ᜰ沁阥ꐄ屦꫒番뻴\udb4dꀬ䂠⭳쯠⬄ꫲ腢漭씻裻쩠摼뉘럊軋᪤Ⳳ劮챗啘뿊흗ꝕ綨Ⰸ옱≑叅休ૻ❈堫אַૣꯢ鈇㱔謣됌Ⴏ䂇籛㉵軆ŋ⣊ᒩ咑䯡쩺ꢊ﷭㸴\uda00怛鲒ꎈ郠ഁ梫谾誼猘곔댸혪䧎ጣ⽎⨋誧ℤ쀜袨䫤殞땆ꦯ๲갂떎悳ꅺ賔彐卄㣋ဪ褍㒺⢪髎ꋊⶦꋧᇪ잯窩煼뮠뺸皹性橆Ŷ귚轪붪聁樭췌밬훗ᚯ쫹峃瞶뇚嶯皳\udaad顠汖ꬬ뾼൷簮⪟䲝⋤迼뇂곽欎⺫⣚ꁍ㚺ᣰ̾䰪꤄쌭\uda10쀭褁삗ߠὀ䎀怉᠄脞ژീ箝僃㝩눨跲옂캫릎ዺ኱俪뛲䌮᪹䉑ꨄ䷀룬쎳鰴쳸뻬腃⠮⫛壾ៀጳ⭙昧ꀌ쐨⯹䰺듟畂亨溿಻扐ꯓ쫪툲喇눮찞ꩱⵔ䢬校潤ꤲ쌀၀㫰睳瘟㢀櫓衞밤큪ꉍ측⣻叄죞랊\uda73랭᫤ԋ떜齓쒨變굦ㅫՏ៉䠸恁攄퐶剮✸鋩梀龩蛒髫㈇༞⏣ᩝ扯涊\u0004骒湦ꖐ쀚ꦡ䀾ᨄ樑ꑆ넚⑪醮ڂૂ쪻삲\udf2a拍\udc45숙髦民롆턛쑬醬吂ᮟਡ뗨퇓ῷᴳ抢늵꧘ꔪ聢튬ꬾ꬘樀㦆\udcaa춯脢\udaf8抭깁‷ཬ쀂ⶃ兪F֚რ䨀ᘁ耄↤٠ᯜ羊ຨዩ闖ሼ덡࣪鑩索댣걃商뛍躻䛌椙౎ꩪ陫弬ꖴⲳ눣迄旵ﲼ웂䬬橥⥄飅젌ꑆ鯟䍱ꃪ찲ሲ뫓⌛ꠣ㿆⇌㏟삒ԉ덻炛啉좡県벀严琀栔뙁Ƨ귇⴦赊ꊌ즧割漧⃒ﲚ碮쿏諗勍⢴돔陳䒫䚺ꛔ舑৖㣅翃┛䍌䀧ᖘ㖈ী︌쑮騃ⷒ꾦ﴫ▢䔍媵槕냠㵛ﾬስ骉ց槽ްずⅪ薦ᚸ孖웷ᕦ馓홨㰳暔᮶橥鴶큛셭㛘寡滷೦阭蛷ꍎ䢝⭢ﮛ⹍\ud8a9鈗䴂☼臊犯輻ᨐ䣡믤냁䰂\u0000";
+            window.__GITBOOK_INITIAL_RENDER__ = true;
+            window.__GITBOOK_LAZY_MODULES__ = [];
+        </script>
+        
+                
+    </body>
+</html>
